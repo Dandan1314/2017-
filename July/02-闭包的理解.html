@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>对闭包的理解</title>
+</head>
+<body>
+
+</body>
+<script>
+    //由于javascript的函数为一个封闭作用域,那么如何在全局作用域中获取子作用域的方法呢?
+    //这时候我们就要用到闭包了
+    //所谓闭包,我的理解就是一个可以帮助我们在全局作用域中获取到子作用域中值的一个函数方法
+    //下面放一个简单的闭包例子
+    function f1() {
+        var n=888;
+        nAdd = function () {
+            n+=1
+        };
+        function f2() {
+            console.log(n);
+        }
+        return f2;
+    }
+    var result = f1();
+    result();//888
+    nAdd();
+    result();//889
+    //这里需要注意的是,函数nAdd()函数是一个没有使用关键字var命名的匿名函数,所以它是一个全局函数,所以结果应该就比较好理解了
+    //如果能理解下面两段代码,那么就算是理解闭包了
+    //1
+    var name = "The Window";
+    var object = {
+        name : "My Object",
+        getNameFunc : function(){
+            return function(){
+                return this.name;
+            };
+        }
+    };
+    alert(object.getNameFunc()());//the window
+    //2
+    var name1 = "The Window";
+    var object1 = {
+        name : "My Object",
+        getNameFunc : function(){
+            var that = this;
+            return function(){
+                return that.name;
+            };
+        }
+    };
+    alert(object1.getNameFunc()());//My Object
+</script>
+</html>
