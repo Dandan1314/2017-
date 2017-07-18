@@ -1,0 +1,73 @@
+body {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1280px;
+    height: 720px;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: url(../images/bg.jpg) no-repeat;
+}
+.el{
+    position: absolute;
+    width: 160px;
+    height: 151px;
+    background: red;
+}
+#el0{
+    left: 320px;
+    top: 125px;
+}
+#el1{
+	left: 820px;
+	top: 125px;
+}
+#el2{
+	left: 320px;
+	top: 375px;
+}
+#el3{
+	left: 820px;
+	top: 375px;
+}
+#elFocus{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1280px;
+    height: 720px;
+}
+.elF{
+	position: absolute;
+	width: 200px;
+	height: 200px;
+}
+#elF0{
+	left: 300px;
+	top: 100px;
+}
+#elF1{
+	left: 800px;
+	top: 100px;
+}
+#elF2{
+	left: 300px;
+	top: 350px;
+}
+#elF3{
+	left: 800px;
+	top: 350px;
+}
+
+.elTitle{
+	position: absolute;
+	left: 0;
+	top: 112px;
+	width: 100%;
+	height: 40px;    
+	line-height: 40px;
+    font-size: 24px;
+    color: #fff;
+	background: url('../images/titleShadow.png');
+}
