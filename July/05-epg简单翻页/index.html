@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        html,body{height:534px;width:644px;margin:0;padding: 0;color:#000;z-index:0;font-family:'微软雅黑';font-size:17px;overflow: hidden;}
+        /*焦点框*/
+        #divYellowBorder{position:absolute;border:solid 4px #FCFF05;}
+        #divImgBorder,#divBluePointBorder{position:absolute;z-index:10;}
+        .plubin_corner{visibility: hidden !important}
+    </style>
+    <style type="text/css">
+
+        /*翻页*/
+        #pageup, #pagedown, #pageUpFocus, #pageDownFocus, #pagenumdiv{
+            position: absolute;
+        }
+        #pageUpFocus, #pageDownFocus, #pageup, #pagedown{
+            width: 60px;
+            height: 60px;
+            left: 580px;
+        }
+        #pageup, #pageUpFocus{
+            top: 120px;
+        }
+        #pagedown, #pageDownFocus{
+            top: 394px;
+        }
+        #pageup{
+            background: url('images/upr.png') no-repeat center 16px;
+        }
+        #pagedown{
+            background: url('images/downr.png') no-repeat center center;
+        }
+        #pagenumdiv{
+            width: 56px;
+            height: 22px;
+            line-height: 22px;
+            top: 274px;
+            left: 583px;
+            font-size: 15px;
+            text-align: center;
+        }
+        /* 右侧列表 */
+        #divPic .divPic{position: absolute;width:105px;height: 130px;border:1px solid #117d95;}
+        #divPic0{top:107px;left: 127px;}
+        #divPic1{top:107px;left: 242px;}
+        #divPic2{top:107px;left: 357px;}
+        #divPic3{top:107px;left: 472px;}
+        #divPic4{top:311px;left: 127px;}
+        #divPic5{top:311px;left: 242px;}
+        #divPic6{top:311px;left: 357px;}
+        #divPic7{top:311px;left: 472px;}
+        #divPic .divName{position:absolute;width:102px;height: 60px;text-align:center;}
+        #divName0{top:245px;left: 130px;}
+        #divName1{top:245px;left: 245px;}
+        #divName2{top:245px;left: 360px;}
+        #divName3{top:245px;left: 475px;}
+        #divName4{top:448px;left: 130px;}
+        #divName5{top:448px;left: 245px;}
+        #divName6{top:448px;left: 360px;}
+        #divName7{top:448px;left: 475px;}
+
+        #divBorder0{top:98px;left: 118px;position:absolute;width:124px;height: 149px;}
+        #divBorder1{top:98px;left: 233px;position:absolute;width:124px;height: 149px;}
+        #divBorder2{top:98px;left: 348px;position:absolute;width:124px;height: 149px;}
+        #divBorder3{top:98px;left: 463px;position:absolute;width:124px;height: 149px;}
+        #divBorder4{top:302px;left: 118px;position:absolute;width:124px;height: 149px;}
+        #divBorder5{top:302px;left: 233px;position:absolute;width:124px;height: 149px;}
+        #divBorder6{top:302px;left: 348px;position:absolute;width:124px;height: 149px;}
+        #divBorder7{top:302px;left: 463px;position:absolute;width:124px;height: 149px;}
+        /*角标容器*/
+        #corderDiv{position:absolute;width:1px;height:1px;z-index:101;}
+        .corderDiv{position:absolute;width:1px;height:1px;}
+        #corderDiv0{top:107px;left: 127px;}
+        #corderDiv1{top:107px;left: 242px;}
+        #corderDiv2{top:107px;left: 357px;}
+        #corderDiv3{top:107px;left: 472px;}
+        #corderDiv4{top:311px;left: 127px;}
+        #corderDiv5{top:311px;left: 242px;}
+        #corderDiv6{top:311px;left: 357px;}
+        #corderDiv7{top:311px;left: 472px;}
+    </style>
+</head>
+<body>
+
+<div id="father">
+
+    <!--片名-->
+    <div id="divPic"></div>
+    <!--翻页-->
+    <div id="pageup"></div>
+    <div id="pageUpFocus"></div>
+    <div id="pagedown"></div>
+    <div id="pageDownFocus"></div>
+    <div id="pagenumdiv"></div>
+    <!--焦点框-->
+    <div id="divBorder0"></div>
+    <div id="divBorder1"></div>
+    <div id="divBorder2"></div>
+    <div id="divBorder3"></div>
+    <div id="divBorder4"></div>
+    <div id="divBorder5"></div>
+    <div id="divBorder6"></div>
+    <div id="divBorder7"></div>
+    <div id="divImgBorder">
+        <img id="imgBorder" src="" width='102' height='47'/>
+        <img id="divYellowBorder" src="" alt="">
+        <img id="yellowBorder" src="" alt="">
+    </div>
+</div>
+</div>
+</body>
+<script src="Refactoring/mybz-CmsCommon.js"></script>
+<script src="Refactoring/mybz-CmsZteCommon.js"></script>
+<script src="Refactoring/mybz-UTIL.js"></script>
+<script src="js/Page.js"></script>
+</html>
