@@ -1,0 +1,229 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="page-view-size" content="644*534">
+    <title>Title</title>
+    <!--公用样式-->
+    <style>
+        html,body{height:534px;width:644px;margin:0;padding: 0;color:#FFFFFF;z-index:0;font-family:'微软雅黑';font-size:17px;overflow: hidden;}
+        /*body{background:url('images/bg.jpg') no-repeat;}*/
+        #divImgBorder{
+            position: absolute;
+        }
+    </style>
+
+    <!--单页面样式-->
+    <style>
+        .channel{
+            position: absolute;
+            width: 175px;
+            height: 112px;
+            border: 1px solid #fc419f;
+        }
+        .channel1, .channel2, .channel3{
+            top: 32px;
+        }
+        .channel4, .channel5, .tuijianBig{
+            top: 158px;
+        }
+        .channel6, .channel7{
+            top: 284px;
+        }
+
+        .channel1, .channel4, .channel6{
+            left: 42px;
+        }
+        .channel2, .channel5, .channel7{
+            left: 232px;
+        }
+        .channel3, .tuijianBig{
+            left: 422px;
+        }
+        /* 直播信息 */
+        .channelInfo{
+            position: absolute;
+            z-index: 2;
+            padding-left: 10px;
+            width: 165px;
+            height: 28px;
+            line-height: 28px;
+            background: url('images/info.png');
+            overflow: hidden;
+            font-family:'微软雅黑';
+            font-size:15px;
+        }
+        .channelInfo1, .channelInfo2, .channelInfo3{
+            top: 117px;
+        }
+        .channelInfo4, .channelInfo5{
+            top: 243px;
+        }
+        .channelInfo6, .channelInfo7{
+            top: 369px;
+        }
+
+        .channelInfo1, .channelInfo4, .channelInfo6{
+            left: 43px;
+        }
+        .channelInfo2, .channelInfo5, .channelInfo7{
+            left: 233px;
+        }
+        .channelInfo3{
+            left: 423px;
+        }
+
+        /*推荐*/
+        .tuijian{
+            position: absolute;
+            width: 175px;
+        }
+        .tuijianBig{
+            height: 238px;
+            border: 1px solid #fc419f;
+        }
+        .tuijianHuigu, .tuijian1, .tuijian2{
+            width: 177px;
+            height: 82px;
+            top: 415px;
+        }
+        .tuijianHuigu{
+            left: 39px;
+        }
+        .tuijian1{
+            left: 233px;
+        }
+        .tuijian2{
+            left: 423px;
+        }
+
+        .channel img{
+            width: 100%;
+            height: 100%;
+        }
+        .tuijian img{
+            width: 100%;
+            height: 100%;
+        }
+
+
+
+
+        /*焦点*/
+        .channelFocus{
+            position: absolute;
+            width: 188px;
+            height: 125px;
+        }
+        .channelFocus1, .channelFocus2, .channelFocus3{
+            top: 26px;
+        }
+        .channelFocus4, .channelFocus5{
+            top: 152px;
+        }
+        .channelFocus6, .channelFocus7{
+            top: 278px;
+        }
+
+        .channelFocus1, .channelFocus4, .channelFocus6{
+            left: 36px;
+        }
+        .channelFocus2, .channelFocus5, .channelFocus7{
+            left: 226px;
+        }
+        .channelFocus3{
+            left: 416px;
+        }
+        /*推荐*/
+        .tuijianFocus{
+            position: absolute;
+            width: 196px;
+            height: 101px;
+            top: 406px;
+        }
+        .tuijianFocusBig{
+            width: 194px;
+            height: 257px;
+            top: 150px;
+            left: 414px;
+        }
+        .tuijianFocusHuigu{
+            left: 30px;
+        }
+        .tuijianFocus1{
+            left: 224px;
+        }
+        .tuijianFocus2{
+            left: 414px;
+        }
+    <!--</style>
+
+    <script src="../Refactoring/mybz-CmsCommon.js"></script>
+    <script src="../Refactoring/mybz-UTIL.js"></script>
+    <script src="../Refactoring/mybz-CmsHwCommon.js"></script>
+    <script src="js/Page.js"></script>
+</head>
+<body onload="initPage()">
+<div id="channel1" class="channel channel1">
+    <img id="img1" src="">
+</div>
+<div id="channel2" class="channel channel2">
+    <img id="img2" src="">
+</div>
+<div id="channel3" class="channel channel3">
+    <img id="img3" src="">
+</div>
+<div id="channel4" class="channel channel4">
+    <img id="img4" src="">
+</div>
+<div id="channel5" class="channel channel5">
+    <img id="img5" src="">
+</div>
+<div id="channel6" class="channel channel6">
+    <img id="img6" src="">
+</div>
+<div id="channel7" class="channel channel7">
+    <img id="img7" src="">
+</div>
+<div id="tuijianBig" class="tuijian tuijianBig">
+    <img id="img8" src="">
+</div>
+<div id="tuijianHuigu" class="tuijian tuijianHuigu">
+    <img id="img11" src="">
+</div>
+<div id="tuijian1" class="tuijian tuijian1">
+    <img id="img9" src="">
+</div>
+<div id="tuijian2" class="tuijian tuijian2">
+    <img id="img10" src="">
+</div>
+
+<div class="channelInfo channelInfo1" id="channelInfo1"></div>
+<div class="channelInfo channelInfo2" id="channelInfo2"></div>
+<div class="channelInfo channelInfo3" id="channelInfo3"></div>
+<div class="channelInfo channelInfo4" id="channelInfo4"></div>
+<div class="channelInfo channelInfo5" id="channelInfo5"></div>
+<div class="channelInfo channelInfo6" id="channelInfo6"></div>
+<div class="channelInfo channelInfo7" id="channelInfo7"></div>
+
+<div id="channelFocus1" class="channelFocus channelFocus1"></div>
+<div id="channelFocus2" class="channelFocus channelFocus2"></div>
+<div id="channelFocus3" class="channelFocus channelFocus3"></div>
+<div id="channelFocus4" class="channelFocus channelFocus4"></div>
+<div id="channelFocus5" class="channelFocus channelFocus5"></div>
+<div id="channelFocus6" class="channelFocus channelFocus6"></div>
+<div id="channelFocus7" class="channelFocus channelFocus7"></div>
+<div id="tuijianFocusBig" class="tuijianFocus tuijianFocusBig"></div>
+<div id="tuijianFocusHuigu" class="tuijianFocus tuijianFocusHuigu"></div>
+<div id="tuijianFocus1" class="tuijianFocus tuijianFocus1"></div>
+<div id="tuijianFocus2" class="tuijianFocus tuijianFocus2"></div>
+
+<!-- 焦点框 -->
+<div id="divYellowBorder" style="visibility: hidden;">
+    <img id="yellowBorder" />
+</div>
+<div id="divImgBorder">
+    <img id="imgBorder"/>
+</div>
+
+</body>
+</html>
