@@ -1,0 +1,482 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="page-view-size" content="644*534">
+    <title>Search</title>
+    <!-- 通用 -->
+    <style>
+        html,body {
+            margin: 0;
+            height:534px;
+            width:644px;
+            overflow-x:hidden;
+            overflow-y:hidden;
+            color: white;
+            font-family: '微软雅黑';
+            position: relative;
+            background-color: transparent;
+            background: url('images/bg.jpg') no-repeat;
+        }
+        .none {
+            display: none;
+        }
+        .hide {
+            visibility: hidden;
+        }
+    </style>
+    <style>
+        .input{
+            width: 201px;
+            height: 52px;
+            line-height: 52px;
+            padding: 0 10px;
+            position: absolute;
+            top: 42px;
+            left: 20px;
+            font-size: 20px;
+        }
+        .input.focus{
+            background: url('images/input_focus.png');
+        }
+    </style>
+    <style>
+        .input-panel{
+            width: 325px;
+            height: 350px;
+            position: absolute;
+            top: 100px;
+            left: 0;
+        }
+        .input-panel ul{
+            list-style: none;
+            width: 294px;
+            height: 300px;
+            margin: 0;
+            padding: 0;
+            position: absolute;
+            left: 22px;
+        }
+        .input-panel .input-a li{
+            float: left;
+            width: 48px;
+            height: 49px;
+            line-height: 49px;
+            text-align: center;
+            margin-bottom : 10px;
+            position: relative;
+            background: url('images/a_item_bg.png') no-repeat 4px 5px;
+        }
+        .input-panel .input-a li.del{
+            width: 96px;
+            position: relative;
+            left: -3px;
+        }
+        .input-panel .input-a li.del.one{
+            background: url('images/a_del_one.png') no-repeat 4px 5px;
+        }
+        .input-panel .input-a li.del.all{
+            background: url('images/a_del_all.png') no-repeat 4px 5px;
+        }
+        .input-panel .input-a li span{
+            width: 100%;
+            height: 100%;
+            display: inline-block;
+            color: #000;
+            font-size: 22px;
+        }
+        .input-panel .input-a li.focus span{
+            background: url('images/a_item_focus.png') no-repeat;
+        }
+        .input-panel .input-a li.del.focus span{
+            background: url('images/a_del_focus.png');
+        }
+
+        .input-panel .input-b{
+        }
+        .input-panel .input-b li{
+            float: left;
+            width: 95px;
+            height: 75px;
+            position: relative;
+        }
+        .input-panel .input-b li.focus{
+            background: url('images/b_item_focus.png') no-repeat 17px 6px;
+        }
+        .input-panel .input-b .num{
+            position: relative;
+            width: 100%;
+            height: 40px;
+            top: 6px;
+            font-size: 30px;
+            text-align: center;
+        }
+        .input-panel .input-b .num.mid{
+            top: 18px;
+        }
+        .input-panel .input-b .abc{
+            position: relative;
+            width: 100%;
+            height: 26px;
+            top: -2px;
+            font-size: 20px;
+            text-align: center;
+        }
+        .input-panel .input-b .btn .abc{
+            top: 15px;
+        }
+        .input-panel .input-b .del{
+            position: relative;
+            width: 34px;
+            height: 22px;
+            top: 17px;
+            left: 31px;
+            background: url('images/b_del_one.png') no-repeat;
+        }
+        .input-panel .input-b .empty{
+            position: relative;
+            width: 22px;
+            height: 22px;
+            top: 15px;
+            left: 38px;
+            background: url('images/b_del_all.png') no-repeat;
+        }
+        .input-panel .input-b .menu{
+            width: 90px;
+            height: 90px;
+            position: absolute;
+            /* top: -8px;
+            left: 4px; */
+            background: url('images/b_menu_bg.png') no-repeat;
+            visibility: hidden;
+        }
+        .input-panel .input-b li.selected .menu{
+            visibility: visible;
+        }
+        .input-panel .input-b .menu .sub{
+            position: absolute;
+            font-size: 20px;
+        }
+        .input-panel .input-b .menu .up{
+            width: 63px;
+            height: 32px;
+            line-height: 32px;
+            text-align: center;
+            left: 14px;
+            top: 0px;
+        }
+        .input-panel .input-b .menu .up.focus{
+            background: url('images/b_menu_up_focus.png') no-repeat;
+        }
+        .input-panel .input-b .menu .down{
+            width: 63px;
+            height: 32px;
+            line-height: 32px;
+            text-align: center;
+            left: 14px;
+            top: 58px;
+        }
+        .input-panel .input-b .menu .down.focus{
+            background: url('images/b_menu_down_focus.png') no-repeat;
+        }
+        .input-panel .input-b .menu .left{
+            width: 32px;
+            height: 63px;
+            line-height: 63px;
+            text-align: center;
+            left: 0px;
+            top: 13px;
+        }
+        .input-panel .input-b .menu .left.focus{
+            background: url('images/b_menu_left_focus.png') no-repeat;
+        }
+        .input-panel .input-b .menu .right{
+            width: 32px;
+            height: 63px;
+            line-height: 63px;
+            text-align: center;
+            left: 58px;
+            top: 13px;
+        }
+        .input-panel .input-b .menu .right.focus{
+            background: url('images/b_menu_right_focus.png') no-repeat;
+        }
+        .input-panel .input-b .menu .mid{
+            width: 55px;
+            height: 55px;
+            line-height: 55px;
+            text-align: center;
+            left: 18px;
+            top: 18px;
+        }
+        .input-panel .input-b .menu .mid.focus{
+            background: url('images/b_menu_mid_focus.png') no-repeat;
+        }
+    </style>
+    <style>
+        .sw-panel{
+            width: 160px;
+            height: 29px;
+            position: absolute;
+            top: 406px;
+            left: 77px;
+            background: url('images/sw_a.png') no-repeat;
+        }
+        .sw-panel.b{
+            background: url('images/sw_b.png') no-repeat;
+        }
+        .sw-panel.focus span{
+            display: inline-block;
+            width: 103px;
+            height: 44px;
+            background: url('images/sw_focus.png') no-repeat;
+            position: relative;
+            top: -6px;
+            left: -8px;
+        }
+        .sw-panel.b.focus span{
+            left: 66px;
+        }
+    </style>
+    <style>
+        .result-panel{
+            width: 310px;
+            height: 470px;
+            position: absolute;
+            top: 42px;
+            left: 326px;
+            font-size: 20px;
+        }
+        .result-panel .title{
+            position: absolute;
+            top: 12px;
+            left: 45px;
+        }
+        .result-panel .list{
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            width: 248px;
+            position: absolute;
+            left: 4px;
+            top: 54px;
+        }
+        .result-panel .list .nothing{
+            height: 40px;
+            line-height: 40px;
+            padding-left: 30px;
+        }
+        .result-panel .list li{
+            width: 228px;
+            height: 45px;
+            line-height: 45px;
+            /*margin-bottom: -3px;*/
+            padding-left: 20px;
+        }
+        .result-panel .list li.focus{
+            background: url('images/list_item_focus.png') no-repeat;
+        }
+        .result-panel .num{
+            position: absolute;
+            width: 64px;
+            height: 22px;
+            line-height: 22px;
+            top: 234px;
+            left: 252px;
+            font-size: 16px;
+            text-align: center;
+        }
+        .result-panel .up{
+            position: absolute;
+            right: -5px;
+            width: 70px;
+            height: 58px;
+            top: 52px;
+        }
+        .result-panel .down{
+            position: absolute;
+            right: -5px;
+            width: 70px;
+            height: 58px;
+            top: 405px;
+        }
+        .result-panel .up.focus{
+            background: url('images/updown_focus.png') no-repeat;
+        }
+        .result-panel .down.focus{
+            background: url('images/updown_focus.png') no-repeat;
+        }
+    </style>
+    <script src="./Refactoring/mybz-CmsCommon.js"></script>
+    <script src="./Refactoring/mybz-CmsHwCommon.js"></script>
+    <script src="./Refactoring/mybz-UTIL.js"></script>
+    <script type="text/javascript">
+        //
+        var CATEGORY = $.getRequestParams("categoryID");
+        var TYPEID = $.getRequestParams("typeId");
+        //正向进入
+        if(CATEGORY && TYPEID){
+            $.saveGlobalData('search_category', CATEGORY);
+            $.saveGlobalData('search_typeid', TYPEID);
+        }else{//反向进入
+            CATEGORY = $.getGlobalData('search_category');
+            TYPEID = $.getGlobalData('search_typeid');
+        }
+
+        if(!(!-[1,])){//非创维添加
+            var css1 = document.getElementById('css1');
+            css1.type = 'text/css';
+            var tt = document.createTextNode('.input-panel .input-b .menu{ top: -8px; left: 4px; }');
+            css1.appendChild(tt);
+        }
+        var STB_BASEURL = $.getConstant('baseUrl');
+    </script>
+    <script src="js/Page.js"></script>
+</head>
+<body>
+<div id="loginfo" style="background-color:#fff;color:#0000FF;word-wrap:break-word;word-break:break-all;z-index:9999;position:absolute;width:100%;"></div>
+<div class="input" id="input_panel"></div>
+<div class="input-panel">
+    <ul class="input-a none" id="input_a">
+        <li key='A'><span>A</span></li>
+        <li key='B'><span>B</span></li>
+        <li key='C'><span>C</span></li>
+        <li key='D'><span>D</span></li>
+        <li key='E'><span>E</span></li>
+        <li key='F'><span>F</span></li>
+        <li key='G'><span>G</span></li>
+        <li key='H'><span>H</span></li>
+        <li key='I'><span>I</span></li>
+        <li key='J'><span>J</span></li>
+        <li key='K'><span>K</span></li>
+        <li key='L'><span>L</span></li>
+        <li key='M'><span>M</span></li>
+        <li key='N'><span>N</span></li>
+        <li key='O'><span>O</span></li>
+        <li key='P'><span>P</span></li>
+        <li key='Q'><span>Q</span></li>
+        <li key='R'><span>R</span></li>
+        <li key='S'><span>S</span></li>
+        <li key='T'><span>T</span></li>
+        <li key='U'><span>U</span></li>
+        <li key='V'><span>V</span></li>
+        <li key='W'><span>W</span></li>
+        <li key='X'><span>X</span></li>
+        <li key='Y'><span>Y</span></li>
+        <li key='Z'><span>Z</span></li>
+        <li key='del' class="del one"><span></span></li>
+        <li key='empty' class="del all"><span></span></li>
+    </ul>
+    <ul class="input-b none" id="input_b">
+        <li key="1">
+            <div class="num">1</div>
+        </li>
+        <li key="2-A-B-C">
+            <div class="num">2</div>
+            <div class="abc">ABC</div>
+            <div class="menu">
+                <div index="0" class="sub up">2</div>
+                <div index="1" class="sub left">A</div>
+                <div index="2" class="sub mid">B</div>
+                <div index="3" class="sub right">C</div>
+            </div>
+        </li>
+        <li key="3-D-E-F">
+            <div class="num">3</div>
+            <div class="abc">DEF</div>
+            <div class="menu">
+                <div index="0" class="sub up">3</div>
+                <div index="1" class="sub left">D</div>
+                <div index="2" class="sub mid">E</div>
+                <div index="3" class="sub right">F</div>
+            </div>
+        </li>
+        <li key="4-G-H-I">
+            <div class="num">4</div>
+            <div class="abc">GHI</div>
+            <div class="menu">
+                <div index="0" class="sub up">4</div>
+                <div index="1" class="sub left">G</div>
+                <div index="2" class="sub mid">H</div>
+                <div index="3" class="sub right">I</div>
+            </div>
+        </li>
+        <li key="5-J-K-L">
+            <div class="num">5</div>
+            <div class="abc">JKL</div>
+            <div class="menu">
+                <div index="0" class="sub up">5</div>
+                <div index="1" class="sub left">J</div>
+                <div index="2" class="sub mid">K</div>
+                <div index="3" class="sub right">L</div>
+            </div>
+        </li>
+        <li key="6-M-N-O">
+            <div class="num">6</div>
+            <div class="abc">MNO</div>
+            <div class="menu">
+                <div index="0" class="sub up">6</div>
+                <div index="1" class="sub left">M</div>
+                <div index="2" class="sub mid">N</div>
+                <div index="3" class="sub right">O</div>
+            </div>
+        </li>
+        <li key="7-P-Q-R-S">
+            <div class="num">7</div>
+            <div class="abc">PQRS</div>
+            <div class="menu">
+                <div index="0" class="sub up">7</div>
+                <div index="1" class="sub left">P</div>
+                <div index="2" class="sub mid">Q</div>
+                <div index="3" class="sub right">R</div>
+                <div index="4" class="sub down">S</div>
+            </div>
+        </li>
+        <li key="8-T-U-V">
+            <div class="num">8</div>
+            <div class="abc">TUV</div>
+            <div class="menu">
+                <div index="0" class="sub up">8</div>
+                <div index="1" class="sub left">T</div>
+                <div index="2" class="sub mid">U</div>
+                <div index="3" class="sub right">V</div>
+            </div>
+        </li>
+        <li key="9-W-X-Y-Z">
+            <div class="num">9</div>
+            <div class="abc">WXYZ</div>
+            <div class="menu">
+                <div index="0" class="sub up">9</div>
+                <div index="1" class="sub left">W</div>
+                <div index="2" class="sub mid">X</div>
+                <div index="3" class="sub right">Y</div>
+                <div index="4" class="sub down">Z</div>
+            </div>
+        </li>
+        <li class="btn" key="del">
+            <div class="del"></div>
+            <div class="abc">删除</div>
+        </li>
+        <li key="0">
+            <div class="num mid">0</div>
+        </li>
+        <li class="btn" key="empty">
+            <div class="empty"></div>
+            <div class="abc">清空</div>
+        </li>
+    </ul>
+</div>
+<div class="sw-panel" id="sw_panel">
+    <span></span>
+</div>
+<div class="result-panel" id="result_panel">
+    <div class="title"></div>
+    <ul class="list"></ul>
+    <div class="up" name="up"></div>
+    <div class="down" name="down"></div>
+    <div class="num"></div>
+</div>
+</body>
+<script>
+
+</script>
+</html>
