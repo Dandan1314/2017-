@@ -1,20 +1,29 @@
 
     var PAGE = {
-    currentPlugin : undefined
+    currentPlugin : undefined //0
 };
+    //获取服务器地址
     var DB_URL = $.getConstant('searchDBUrl');
+    //绑定在PAGE对象上的方法
     PAGE.saveInfo = function(infos){
     var pageInfo = [];
     for(var i in infos){
+        //以键值对的形式传入数组pageInfo
     pageInfo.push(i + ':' + infos[i]);
 }
+    //把数组内容用-连接,并以键值对的形式保存
     $.saveGlobalData('search_pageInfo', pageInfo.join('-'));
 };
+    //b绑定方法
+    //获取端口号
     PAGE.getInfo = function(){
+
     var out = {};
+        //能获取到数据就使用,不能就赋值为空
     var infos = $.getGlobalData('search_pageInfo') || '';
+        //如果为空就赋值成空数组,否则就根据-来拆分成数组
     infos = infos=='' ? [] : infos.split('-');
-    for(var i in infos){
+    for(var i in infos){//遍历
     var info = infos[i];
     var obj = info == '' ? [] : info.split(':');
     out[obj[0]] = obj[1];
@@ -59,14 +68,18 @@
     this.typeId = opt.typeId;
     return this;
 },
+
     fetch : function(name, pageNum){//pageNum
     var url = '';
     this.name = name;
-    this.pageNum = pageNum - 0;
+    this.pageNum = pageNum - 0;//如果没有传入pageNum 则为0
     this.pages = 0;
+        //这个就是input框中无数值的时候
     if(name === ''){//大家都在搜
     _opt.setTitle('大家都在搜');
+        //拼接不同id的请求网址
     url = DB_URL + 'search/topSearch/typeId/' + this.typeId + '/searchNum/' + this.size + '/plugin.query.render2?' + (+new Date());
+        //跨域请求?
     UTIL.loaderData(url);
 }else{//猜你想搜
     _opt.setTitle('猜你想搜');
@@ -97,6 +110,7 @@
 },
     render : function(d){//猜你想搜
     // log(d.data[0].vodName)
+        //翻页逻辑
     this.pages = Math.ceil((d.count || 0) / this.size);
     var page = this.pageNum + 1;
     if(this.pages === 0){
@@ -1120,6 +1134,7 @@
     function sysGoBack(){
     $.back();
 }
+
     /* 注册按键 */
     function initEvent(){
     $.keymap[33] = "KEY_PAGEUP";

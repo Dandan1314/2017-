@@ -723,6 +723,7 @@ function EpgToolCommon() {
 	this.isEmpty = function(s) {
 		return ((s == undefined) || (s == "") || (s == null) || (s.length == 0));
 	};
+
 	this.getRequestParams = function(key,url) {
 	
 		if(typeof url === 'undefined'){
