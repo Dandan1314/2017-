@@ -83,7 +83,7 @@
     url = DB_URL + 'search/topSearch/typeId/' + this.typeId + '/searchNum/' + this.size + '/plugin.query.render2?' + (+new Date());
         //跨域请求?
     UTIL.loaderData(url);
-}else{//猜你想搜
+}else{//猜你想搜//用户输入搜索
     _opt.setTitle('猜你想搜');
     url = DB_URL + 'search/content/sername/' + name + '/category/' + this.category + '/nodeId/1100000001/pageNum/' + pageNum + '/total/' + this.size + '/plugin.query.render';
     UTIL.loaderData(url);
@@ -107,7 +107,7 @@
     if(this.pages <= 1)return;
     this.pageNum--;
     //循环
-    if(t+his.pageNum < 0){
+    if(this.pageNum < 0){
     this.pageNum = this.pages - 1;
 }
     this.fetch(this.name, this.pageNum);

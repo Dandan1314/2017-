@@ -6,24 +6,23 @@
 
 </head>
 <body>
-
+<a href="#">我是一个a标签</a><br>
+<a href="#">我是一个a标签</a><br>
+<a href="#">我是一个a标签</a><br>
+<a href="#">我是一个a标签</a><br>
+<a href="#">我是一个a标签</a><br>
 </body>
 <script>
-    PAGE = {}
-    PAGE.getInfo = function(){
+var ele = document.getElementsByTagName('a');
+    for(var i = 0;i<ele.length;i++){
+        (function (index) {
+            ele[i].addEventListener('click',function (e) {
+                e.preventDefault();
+                alert("这是第"+index+"个a标签")
+            })
+        })(i)
+    }
 
-        var out = {};
-        //能获取到数据就使用,不能就赋值为空
-        var infos =  '';
-        //如果为空就赋值成空数组,否则就根据-来拆分成数组
-        infos = infos=='' ? [] : infos.split('-');
-        for(var i in infos){//遍历
-            var info = infos[i];
-            var obj = info == '' ? [] : info.split(':');
-            out[obj[0]] = obj[1];
-        }
-        return out;
-    };
-    console.log(PAGE.getInfo());;
+
 </script>
 </html>
