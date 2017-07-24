@@ -53,7 +53,9 @@
 }
 
     //http://61.181.152.144:9999/search/content/sername/AQBX/category/20001110000000000000000000000209/nodeId/1100000001/pageNum/0/total/9/abc
+    //插件
     var plugin = {};
+    //查询
     plugin.query = (function(){
     var _opt;
     return {
@@ -88,6 +90,7 @@
 }
     return this;
 },
+        //获取下一页
     fetchNextPage : function(){
     if(this.pages <= 1)return;
     this.pageNum++;
@@ -98,16 +101,19 @@
     this.fetch(this.name, this.pageNum);
     return this;
 },
+
+        //获取上一页
     fetchPreviousPage : function(){
     if(this.pages <= 1)return;
     this.pageNum--;
     //循环
-    if(this.pageNum < 0){
+    if(t+his.pageNum < 0){
     this.pageNum = this.pages - 1;
 }
     this.fetch(this.name, this.pageNum);
     return this;
 },
+    //提交
     render : function(d){//猜你想搜
     // log(d.data[0].vodName)
         //翻页逻辑
