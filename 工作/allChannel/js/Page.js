@@ -21,7 +21,8 @@ var PAGE_INFO_A_LIST = [{
 		focusImg: [],
 		showLength: "",
 		wholeMsg: ""
-	}, {
+	},
+	{
 		key: 'f_A_list_2',
 		pressUp: a_list_up,
 		pressDown: a_list_down,
@@ -32,7 +33,8 @@ var PAGE_INFO_A_LIST = [{
 		focusImg: [],
 		showLength: "",
 		wholeMsg: ""
-	}, {
+	},
+	{
 		key: 'f_A_list_3',
 		pressUp: a_list_up,
 		pressDown: a_list_down,
@@ -43,7 +45,8 @@ var PAGE_INFO_A_LIST = [{
 		focusImg: [],
 		showLength: "",
 		wholeMsg: ""
-	}, {
+	},
+	{
 		key: 'f_A_list_4',
 		pressUp: a_list_up,
 		pressDown: a_list_down,
@@ -54,7 +57,8 @@ var PAGE_INFO_A_LIST = [{
 		focusImg: [],
 		showLength: "",
 		wholeMsg: ""
-	}, {
+	},
+	{
 		key: 'f_A_list_5',
 		pressUp: a_list_up,
 		pressDown: a_list_down,
@@ -65,7 +69,8 @@ var PAGE_INFO_A_LIST = [{
 		focusImg: [],
 		showLength: "",
 		wholeMsg: ""
-	}, {
+	},
+	{
 		key: 'f_A_list_6',
 		pressUp: a_list_up,
 		pressDown: '',
@@ -102,10 +107,11 @@ var CHANNEL_LIST_DS,//频道数据
 
 for(var i = 0; i < C_LIST_TOTAL; i++){
 	var d = new Date();
+	//设置成三天前
 	d.setDate(d.getDate() - i);
 	date_ds.push(d);
 }
-
+//获取请求地址
 var SERVER_URL = $.getConstant("serverUrl");
 
 // D列显示长度
@@ -116,7 +122,7 @@ var b_showLen = 8;
 //保存KEY
 var PAGE_INFO_KEY = 'CHANNEL_LIST_KEY',
     PAGE_INFO_KEY_2 = 'CHANNEL_LIST_KEY_2';
-
+//如果能取得当前焦点 否则就放在第一个上
 var ACTIVE_OBJECT_KEY = $.getGlobalData(PAGE_INFO_KEY) || 'f_A_list_0';
 
 var positive = true,
@@ -125,6 +131,7 @@ var infos = ((infos = $.getGlobalData(PAGE_INFO_KEY_2)) && infos.split('@')) || 
 if(infos.length){
 	positive = false;
 	positive_first = true;
+	//有值就取值,没有值就是0
 	a_list_begin = infos[0] - 0;
 	a_list_index = infos[1] - 0;
 	b_list_begin = infos[2] - 0;

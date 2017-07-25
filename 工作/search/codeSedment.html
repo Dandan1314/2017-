@@ -6,23 +6,27 @@
 
 </head>
 <body>
+<!-- <a href="#">我是一个a标签</a><br>
 <a href="#">我是一个a标签</a><br>
 <a href="#">我是一个a标签</a><br>
 <a href="#">我是一个a标签</a><br>
-<a href="#">我是一个a标签</a><br>
-<a href="#">我是一个a标签</a><br>
+<a href="#">我是一个a标签</a><br> -->
 </body>
 <script>
-var ele = document.getElementsByTagName('a');
-    for(var i = 0;i<ele.length;i++){
-        (function (index) {
-            ele[i].addEventListener('click',function (e) {
-                e.preventDefault();
-                alert("这是第"+index+"个a标签")
-            })
-        })(i)
-    }
+// var ele = document.getElementsByTagName('a');
+//     for(var i = 0;i<ele.length;i++){
+//         (function (index) {
+//             ele[i].addEventListener('click',function (e) {
+//                 e.preventDefault();
+//                 alert("这是第"+index+"个a标签")
+//             })
+//         })(i)
+//     }
+//
 
+var timer = new Date();
+timer.getDate()
+console.log(timer.getDate())
 
 </script>
 </html>
