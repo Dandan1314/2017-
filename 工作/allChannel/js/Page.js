@@ -1,5 +1,7 @@
 var PAGE_INFO = [];
-var PAGE_INFO_A_LIST = [{
+var PAGE_INFO_A_LIST = [
+    //默认的焦点数据
+    {
 		key: 'f_A_list_0',
 		pressUp: '',
 		pressDown: a_list_down,
@@ -10,7 +12,8 @@ var PAGE_INFO_A_LIST = [{
 		focusImg: [],
 		showLength: "",
 		wholeMsg: ""
-	}, {
+	},
+    {
 		key: 'f_A_list_1',
 		pressUp: a_list_up,
 		pressDown: a_list_down,
@@ -83,9 +86,13 @@ var PAGE_INFO_A_LIST = [{
 		wholeMsg: ""
 	}
 ];
+//B列表
 var PAGE_INFO_B_LIST = [];
+//C列表
 var PAGE_INFO_C_LIST = [];
+//D列表
 var PAGE_INFO_D_LIST = [];
+//焦点
 var ACTIVE_OBJECT;
 
 var CHANNEL_LIST_DS,//频道数据
@@ -104,12 +111,11 @@ var CHANNEL_LIST_DS,//频道数据
 	d_list_begin = 0,
 	SHADOW_SIZE = 1,//阴影个数
 	D_LIST_SIZE = 8;
-
 for(var i = 0; i < C_LIST_TOTAL; i++){
 	var d = new Date();
 	//设置成三天前
 	d.setDate(d.getDate() - i);
-	date_ds.push(d);
+	date_ds.push(d);//push三天
 }
 //获取请求地址
 var SERVER_URL = $.getConstant("serverUrl");
@@ -118,7 +124,6 @@ var SERVER_URL = $.getConstant("serverUrl");
 var d_showLen = 15;
 // B列显示长度
 var b_showLen = 8;
-
 //保存KEY
 var PAGE_INFO_KEY = 'CHANNEL_LIST_KEY',
     PAGE_INFO_KEY_2 = 'CHANNEL_LIST_KEY_2';
@@ -154,6 +159,7 @@ function initPage() {
 
 function loadPage(){
 	CHANNEL_LIST_DS = channelData.data;
+    //取出数据,把开始条目和总条目存到对象channelListMap中
 	for(var i = 0, j = 0; i < CHANNEL_LIST_DS.length; i++){
 		var d = CHANNEL_LIST_DS[i];
 		if(d.channelNumber <= 10){//长春
@@ -182,6 +188,7 @@ function loadPage(){
 		channelListMap[j][1] = i + 1;
 	}
 	var typeNames = ['长春', '吉视', '央视', '卫视', '数字', '高清', '轮播'];
+    //写入A LIST
 	for(var i = 0; i < typeNames.length; i++){
 		$.getElem('f_A_list_' + i).innerHTML = typeNames[i];
 	}
@@ -206,8 +213,8 @@ function initPageInfo() {
 
 //生成直播
 function createBList(begin) {
-	b_list_begin = begin;
-	var size = B_LIST_SIZE + SHADOW_SIZE;//每页个数
+    b_list_begin = begin;
+    var size = B_LIST_SIZE + SHADOW_SIZE;//每页个数
 	var b_list = $.getElem('b_list');
 	//清空列表
 	b_list.innerHTML = '';
