@@ -10,7 +10,8 @@
         #divImgBorder,#divBluePointBorder{position:absolute;z-index:10;}
         .plubin_corner{visibility: hidden !important}
     </style>
-    <style>
+    <style type="text/css">
+
         /*翻页*/
         #pageup, #pagedown, #pageUpFocus, #pageDownFocus, #pagenumdiv{
             position: absolute;
@@ -70,34 +71,36 @@
         #divBorder6{top:302px;left: 348px;position:absolute;width:124px;height: 149px;}
         #divBorder7{top:302px;left: 463px;position:absolute;width:124px;height: 149px;}
     </style>
-    <script src="../Refactoring/mybz-CmsCommon.js"></script>
-    <script src="../Refactoring/mybz-CmsZteCommon.js"></script>
-    <script src="../Refactoring/mybz-UTIL.js"></script>
-    <script src="js/Page.js"></script>
 </head>
 <body>
-<!--片名-->
-<div id="divPic"></div>
-<!--翻页-->
-<div id="pageup"></div>
-<div id="pageUpFocus"></div>
-<div id="pagedown"></div>
-<div id="pageDownFocus"></div>
-<div id="pagenumdiv"></div>
-<!--焦点框-->
-<div id="divBorder0"></div>
-<div id="divBorder1"></div>
-<div id="divBorder2"></div>
-<div id="divBorder3"></div>
-<div id="divBorder4"></div>
-<div id="divBorder5"></div>
-<div id="divBorder6"></div>
-<div id="divBorder7"></div>
-<!--边框-->
-<div id="divImgBorder">
-    <img id="imgBorder" src="" width='102' height='47'/>
-    <img id="divYellowBorder" src="" alt="">
-    <img id="yellowBorder" src="" alt="">
+<div id="father">
+    <!--片名-->
+    <div id="divPic"></div>
+    <!--翻页-->
+    <div id="pageup"></div>
+    <div id="pageUpFocus"></div>
+    <div id="pagedown"></div>
+    <div id="pageDownFocus"></div>
+    <div id="pagenumdiv"></div>
+    <!--焦点框-->
+    <div id="divBorder0"></div>
+    <div id="divBorder1"></div>
+    <div id="divBorder2"></div>
+    <div id="divBorder3"></div>
+    <div id="divBorder4"></div>
+    <div id="divBorder5"></div>
+    <div id="divBorder6"></div>
+    <div id="divBorder7"></div>
+    <div id="divImgBorder">
+        <img id="imgBorder" src="" width='102' height='47'/>
+        <img id="divYellowBorder" src="" alt="">
+        <img id="yellowBorder" src="" alt="">
+    </div>
+</div>
 </div>
 </body>
+<script src="../Refactoring/mybz-CmsCommon.js"></script>
+<script src="../Refactoring/mybz-CmsZteCommon.js"></script>
+<script src="../Refactoring/mybz-UTIL.js"></script>
+<script src="js/Page.js"></script>
 </html>

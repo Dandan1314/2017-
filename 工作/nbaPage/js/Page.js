@@ -1,17 +1,4 @@
 var PAGE_INFO = [] ;
-var DEFAULT_INFO = [];
-var PICLIST_INFO=[
-    {key:'divBorder0', pressUp:'',pressDown:'divBorder4',pressLeft:'',pressRight:'divBorder1',pressOk:pressOk,args:[0],focusImg:['images/picfocus_04.png'],showLength:12,wholeMsg:""},
-    {key:'divBorder1', pressUp:'',pressDown:'divBorder5',pressLeft:'divBorder0',pressRight:'divBorder2',pressOk:pressOk,args:[1],focusImg:['images/picfocus_04.png'],showLength:12,wholeMsg:""},
-    {key:'divBorder2', pressUp:'',pressDown:'divBorder6',pressLeft:'divBorder1',pressRight:'divBorder3',pressOk:pressOk,args:[2],focusImg:['images/picfocus_04.png'],showLength:12,wholeMsg:""},
-    {key:'divBorder3', pressUp:'',pressDown:'divBorder7',pressLeft:'divBorder2',pressRight:'pageUpFocus',pressOk:pressOk,args:[3],focusImg:['images/picfocus_04.png'],showLength:12,wholeMsg:""},
-    {key:'divBorder4', pressUp:'divBorder0',pressDown:'divBorder0',pressLeft:'divBorder3',pressRight:'divBorder5',pressOk:pressOk,args:[4],focusImg:['images/picfocus_04.png'],showLength:12,wholeMsg:""},
-    {key:'divBorder5', pressUp:'divBorder1',pressDown:'divBorder1',pressLeft:'divBorder4',pressRight:'divBorder6',pressOk:pressOk,args:[5],focusImg:['images/picfocus_04.png'],showLength:12,wholeMsg:""},
-    {key:'divBorder6', pressUp:'divBorder2',pressDown:'divBorder2',pressLeft:'divBorder5',pressRight:'divBorder7',pressOk:pressOk,args:[6],focusImg:['images/picfocus_04.png'],showLength:12,wholeMsg:""},
-    {key:'divBorder7', pressUp:'divBorder3',pressDown:'divBorder3',pressLeft:'divBorder6',pressRight:'pageDownFocus',pressOk:pressOk,args:[7],focusImg:['images/picfocus_04.png'],showLength:12,wholeMsg:""},
-    {key:'pageUpFocus', pressUp:'pageDownFocus',pressDown:'pageDownFocus',pressLeft:'divBorder3',pressRight:'divBorder0',pressOk:pressOk,args:[],focusImg:['images/lk.png'],showLength:5,wholeMsg:""},
-    {key:'pageDownFocus', pressUp:'pageUpFocus',pressDown:'pageUpFocus',pressLeft:'divBorder7',pressRight:'divBorder4',pressOk:pressOk,args:[],focusImg:['images/lk.png'],showLength:5,wholeMsg:""}
-];
 var picList = [
     {name:'卡梅隆·安东尼'},
     {name:'斯蒂芬·库里'},
@@ -83,12 +70,7 @@ var PAGE_NUM=1;
 //最大分页数
 var PAGE_COUNT;
 var PAGE_SIZE = 8
-PAGE_INFO=DEFAULT_INFO.concat(PICLIST_INFO);
-
 var scrollingObjKey = "";
-initPage()
-
-
 //初始化界面
 function initPage() {
     $.initPage();
@@ -123,7 +105,10 @@ function divFocus(){
 }
 //合并信息
 function initPageInfo(){
-    PAGE_INFO =DEFAULT_INFO.concat(PICLIST_INFO);
+    var pageUp ={key:'pageUpFocus', pressUp:'pageDownFocus',pressDown:'pageDownFocus',pressLeft:'divBorder3',pressRight:'divBorder0',pressOk:pressOk,args:[],focusImg:['images/lk.png'],showLength:5,wholeMsg:""}
+    var pageDown = {key:'pageDownFocus', pressUp:'pageUpFocus',pressDown:'pageUpFocus',pressLeft:'divBorder7',pressRight:'divBorder4',pressOk:pressOk,args:[],focusImg:['images/lk.png'],showLength:5,wholeMsg:""}
+    PAGE_INFO = creatInfo('divBorder',8,['images/picfocus_04.png'],'','','','',12);
+    PAGE_INFO.push(pageUp,pageDown);
 }
 //操作
 function pressRight  () {
@@ -135,8 +120,8 @@ function pressRight  () {
 function pressLeft () {
     if ($.startWith(ACTIVE_OBJECT.key,'pageDownFocus')) {
         for(var i=7;i>=0;i--){
-            if (null != $.getElem(PICLIST_INFO[i].key.replace("divBorder","divPic"))){
-                $.getTargetObj(PICLIST_INFO[i].key);
+            if (null != $.getElem(PAGE_INFO[i].key.replace("divBorder","divPic"))){
+                $.getTargetObj(PAGE_INFO[i].key);
                 scroll();
                 $.showFocusBorder();
                 return;
@@ -146,8 +131,8 @@ function pressLeft () {
     };
     if ($.startWith(ACTIVE_OBJECT.key,'pageUpFocus')) {
         for(var i=3;i>=0;i--){
-            if (null != $.getElem(PICLIST_INFO[i].key.replace("divBorder","divPic"))){
-                $.getTargetObj(PICLIST_INFO[i].key);
+            if (null != $.getElem(PAGE_INFO[i].key.replace("divBorder","divPic"))){
+                $.getTargetObj(PAGE_INFO[i].key);
                 scroll();
                 $.showFocusBorder();
                 return;
@@ -170,7 +155,6 @@ function pressUp () {
         var showKey = ACTIVE_OBJECT.pressUp;
         $.getTargetObj(showKey);
         scroll();
-
         $.showFocusBorder();
         return;
     }
@@ -276,10 +260,10 @@ function loadDataForList() {
             var _divPic = '<div id="divPic' + j + '" class="divPic" ></div>';
             var _divPicFocus = '<div id="divPicFocus' + j + '" ></div>';
             var vodName = UTIL.textHandler(picList[i].name);
-            var tempVodName = UTIL.substringDoubleByte(vodName,PICLIST_INFO[j].showLength);
-            PICLIST_INFO[j].wholeMsg = vodName;
+            var tempVodName = UTIL.substringDoubleByte(vodName,PAGE_INFO[j].showLength);
+            PAGE_INFO[j].wholeMsg = vodName;
             if (tempVodName){
-                vodName = UTIL.substringDoubleByte(vodName,PICLIST_INFO[j].showLength-1)+'...';
+                vodName = UTIL.substringDoubleByte(vodName,PAGE_INFO[j].showLength-1)+'...';
             }
             var _divName =  '<div id="divName' + j + '" class="divName" >' + vodName + '</div>';
             divs.push(_divPic+ _divPicFocus + _divName);
@@ -287,11 +271,11 @@ function loadDataForList() {
         }else {
             //数据长度校验
             if (j <= 3) {
-                PICLIST_INFO[8].pressLeft = "divPicFocus" + (j - 1);
-                PICLIST_INFO[j-1].pressRight = "pageUpFocus";
+                PAGE_INFO[8].pressLeft = "divPicFocus" + (j - 1);
+                PAGE_INFO[j-1].pressRight = "pageUpFocus";
             } else {
-                PICLIST_INFO[9].pressLeft = "divPicFocus" + (j - 1);
-                PICLIST_INFO[j-1].pressRight = "pageDownFocus";
+                PAGE_INFO[9].pressLeft = "divPicFocus" + (j - 1);
+                PAGE_INFO[j-1].pressRight = "pageDownFocus";
             }
         }
     }
@@ -314,4 +298,48 @@ function picLoadData() {
         }
     },900)
 }
+function creatInfo(id,length,imgPath,a,b,imgPath2,pressOK,showlength,whoslemsg) {
+    if(!id || !length)return;
+    if(typeof pressOK ==='function'){
+        pressOK = pressOK()
+    }else {
+        pressOK = '';
+    }
+    imgPath = imgPath || '';
+    imgPath2 = imgPath2 || '';
+    showlength = showlength || '';
+    whoslemsg  =whoslemsg || '';
+    var infos = [];
+    var info = {}
 
+    for(var i=0;i <length;i++ ){
+        if(i === 0 || i%(PAGE_SIZE/2)%1===1){
+
+        }
+        if(i<=(PAGE_SIZE/2)-1){//判断是否是第一行
+            info = {key:id+i,pressUp:'',pressDown:id+(i+PAGE_SIZE/2),pressLeft:id+(i-1),pressRight:id+(i+1),pressOK:pressOK,args:[i],focusImg:imgPath,showLength:showlength,whosleMsg:whoslemsg}
+            if(i===0){//如果是第一个
+                info.pressLeft = '';
+            }
+            if(i === PAGE_SIZE/2 -1){//判断是否是第一行的最后一个
+                info.pressRight ='pageUpFocus'
+            }
+        }else{
+            info = {key:id+i,pressUp:id+(i-PAGE_SIZE/2),pressDown:'',pressLeft:id+(i-1),pressRight:id+(i+1),pressOK:pressOK,args:[i],focusImg:imgPath,showLength:showlength,whosleMsg:whoslemsg}
+            if(i === PAGE_SIZE -1){//判断是否是第二行的最后一个
+                info.pressRight ='pageDonFocus';
+            }
+        }
+        infos.push(info)
+    }
+    if(a){
+        info = {key:a,pressUp:'',pressDown:b,pressLeft:id+(PAGE_SIZE/2-1),pressRight:'',pressOK:pressOK,args:'',focusImg:imgPath2,showLength:'',whosleMsg:''}
+        infos.push(info)
+    }
+    if(b){
+        info = {key:b,pressUp:a,pressDown:'',pressLeft:id+(PAGE_SIZE-1),pressRight:'',pressOK:pressOK,args:'',focusImg:imgPath2,showLength:'',whosleMsg:''}
+        infos.push(info)
+    }
+
+    return infos;
+}

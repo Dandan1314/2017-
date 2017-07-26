@@ -1,0 +1,329 @@
+body {
+    position: relative;
+    height: 720px;
+    width: 1280px;
+    background: url("../images/bg.jpg") no-repeat;
+}
+
+body,
+ul {
+    padding: 0;
+    margin: 0;
+}
+
+ul li {
+    list-style: none;
+}
+
+.hide {
+    visibility: hidden;
+}
+
+
+/*A列表*/
+
+.divA_container {
+    position: absolute;
+    width: 111px;
+    height: 480px;
+    top: 80px;
+    left: 26px;
+}
+
+.divA_container li {
+    position: relative;
+    font-family: "微软雅黑";
+    font-size: 19px;
+    text-align: center;
+    color: rgb(255, 255, 255);
+    width: 111px;
+    height: 85px;
+    line-height: 85px;
+}
+
+
+/*B列表*/
+
+.divB_container {
+    position: absolute;
+    width: 211px;
+    height: 605px;
+    top: 97px;
+    left: 148px;
+}
+
+.divB_container li {
+    position: relative;
+    font-family: "微软雅黑";
+    font-size: 19px;
+    text-align: center;
+    color: rgb(255, 255, 255);
+    width: 211px;
+    height: 47px;
+    line-height: 47px;
+    margin-bottom: 23px;
+}
+
+
+/*C列表*/
+
+.divC_container {
+    position: absolute;
+    width: 142px;
+    height: 233px;
+    top: 104px;
+    left: 358px;
+}
+
+.top0 {
+    top: 128px;
+}
+
+.top1 {
+    top: 194px;
+}
+
+.top2 {
+    top: 264px;
+}
+
+.top3 {
+    top: 334px;
+}
+
+.top4 {
+    top: 407px;
+}
+
+.top5 {
+    top: 479px;
+}
+
+.divC_container li {
+    position: relative;
+    font-family: "微软雅黑";
+    font-size: 19px;
+    text-align: center;
+    color: rgb(255, 255, 255);
+    width: 142px;
+    height: 62px;
+    line-height: 62px;
+}
+
+
+/*D列表*/
+
+.divD_container {
+    position: absolute;
+    width: 715px;
+    height: 608px;
+    top: 95px;
+    left: 482px;
+}
+
+.divD_container li {
+    position: relative;
+    display: block;
+    font-family: "微软雅黑";
+    font-size: 18px;
+    text-align: left;
+    color: rgb(255, 255, 255);
+    width: 670px;
+    height: 69px;
+    line-height: 69px;
+    background: url("../images/d_line.png") 0px 66px no-repeat;
+}
+
+.contentLast .time,
+.divD_container li .time {
+    position: absolute;
+    left: 90px;
+    top: 0px;
+    width: 150px;
+    height: 69px;
+    line-height: 69px;
+}
+
+.contentLast .icon,
+.divD_container li .icon {
+    position: absolute;
+    left: 665px;
+    top: 0px;
+    width: 120px;
+    height: 40px;
+    margin-top: 12px;
+}
+
+.contentLast .title,
+.divD_container li .title {
+    position: absolute;
+    left: 216px;
+    top: 0px;
+    width: 392px;
+    height: 69px;
+    line-height: 69px;
+}
+
+
+/*最后一条数据*/
+
+.channelLast {
+    position: absolute;
+    top: 632px;
+    left: 182px;
+    font-family: "微软雅黑";
+    font-size: 19px;
+    text-align: left;
+    color: rgb(255, 255, 255);
+    width: 175px;
+    height: 32px;
+    line-height: 32px;
+}
+
+.dateLast {
+    font-family: "微软雅黑";
+    font-size: 22px;
+    text-align: left;
+    color: rgb(255, 255, 255);
+    width: 30px;
+    height: 154px;
+    line-height: 32px;
+    margin-bottom: 2px;
+    padding-top: 4px;
+    position: absolute;
+    top: 551px;
+    left: 402px;
+}
+
+.contentLast {
+    position: absolute;
+    top: 623px;
+    left: 497px;
+    font-family: "微软雅黑";
+    font-size: 22px;
+    text-align: left;
+    color: rgb(255, 255, 255);
+    width: 670px;
+    height: 58px;
+    line-height: 58px;
+}
+
+.shadow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1280px;
+    height: 720px;
+    background: url("../images/shadow.png") no-repeat;
+}
+
+
+/*图标*/
+
+.tvod .icon,
+.ordered.tvod .icon {
+    background: url("../images/tvod.png") no-repeat;
+}
+
+.order .icon {
+    background: url("../images/order.png") no-repeat;
+}
+
+.ordered .icon {
+    background: url("../images/ordered.png") no-repeat;
+}
+
+.channel .icon,
+.order.channel .icon,
+.ordered.channel .icon {
+    background: url("../images/channel.png") no-repeat;
+}
+
+li.order {
+    color: grey;
+}
+
+li.channel {
+    color: #ffffff;
+}
+
+.divA_container li.current:before {
+    content: "";
+    position: absolute;
+    left: 8px;
+    top: 24px;
+    width: 96px;
+    height: 44px;
+    background: url("../images/a_current.png") no-repeat;
+    z-index: -1
+}
+
+.divB_container li.current:before {
+    content: "";
+    position: absolute;
+    left: 32px;
+    top: 9px;
+    width: 150px;
+    height: 43px;
+    background: url("../images/b_current.png") no-repeat;
+    z-index: -1
+}
+
+.divC_container li.current:before {
+    content: "";
+    position: absolute;
+    left: 8px;
+    top: 13px;
+    width: 129px;
+    height: 43px;
+    background: url("../images/c_current.png") no-repeat;
+    z-index: -1
+}
+
+
+/********************************************************************焦点****************************/
+
+.divA_container .focusBorder:after {
+    content: "";
+    position: absolute;
+    left: -8px;
+    top: 2px;
+    width: 132px;
+    height: 80px;
+    box-sizing: border-box;
+    background: url("../images/a_focus.png") no-repeat;
+}
+
+.divB_container .focusBorder:after {
+    content: "";
+    position: absolute;
+    left: -3px;
+    top: -17px;
+    width: 219px;
+    height: 80px;
+    box-sizing: border-box;
+    background: url("../images/b_focus.png") no-repeat;
+}
+
+.divC_container .focusBorder:after {
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: -8px;
+    width: 164px;
+    height: 80px;
+    box-sizing: border-box;
+    background: url("../images/c_focus.png") no-repeat;
+}
+
+.divD_container .focusBorder:after {
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: 59px;
+    width: 617px;
+    height: 85px;
+    box-sizing: border-box;
+    background: url("../images/d_focus.png") no-repeat;
+    background-size: 100% 90px;
+}
