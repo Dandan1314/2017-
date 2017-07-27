@@ -200,6 +200,9 @@ function pressOk () {
         if(ACTIVE_OBJECT.key== "pageUpFocus"){
             if(PAGE_NUM > 1){
                 --PAGE_NUM;
+
+
+
                 $.getElem('pagenumdiv').innerHTML= PAGE_NUM +"/"+ PAGE_COUNT;
             }else {
                 PAGE_NUM = PAGE_COUNT;

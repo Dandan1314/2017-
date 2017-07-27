@@ -1,4 +1,4 @@
-var PAGE_INFO = [] ;
+var PAGE_INFO =[];
 var picList = [
     {name:'卡梅隆·安东尼'},
     {name:'斯蒂芬·库里'},
@@ -32,314 +32,171 @@ var picList = [
     {name:'拉塞尔·威斯布鲁克（Russell Westbrook）'},
 ]
 var picPath  = [
-    './players/anthony.png',
-    './players/curry.png',
-    './players/durant.png',
-    './players/harden.png',
-    './players/irving.png',
-    './players/james.png',
-    './players/lin.png',
-    './players/paul.png',
-    './players/wade.png',
-    './players/westbrook.png',
-    './players/anthony.png',
-    './players/curry.png',
-    './players/durant.png',
-    './players/harden.png',
-    './players/irving.png',
-    './players/james.png',
-    './players/lin.png',
-    './players/paul.png',
-    './players/wade.png',
-    './players/westbrook.png',
-    './players/anthony.png',
-    './players/curry.png',
-    './players/durant.png',
-    './players/harden.png',
-    './players/irving.png',
-    './players/james.png',
-    './players/lin.png',
-    './players/paul.png',
-    './players/wade.png',
-    './players/westbrook.png',
+    {path:'./players/anthony.png'},
+    {path:'./players/curry.png'},
+    {path:'./players/durant.png'},
+    {path:'./players/harden.png'},
+    {path:'./players/irving.png'},
+    {path:'./players/james.png'},
+    {path:'./players/lin.png'},
+    {path:'./players/wade.png'},
+    {path: './players/westbrook.png'},
+    {path:'./players/anthony.png'},
+    {path:'./players/anthony.png'},
+    {path:'./players/curry.png'},
+    {path:'./players/durant.png'},
+    {path:'./players/harden.png'},
+    {path:'./players/irving.png'},
+    {path:'./players/james.png'},
+    {path:'./players/lin.png'},
+    {path:'./players/wade.png'},
+    {path: './players/westbrook.png'},
+    {path:'./players/anthony.png'},
+    {path:'./players/anthony.png'},
+    {path:'./players/curry.png'},
+    {path:'./players/durant.png'},
+    {path:'./players/harden.png'},
+    {path:'./players/irving.png'},
+    {path:'./players/james.png'},
+    {path:'./players/lin.png'},
+    {path:'./players/wade.png'},
+    {path: './players/westbrook.png'},
+    {path:'./players/anthony.png'},
 ]
-// 默认焦点
+
 var ACTIVE_OBJECT;
-//初始页码
-var PAGE_NUM=1;
-//最大分页数
-var PAGE_COUNT;
-var PAGE_SIZE = 8
-var scrollingObjKey = "";
-//初始化界面
+var LINE_SIZE = 4;//每行的个数
+var ROW_SIZE = 2 //行数
+var PAGE_NUM = 1;//初始页码
+var TOTAL_SIZE = LINE_SIZE*ROW_SIZE //总数
+var json= {},json2 = {};
+var page = 0;
 function initPage() {
     $.initPage();
-    initPageInfo();
-    loadDataForList();
-    //设置按键
-    $.keyPressSettiing({
-        "KEY_LEFT" : pressLeft,
-        "KEY_RIGHT" : pressRight,
-        "KEY_UP" : pressUp,
-        "KEY_DOWN" : pressDown,
-        "KEY_PAGEUP":'',
-        "KEY_PAGEDOWN":''
-    })
-    divFocus();
-    $.getTargetObj(ACTIVE_OBJECT.key);
+    loadPage();
+    showFoucs('divBorder0');
+}
+function showFoucs(key){
+    $.getTargetObj(key);
     $.showFocusBorder();
 }
-//初始化焦点
-function divFocus(){
-    ACTIVE_OBJECT = {
-        key: 'divBorder0',
-        pressUp: '',
-        pressDown: '',
-        pressLeft: '',
-        pressRight: '',
-        pressOk: '',
-        args: [],
-        focusImg: [],
-        wholeMsg: ""
-    };
-}
-//合并信息
-function initPageInfo(){
-    var pageUp ={key:'pageUpFocus', pressUp:'pageDownFocus',pressDown:'pageDownFocus',pressLeft:'divBorder3',pressRight:'divBorder0',pressOk:pressOk,args:[],focusImg:['images/lk.png'],showLength:5,wholeMsg:""}
-    var pageDown = {key:'pageDownFocus', pressUp:'pageUpFocus',pressDown:'pageUpFocus',pressLeft:'divBorder7',pressRight:'divBorder4',pressOk:pressOk,args:[],focusImg:['images/lk.png'],showLength:5,wholeMsg:""}
-    PAGE_INFO = creatInfo('divBorder',8,['images/picfocus_04.png'],'','','','',12);
-    PAGE_INFO.push(pageUp,pageDown);
-}
-//操作
-function pressRight  () {
-    $.getTargetObj(ACTIVE_OBJECT.pressRight)
-    scroll();
-    $.showFocusBorder();
-
-}
-function pressLeft () {
-    if ($.startWith(ACTIVE_OBJECT.key,'pageDownFocus')) {
-        for(var i=7;i>=0;i--){
-            if (null != $.getElem(PAGE_INFO[i].key.replace("divBorder","divPic"))){
-                $.getTargetObj(PAGE_INFO[i].key);
-                scroll();
-                $.showFocusBorder();
-                return;
-            }
-        }
-        scroll();
-    };
-    if ($.startWith(ACTIVE_OBJECT.key,'pageUpFocus')) {
-        for(var i=3;i>=0;i--){
-            if (null != $.getElem(PAGE_INFO[i].key.replace("divBorder","divPic"))){
-                $.getTargetObj(PAGE_INFO[i].key);
-                scroll();
-                $.showFocusBorder();
-                return;
-            }
-        }
-        scroll();
-    };
-    $.getTargetObj(ACTIVE_OBJECT.pressLeft);
-    if($.startWith(ACTIVE_OBJECT.key,'divPicFocus')){
-        scroll();
-        $.showFocusBorder();
-        return;
+function loadPage(){
+    for(var i=0,j=0;i<picList.length;i++){
+        j = Math.floor(i/TOTAL_SIZE);
+        json[j] || (json[j] = []);
+        json2[j] || (json2[j] = []);
+        json[j].push(picList[i].name);
+        json2[j].push(picPath[i].path);
     }
-    $.showFocusBorder();
-    scroll();
+    createList()
 }
-function pressUp () {
-    //排行
-    if($.startWith(ACTIVE_OBJECT.pressUp,'divPic')){
-        var showKey = ACTIVE_OBJECT.pressUp;
-        $.getTargetObj(showKey);
-        scroll();
-        $.showFocusBorder();
-        return;
+function createList() {
+    clearTimeout(picLoadData.timer);
+    var list = $.getElem('divPic');
+    list.innerHTML = '';
+    var divs = [];
+    var pageLength = json2[page].length;
+    for (var i = 0,j=0; i < pageLength; i++) {
+        var _divPic = '<div id="divPic'+j+'" class="divPic"></div>'
+        var _divPicFocus = '<div id="divPicFocus' + j + '" ></div>';
+        var _divName =  '<div id="divName' + j + '" class="divName" ></div>';
+        divs.push(_divPic+_divPicFocus+_divName);
+        j++
     }
+    list.innerHTML = divs.join('');
+    var csize=picList.length;
+    PAGE_COUNT = Math.ceil(csize/TOTAL_SIZE);
+    $.getElem('pagenumdiv').innerHTML= PAGE_NUM +"/"+ PAGE_COUNT;
 
-    $.getTargetObj(ACTIVE_OBJECT.pressUp);
-    scroll();
-    $.showFocusBorder();
+
+    picLoadData();
+    createInfo()
+
 }
-function pressDown () {
-    if($.startWith(ACTIVE_OBJECT.pressDown,'divBorder')){
-        if ($.getElem(ACTIVE_OBJECT.pressDown.replace('divBorder','divPic'))==null){
-            return;
+function picLoadData() {
+    clearTimeout(picLoadData.timer);
+    var pageLength = json2[page].length;
+    var  j = 0;
+    picLoadData.timer = setTimeout(function () {
+        for(var i = 0;i< pageLength;i++){
+                var src = '<img width="105px" height="130px" src="' + json2[PAGE_NUM-1][i] + '"/>';
+                // var str = '<h2>'+json2[page][i]+'</h2>'
+                $.getElem('divPic'+j).innerHTML = src;
+                j++;
+
         }
-        var showKey = ACTIVE_OBJECT.pressDown;
-        $.getTargetObj(showKey);
-        scroll();
-
-        $.showFocusBorder();
-        return;
+    },900)}
+function createInfo(){
+    PAGE_INFO = [];
+    var pageLength = json2[page].length;
+    var lineTotal = Math.ceil(pageLength/LINE_SIZE);
+    for(var i=0;i<pageLength;i++){
+        var line = Math.floor(i/LINE_SIZE);
+        var iPage_INFO = {
+            "key":"divBorder"+i,
+            "pressUp":line===0 ? '' : ('divBorder' + (i-LINE_SIZE)),
+            "pressDown":line===0 ? ( lineTotal===1?'':( pageLength-LINE_SIZE>i?('divBorder'+(i+LINE_SIZE)):('divBorder'+(pageLength-1)) ) ) : '',
+            "pressLeft":i===0?"":('divBorder'+(i-1)),
+            "pressRight":lineTotal===1 ? (i===pageLength-1?"pageUpFocus":('divBorder'+(i+1))) : (i===LINE_SIZE-1?"pageUpFocus":(i===pageLength-1?"pageDownFocus":('divBorder'+(i+1)))),
+            "pressOk":"",
+            "focusImg":['images/picfocus_04.png'],
+            "args":[]
+        };
+        PAGE_INFO.push(iPage_INFO);
     }
+    var PREV_INFO = {
+        "key":"pageUpFocus",
+        "pressUp":"",
+        "pressDown":"pageDownFocus",
+        "pressLeft":lineTotal===1?('divBorder'+(pageLength-1)):('divBorder'+(LINE_SIZE-1)),
+        "pressRight":"",
+        "pressOk":pressOk,
+        "focusImg":['images/lk.png'],
+        "args":[]
+    };
 
-    $.getTargetObj(ACTIVE_OBJECT.pressDown);
-    scroll();
-    $.showFocusBorder();
+    var NEXT_INFO = {
+        "key":"pageDownFocus",
+        "pressUp":"pageUpFocus",
+        "pressDown":"",
+        "pressLeft":'divBorder'+ (pageLength-1),
+        "pressRight":"",
+        "pressOk":pressOk,
+        "focusImg":['images/lk.png'],
+        "args":[]
+    };
+
+    PAGE_INFO.push(PREV_INFO);
+    PAGE_INFO.push(NEXT_INFO);
 }
 function pressOk () {
-
     if(ACTIVE_OBJECT.key== "pageUpFocus"){
         if(PAGE_NUM > 1){
-            --PAGE_NUM;
+            PAGE_NUM--;
             $.getElem('pagenumdiv').innerHTML= PAGE_NUM +"/"+ PAGE_COUNT;
         }else {
-            PAGE_NUM = PAGE_COUNT;
-            $.getElem('pagenumdiv').innerHTML= PAGE_NUM +"/"+ PAGE_COUNT;
+            // PAGE_NUM = PAGE_COUNT;
+            // $.getElem('pagenumdiv').innerHTML= PAGE_NUM +"/"+ PAGE_COUNT;
+            return false
+        }
+        if(page>0){
+            page--;
+            createList();
         }
     }
     if(ACTIVE_OBJECT.key == "pageDownFocus"){
         if(PAGE_NUM < PAGE_COUNT){
-            ++PAGE_NUM;
+            PAGE_NUM++;
             $.getElem('pagenumdiv').innerHTML= PAGE_NUM +"/"+ PAGE_COUNT;
+
         }else{
-            PAGE_NUM = 1;
-            $.getElem('pagenumdiv').innerHTML= PAGE_NUM +"/"+ PAGE_COUNT;
+            // PAGE_NUM = 1;
+            // $.getElem('pagenumdiv').innerHTML= PAGE_NUM +"/"+ PAGE_COUNT;
+            return false
+        }
+        if(json[page+1]){
+            page++;
+            createList();
         }
     }
-    loadDataForList();
-}
-/**
- * ----------------------------------------------字体滚动-------------------------------------------------------------*
- */
-function stop(){
-    //随焦点滚动
-    if (scrollingObjKey != "") {
-        for(var i = 0; i < PAGE_INFO.length; i++) {
-            var scrollText;
-
-            if((PAGE_INFO[i].key == scrollingObjKey) && (scrollText = UTIL.substringDoubleByte(PAGE_INFO[i].wholeMsg, PAGE_INFO[i].showLength))) {
-                scrollText = UTIL.substringDoubleByte(PAGE_INFO[i].wholeMsg, PAGE_INFO[i].showLength - 1);
-                if($.startWith(scrollingObjKey, "divBorder")){
-                    var _divName = scrollingObjKey.replace("divBorder","divName");
-                    $.getElem(_divName).innerHTML = scrollText + '...';
-                    break;
-                }
-            }
-        }
-        scrollingObjKey = "";
-    }
-
-}
-function start (){
-    //随焦点滚动
-    var wholeMsg = UTIL.substringDoubleByte(ACTIVE_OBJECT.wholeMsg, ACTIVE_OBJECT.showLength);
-    if(wholeMsg) {
-        if($.startWith(ACTIVE_OBJECT.key, "divBorder")){
-            var _divName = ACTIVE_OBJECT.key.replace("divBorder","divName");
-            UTIL.Marquee({
-                el : $.getElem(_divName),
-                all : ACTIVE_OBJECT.wholeMsg,
-                width : '102px',
-                height : '60px'
-            });
-        }
-        scrollingObjKey = ACTIVE_OBJECT.key;
-    }
-}
-function scroll() {
-    //随焦点滚动
-    if (scrollingObjKey != ACTIVE_OBJECT.key) {
-        stop();
-        start();
-    }
-}
-/*
- * ------------------------------------------------获取页面显示信息---------------------------------------------------*
- * */
-function loadDataForList() {
-    clearTimeout(picLoadData.timer);
-    var listdiv=$.getElem("divPic");
-    var j = 0;
-    var divs = [];
-    for(var i = (PAGE_NUM-1) * 8;i < PAGE_NUM * 8;i++){
-        if(picList[i]){
-            var _divPic = '<div id="divPic' + j + '" class="divPic" ></div>';
-            var _divPicFocus = '<div id="divPicFocus' + j + '" ></div>';
-            var vodName = UTIL.textHandler(picList[i].name);
-            var tempVodName = UTIL.substringDoubleByte(vodName,PAGE_INFO[j].showLength);
-            PAGE_INFO[j].wholeMsg = vodName;
-            if (tempVodName){
-                vodName = UTIL.substringDoubleByte(vodName,PAGE_INFO[j].showLength-1)+'...';
-            }
-            var _divName =  '<div id="divName' + j + '" class="divName" >' + vodName + '</div>';
-            divs.push(_divPic+ _divPicFocus + _divName);
-            j++;
-        }else {
-            //数据长度校验
-            if (j <= 3) {
-                PAGE_INFO[8].pressLeft = "divPicFocus" + (j - 1);
-                PAGE_INFO[j-1].pressRight = "pageUpFocus";
-            } else {
-                PAGE_INFO[9].pressLeft = "divPicFocus" + (j - 1);
-                PAGE_INFO[j-1].pressRight = "pageDownFocus";
-            }
-        }
-    }
-    listdiv.innerHTML = divs.join('');
-    picLoadData();
-    var csize=picList.length;
-    PAGE_COUNT = Math.ceil(csize/PAGE_SIZE);
-    $.getElem('pagenumdiv').innerHTML= PAGE_NUM +"/"+ PAGE_COUNT;
-}
-function picLoadData() {
-    clearTimeout(picLoadData.timer);
-    var  j = 0;
-    picLoadData.timer = setTimeout(function () {
-        for(var i = (PAGE_NUM-1)*8;i<PAGE_NUM *8 ;i++){
-            if(picList[i]){
-                var src = '<img width="105px" height="130px" src="' + picPath[i] + '"/>';
-                $.getElem('divPic'+j).innerHTML = src;
-                j++;
-            }
-        }
-    },900)
-}
-function creatInfo(id,length,imgPath,a,b,imgPath2,pressOK,showlength,whoslemsg) {
-    if(!id || !length)return;
-    if(typeof pressOK ==='function'){
-        pressOK = pressOK()
-    }else {
-        pressOK = '';
-    }
-    imgPath = imgPath || '';
-    imgPath2 = imgPath2 || '';
-    showlength = showlength || '';
-    whoslemsg  =whoslemsg || '';
-    var infos = [];
-    var info = {}
-
-    for(var i=0;i <length;i++ ){
-        if(i === 0 || i%(PAGE_SIZE/2)%1===1){
-
-        }
-        if(i<=(PAGE_SIZE/2)-1){//判断是否是第一行
-            info = {key:id+i,pressUp:'',pressDown:id+(i+PAGE_SIZE/2),pressLeft:id+(i-1),pressRight:id+(i+1),pressOK:pressOK,args:[i],focusImg:imgPath,showLength:showlength,whosleMsg:whoslemsg}
-            if(i===0){//如果是第一个
-                info.pressLeft = '';
-            }
-            if(i === PAGE_SIZE/2 -1){//判断是否是第一行的最后一个
-                info.pressRight ='pageUpFocus'
-            }
-        }else{
-            info = {key:id+i,pressUp:id+(i-PAGE_SIZE/2),pressDown:'',pressLeft:id+(i-1),pressRight:id+(i+1),pressOK:pressOK,args:[i],focusImg:imgPath,showLength:showlength,whosleMsg:whoslemsg}
-            if(i === PAGE_SIZE -1){//判断是否是第二行的最后一个
-                info.pressRight ='pageDonFocus';
-            }
-        }
-        infos.push(info)
-    }
-    if(a){
-        info = {key:a,pressUp:'',pressDown:b,pressLeft:id+(PAGE_SIZE/2-1),pressRight:'',pressOK:pressOK,args:'',focusImg:imgPath2,showLength:'',whosleMsg:''}
-        infos.push(info)
-    }
-    if(b){
-        info = {key:b,pressUp:a,pressDown:'',pressLeft:id+(PAGE_SIZE-1),pressRight:'',pressOK:pressOK,args:'',focusImg:imgPath2,showLength:'',whosleMsg:''}
-        infos.push(info)
-    }
-
-    return infos;
 }
