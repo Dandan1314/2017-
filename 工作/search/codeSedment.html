@@ -84,4 +84,46 @@ PAGE_INFO= PAGE_INFO.concat(creatInfo("div", 8,'',"l1","l2"))
 console.log(PAGE_INFO);
 
 </script>
+<script>
+    var PAGR_INFO = [];
+    var row = 4; //列数
+    var col  = 2; // 行数
+    var total = row * col  //一页最多显示
+    //info = {key:b,pressUp:a,pressDown:'',pressLeft:id+(PAGE_SIZE-1),pressRight:'',pressOK:pressOK,args:'',focusImg:imgPath2,showLength:'',whosleMsg:''}
+
+    function creatInfo(id,length) {
+        //每次先清空
+        PAGR_INFO = [];
+        //实际行数
+        var realCol = Math.ceil(length/row);
+        var a
+        var info = {};
+        var iPage_INFO = {
+            "key":"divBorder"+i,
+            "pressUp":line===0 ? '' : ('divBorder' + (i-LINE_SIZE)),
+            "pressDown":line===0 ? ( lineTotal===1?'':( pageLength-LINE_SIZE>i?('divBorder'+(i+LINE_SIZE)):('divBorder'+(pageLength-1)) ) ) : '',
+            "pressLeft":i===0?"":('divBorder'+(i-1)),
+            "pressRight":lineTotal===1 ? (i===pageLength-1?"pageUpFocus":('divBorder'+(i+1))) : (i===LINE_SIZE-1?"pageUpFocus":(i===pageLength-1?"pageDownFocus":('divBorder'+(i+1)))),
+            "pressOk":"",
+            "focusImg":['images/picfocus_04.png'],
+            "args":[i],
+            "wholeMsg":json[page][i]
+        };
+        for(var i = 0;i<length;i++){
+            a ;
+            info = {
+                key:id+i,
+                pressUp:liveCol == 1 ? '': id+(i-row),//判断是否是第一行
+                pressDown:.
+                pressLeft:i == 0 ? '' : id+(i-1), //判断是否是第一个
+                pressRight:'',
+                pressOK:'',
+                args:'',
+                focusImg:'',
+                showLength:'',
+                whosleMsg:''
+            }
+        }
+    }
+</script>
 </html>

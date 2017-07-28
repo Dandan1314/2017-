@@ -5,31 +5,31 @@ var picList = [
     {name:'凯文·杜兰特（Kevin Durant）'},
     {name:"詹姆斯·哈登（James Harden）"},
     {name:"凯里·欧文（Kyrie Irving）"},
-    {name:"勒布朗·詹姆斯（LeBron James）"},
-    {name:"林书豪（Jeremy Lin）"},
-    {name:'克里斯·保罗（Chris Paul）'},
-    {name:'德怀恩·韦德（Dwyane Wade）',},
-    {name:'拉塞尔·威斯布鲁克（Russell Westbrook）'},
-    {name:'卡梅隆·安东尼'},
-    {name:'斯蒂芬·库里'},
-    {name:'凯文·杜兰特（Kevin Durant）'},
-    {name:"詹姆斯·哈登（James Harden）"},
-    {name:"凯里·欧文（Kyrie Irving）"},
-    {name:"勒布朗·詹姆斯（LeBron James）"},
-    {name:"林书豪（Jeremy Lin）"},
-    {name:'克里斯·保罗（Chris Paul）'},
-    {name:'德怀恩·韦德（Dwyane Wade）',},
-    {name:'拉塞尔·威斯布鲁克（Russell Westbrook）'},
-    {name:'卡梅隆·安东尼'},
-    {name:'斯蒂芬·库里'},
-    {name:'凯文·杜兰特（Kevin Durant）'},
-    {name:"詹姆斯·哈登（James Harden）"},
-    {name:"凯里·欧文（Kyrie Irving）"},
-    {name:"勒布朗·詹姆斯（LeBron James）"},
-    {name:"林书豪（Jeremy Lin）"},
-    {name:'克里斯·保罗（Chris Paul）'},
-    {name:'德怀恩·韦德（Dwyane Wade）',},
-    {name:'拉塞尔·威斯布鲁克（Russell Westbrook）'},
+    // {name:"勒布朗·詹姆斯（LeBron James）"},
+    // {name:"林书豪（Jeremy Lin）"},
+    // {name:'克里斯·保罗（Chris Paul）'},
+    // {name:'德怀恩·韦德（Dwyane Wade）',},
+    // {name:'拉塞尔·威斯布鲁克（Russell Westbrook）'},
+    // {name:'卡梅隆·安东尼'},
+    // {name:'斯蒂芬·库里'},
+    // {name:'凯文·杜兰特（Kevin Durant）'},
+    // {name:"詹姆斯·哈登（James Harden）"},
+    // {name:"凯里·欧文（Kyrie Irving）"},
+    // {name:"勒布朗·詹姆斯（LeBron James）"},
+    // {name:"林书豪（Jeremy Lin）"},
+    // {name:'克里斯·保罗（Chris Paul）'},
+    // {name:'德怀恩·韦德（Dwyane Wade）',},
+    // {name:'拉塞尔·威斯布鲁克（Russell Westbrook）'},
+    // {name:'卡梅隆·安东尼'},
+    // {name:'斯蒂芬·库里'},
+    // {name:'凯文·杜兰特（Kevin Durant）'},
+    // {name:"詹姆斯·哈登（James Harden）"},
+    // {name:"凯里·欧文（Kyrie Irving）"},
+    // {name:"勒布朗·詹姆斯（LeBron James）"},
+    // {name:"林书豪（Jeremy Lin）"},
+    // {name:'克里斯·保罗（Chris Paul）'},
+    // {name:'德怀恩·韦德（Dwyane Wade）',},
+    // {name:'拉塞尔·威斯布鲁克（Russell Westbrook）'},
 ]
 var picPath  = [
     {path:'./players/anthony.png'},
@@ -37,31 +37,31 @@ var picPath  = [
     {path:'./players/durant.png'},
     {path:'./players/harden.png'},
     {path:'./players/irving.png'},
-    {path:'./players/james.png'},
-    {path:'./players/lin.png'},
-    {path:'./players/wade.png'},
-    {path: './players/westbrook.png'},
-    {path:'./players/anthony.png'},
-    {path:'./players/anthony.png'},
-    {path:'./players/curry.png'},
-    {path:'./players/durant.png'},
-    {path:'./players/harden.png'},
-    {path:'./players/irving.png'},
-    {path:'./players/james.png'},
-    {path:'./players/lin.png'},
-    {path:'./players/wade.png'},
-    {path: './players/westbrook.png'},
-    {path:'./players/anthony.png'},
-    {path:'./players/anthony.png'},
-    {path:'./players/curry.png'},
-    {path:'./players/durant.png'},
-    {path:'./players/harden.png'},
-    {path:'./players/irving.png'},
-    {path:'./players/james.png'},
-    {path:'./players/lin.png'},
-    {path:'./players/wade.png'},
-    {path: './players/westbrook.png'},
-    {path:'./players/anthony.png'},
+    // {path:'./players/james.png'},
+    // {path:'./players/lin.png'},
+    // {path:'./players/wade.png'},
+    // {path: './players/westbrook.png'},
+    // {path:'./players/anthony.png'},
+    // {path:'./players/anthony.png'},
+    // {path:'./players/curry.png'},
+    // {path:'./players/durant.png'},
+    // {path:'./players/harden.png'},
+    // {path:'./players/irving.png'},
+    // {path:'./players/james.png'},
+    // {path:'./players/lin.png'},
+    // {path:'./players/wade.png'},
+    // {path: './players/westbrook.png'},
+    // {path:'./players/anthony.png'},
+    // {path:'./players/anthony.png'},
+    // {path:'./players/curry.png'},
+    // {path:'./players/durant.png'},
+    // {path:'./players/harden.png'},
+    // {path:'./players/irving.png'},
+    // {path:'./players/james.png'},
+    // {path:'./players/lin.png'},
+    // {path:'./players/wade.png'},
+    // {path: './players/westbrook.png'},
+    // {path:'./players/anthony.png'},
 ]
 
 var ACTIVE_OBJECT;
@@ -140,8 +140,11 @@ function createInfo(){
             "pressRight":lineTotal===1 ? (i===pageLength-1?"pageUpFocus":('divBorder'+(i+1))) : (i===LINE_SIZE-1?"pageUpFocus":(i===pageLength-1?"pageDownFocus":('divBorder'+(i+1)))),
             "pressOk":"",
             "focusImg":['images/picfocus_04.png'],
-            "args":[]
+            "args":[i],
+            "wholeMsg":json[page][i]
         };
+        $.getElem('divName'+i+'').innerHTML = iPage_INFO.wholeMsg;
+
         PAGE_INFO.push(iPage_INFO);
     }
     var PREV_INFO = {
@@ -180,7 +183,7 @@ function pressOk () {
             return false
         }
         if(page>0){
-            page--;
+            --page;
             createList();
         }
     }
@@ -195,8 +198,11 @@ function pressOk () {
             return false
         }
         if(json[page+1]){
-            page++;
+            ++page;
             createList();
+            if(PAGE_NUM == PAGE_COUNT){
+                ACTIVE_OBJECT.pressLeft = 'divBorder'+(json2[page].length-1)
+            }
         }
     }
 }
