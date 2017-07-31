@@ -9,8 +9,8 @@ var json =[];
 // 根据页数来判断记录当前json盒子的索引
 var page = PAGE_NUM -1;
 // 行数 / 列数
-var row = 3;
-var col = 5;
+var row = 4;
+var col = 10;
 //一页的最大个数
 var PAGE_SIZE = row * col ;
 //总页数
@@ -54,6 +54,7 @@ function creatFocus() {
     divLists.innerHTML = _divLists.join('');
     $.getElem('pagenumdiv').innerHTML= PAGE_NUM +"/"+ PAGE_COUNT;
     setStyle('divList',105,130,10,74,107,127);
+    // setStyle('divList',20,20,5,5,107,127);
 }
 //根据数据创造PAGE_INFO
 function creatInfo() {
@@ -114,6 +115,7 @@ function pressOk () {
             creatFocus();
             creatInfo();
         }
+        $.getElem('divImgBorder').style.top = $.getElem('pageUpFocus').style.top;
     }
     if(ACTIVE_OBJECT.key == "pageDownFocus"){
         if(PAGE_NUM < PAGE_COUNT){
@@ -130,7 +132,7 @@ function pressOk () {
                 ACTIVE_OBJECT.pressLeft = 'divBorder'+(json[page].length-1)
             }
         }
-
+            $.getElem('divImgBorder').style.top = $.getElem('pageDownFocus').style.top;
     }
 }
 //合并方法
@@ -138,6 +140,7 @@ function concat() {
     paging();
     creatFocus();
     creatInfo();
+
 }
 //根据行数和列数来设置样式
 function setStyle(id,width,height,leftMargin,topMargin,left,top) {
