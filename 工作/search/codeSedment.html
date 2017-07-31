@@ -12,118 +12,131 @@
 <a href="#">我是一个a标签</a><br>
 <a href="#">我是一个a标签</a><br> -->
 </body>
+<!--<script>-->
+<!--// var ele = document.getElementsByTagName('a');-->
+<!--//     for(var i = 0;i<ele.length;i++){-->
+<!--//         (function (index) {-->
+<!--//             ele[i].addEventListener('click',function (e) {-->
+<!--//                 e.preventDefault();-->
+<!--//                 alert("这是第"+index+"个a标签")-->
+<!--//             })-->
+<!--//         })(i)-->
+<!--//     }-->
+<!--//-->
+<!--/*-->
+
+<!--var timer = new Date();-->
+<!--timer.getDate()-->
+<!--console.log(timer.getDate())-->
+<!--*/-->
+<!--var PAGE_INFO = [];-->
+<!--var PAGE_SIZE = 8;-->
+<!--//假设只有两行-->
+<!--function creatInfo(id,length,imgPath,a,b,imgPath2,pressOK,showlength,whoslemsg) {-->
+    <!--if(!id || !length)return;-->
+    <!--if(typeof pressOK ==='function'){-->
+        <!--pressOK = pressOK()-->
+    <!--}else {-->
+        <!--pressOK = '';-->
+    <!--}-->
+    <!--imgPath = imgPath || '';-->
+    <!--imgPath2 = imgPath2 || '';-->
+    <!--showlength = showlength || '';-->
+    <!--whoslemsg  =whoslemsg || '';-->
+    <!--var infos = [];-->
+    <!--var info = {}-->
+
+    <!--for(var i=0;i <length;i++ ){-->
+        <!--if(i === 0 || i%(PAGE_SIZE/2)%1===1){-->
+
+        <!--}-->
+            <!--if(i<=(PAGE_SIZE/2)-1){//判断是否是第一行-->
+                <!--info = {key:id+i,pressUp:'',pressDown:id+(i+PAGE_SIZE/2),pressLeft:id+(i-1),pressRight:id+(i+1),pressOK:pressOK,args:[i],focusImg:imgPath,showLength:showlength,whosleMsg:whoslemsg}-->
+                <!--if(i===0){//如果是第一个-->
+                    <!--info.pressLeft = '';-->
+                <!--}-->
+                <!--if(i === PAGE_SIZE/2 -1){//判断是否是第一行的最后一个-->
+                    <!--info.pressRight =a-->
+                <!--}-->
+            <!--}else{-->
+                <!--info = {key:id+i,pressUp:id+(i-PAGE_SIZE/2),pressDown:'',pressLeft:id+(i+1),pressRight:id+(i-1),pressOK:pressOK,args:[i],focusImg:imgPath,showLength:showlength,whosleMsg:whoslemsg}-->
+                <!--if(i === PAGE_SIZE -1){//判断是否是第二行的最后一个-->
+                    <!--info.pressRight =b;-->
+                <!--}-->
+            <!--}-->
+        <!--infos.push(info)-->
+        <!--}-->
+    <!--if(a){-->
+        <!--info = {key:a,pressUp:'',pressDown:b,pressLeft:id+(PAGE_SIZE/2-1),pressRight:'',pressOK:pressOK,args:'',focusImg:imgPath2,showLength:'',whosleMsg:''}-->
+        <!--infos.push(info)-->
+    <!--}-->
+    <!--if(b){-->
+        <!--info = {key:b,pressUp:a,pressDown:'',pressLeft:id+(PAGE_SIZE-1),pressRight:'',pressOK:pressOK,args:'',focusImg:imgPath2,showLength:'',whosleMsg:''}-->
+        <!--infos.push(info)-->
+    <!--}-->
+
+    <!--return infos;-->
+    <!--}-->
+
+
+
+<!--PAGE_INFO= PAGE_INFO.concat(creatInfo("div", 8,'',"l1","l2"))-->
+<!--console.log(PAGE_INFO);-->
+
+<!--</script>-->
+<!--<script>-->
+    <!--var PAGR_INFO = [];-->
+    <!--var row = 4; //列数-->
+    <!--var col  = 2; // 行数-->
+    <!--var total = row * col  //一页最多显示-->
+    <!--//info = {key:b,pressUp:a,pressDown:'',pressLeft:id+(PAGE_SIZE-1),pressRight:'',pressOK:pressOK,args:'',focusImg:imgPath2,showLength:'',whosleMsg:''}-->
+
+    <!--function creatInfo(id,length) {-->
+        <!--//每次先清空-->
+        <!--PAGR_INFO = [];-->
+        <!--//实际行数-->
+        <!--var realCol = Math.ceil(length/row);-->
+        <!--var a-->
+        <!--var info = {};-->
+        <!--var iPage_INFO = {-->
+            <!--"key":"divBorder"+i,-->
+            <!--"pressUp":line===0 ? '' : ('divBorder' + (i-LINE_SIZE)),-->
+            <!--"pressDown":line===0 ? ( lineTotal===1?'':( pageLength-LINE_SIZE>i?('divBorder'+(i+LINE_SIZE)):('divBorder'+(pageLength-1)) ) ) : '',-->
+            <!--"pressLeft":i===0?"":('divBorder'+(i-1)),-->
+            <!--"pressRight":lineTotal===1 ? (i===pageLength-1?"pageUpFocus":('divBorder'+(i+1))) : (i===LINE_SIZE-1?"pageUpFocus":(i===pageLength-1?"pageDownFocus":('divBorder'+(i+1)))),-->
+            <!--"pressOk":"",-->
+            <!--"focusImg":['images/picfocus_04.png'],-->
+            <!--"args":[i],-->
+            <!--"wholeMsg":json[page][i]-->
+        <!--};-->
+        <!--for(var i = 0;i<length;i++){-->
+            <!--a ;-->
+            <!--info = {-->
+                <!--key:id+i,-->
+                <!--pressUp:liveCol == 1 ? '': id+(i-row),//判断是否是第一行-->
+                <!--pressDown:.-->
+                <!--pressLeft:i == 0 ? '' : id+(i-1), //判断是否是第一个-->
+                <!--pressRight:'',-->
+                <!--pressOK:'',-->
+                <!--args:'',-->
+                <!--focusImg:'',-->
+                <!--showLength:'',-->
+                <!--whosleMsg:''-->
+            <!--}-->
+        <!--}-->
+    <!--}-->
+<!--</script>-->
 <script>
-// var ele = document.getElementsByTagName('a');
-//     for(var i = 0;i<ele.length;i++){
-//         (function (index) {
-//             ele[i].addEventListener('click',function (e) {
-//                 e.preventDefault();
-//                 alert("这是第"+index+"个a标签")
-//             })
-//         })(i)
-//     }
-//
-/*
-
-var timer = new Date();
-timer.getDate()
-console.log(timer.getDate())
-*/
-var PAGE_INFO = [];
-var PAGE_SIZE = 8;
-//假设只有两行
-function creatInfo(id,length,imgPath,a,b,imgPath2,pressOK,showlength,whoslemsg) {
-    if(!id || !length)return;
-    if(typeof pressOK ==='function'){
-        pressOK = pressOK()
-    }else {
-        pressOK = '';
-    }
-    imgPath = imgPath || '';
-    imgPath2 = imgPath2 || '';
-    showlength = showlength || '';
-    whoslemsg  =whoslemsg || '';
-    var infos = [];
-    var info = {}
-
-    for(var i=0;i <length;i++ ){
-        if(i === 0 || i%(PAGE_SIZE/2)%1===1){
-
-        }
-            if(i<=(PAGE_SIZE/2)-1){//判断是否是第一行
-                info = {key:id+i,pressUp:'',pressDown:id+(i+PAGE_SIZE/2),pressLeft:id+(i-1),pressRight:id+(i+1),pressOK:pressOK,args:[i],focusImg:imgPath,showLength:showlength,whosleMsg:whoslemsg}
-                if(i===0){//如果是第一个
-                    info.pressLeft = '';
-                }
-                if(i === PAGE_SIZE/2 -1){//判断是否是第一行的最后一个
-                    info.pressRight =a
-                }
-            }else{
-                info = {key:id+i,pressUp:id+(i-PAGE_SIZE/2),pressDown:'',pressLeft:id+(i+1),pressRight:id+(i-1),pressOK:pressOK,args:[i],focusImg:imgPath,showLength:showlength,whosleMsg:whoslemsg}
-                if(i === PAGE_SIZE -1){//判断是否是第二行的最后一个
-                    info.pressRight =b;
-                }
-            }
-        infos.push(info)
-        }
-    if(a){
-        info = {key:a,pressUp:'',pressDown:b,pressLeft:id+(PAGE_SIZE/2-1),pressRight:'',pressOK:pressOK,args:'',focusImg:imgPath2,showLength:'',whosleMsg:''}
-        infos.push(info)
-    }
-    if(b){
-        info = {key:b,pressUp:a,pressDown:'',pressLeft:id+(PAGE_SIZE-1),pressRight:'',pressOK:pressOK,args:'',focusImg:imgPath2,showLength:'',whosleMsg:''}
-        infos.push(info)
-    }
-
-    return infos;
-    }
-
-
-
-PAGE_INFO= PAGE_INFO.concat(creatInfo("div", 8,'',"l1","l2"))
-console.log(PAGE_INFO);
-
-</script>
-<script>
-    var PAGR_INFO = [];
-    var row = 4; //列数
-    var col  = 2; // 行数
-    var total = row * col  //一页最多显示
-    //info = {key:b,pressUp:a,pressDown:'',pressLeft:id+(PAGE_SIZE-1),pressRight:'',pressOK:pressOK,args:'',focusImg:imgPath2,showLength:'',whosleMsg:''}
-
-    function creatInfo(id,length) {
-        //每次先清空
-        PAGR_INFO = [];
-        //实际行数
-        var realCol = Math.ceil(length/row);
-        var a
-        var info = {};
-        var iPage_INFO = {
-            "key":"divBorder"+i,
-            "pressUp":line===0 ? '' : ('divBorder' + (i-LINE_SIZE)),
-            "pressDown":line===0 ? ( lineTotal===1?'':( pageLength-LINE_SIZE>i?('divBorder'+(i+LINE_SIZE)):('divBorder'+(pageLength-1)) ) ) : '',
-            "pressLeft":i===0?"":('divBorder'+(i-1)),
-            "pressRight":lineTotal===1 ? (i===pageLength-1?"pageUpFocus":('divBorder'+(i+1))) : (i===LINE_SIZE-1?"pageUpFocus":(i===pageLength-1?"pageDownFocus":('divBorder'+(i+1)))),
-            "pressOk":"",
-            "focusImg":['images/picfocus_04.png'],
-            "args":[i],
-            "wholeMsg":json[page][i]
-        };
-        for(var i = 0;i<length;i++){
-            a ;
-            info = {
-                key:id+i,
-                pressUp:liveCol == 1 ? '': id+(i-row),//判断是否是第一行
-                pressDown:.
-                pressLeft:i == 0 ? '' : id+(i-1), //判断是否是第一个
-                pressRight:'',
-                pressOK:'',
-                args:'',
-                focusImg:'',
-                showLength:'',
-                whosleMsg:''
-            }
+    var data = []
+    function creatData() {
+        var info = {}
+        for(var i = 0 ;i<66;i++){
+            info = {name:i+1}
+            data.push(info)
         }
     }
+    creatData()
+    console.log(data);
+
 </script>
 </html>

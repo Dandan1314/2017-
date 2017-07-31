@@ -197,26 +197,6 @@ function pressDown () {
     $.showFocusBorder();
 }
 function pressOk () {
-
-    if(ACTIVE_OBJECT.key== "pageUpFocus"){
-        if(PAGE_NUM > 1){
-            --PAGE_NUM;
-            $.getElem('pagenumdiv').innerHTML= PAGE_NUM +"/"+ PAGE_COUNT;
-        }else {
-            PAGE_NUM = PAGE_COUNT;
-            $.getElem('pagenumdiv').innerHTML= PAGE_NUM +"/"+ PAGE_COUNT;
-        }
-    }
-    if(ACTIVE_OBJECT.key == "pageDownFocus"){
-        if(PAGE_NUM < PAGE_COUNT){
-            ++PAGE_NUM;
-            $.getElem('pagenumdiv').innerHTML= PAGE_NUM +"/"+ PAGE_COUNT;
-        }else{
-            PAGE_NUM = 1;
-            $.getElem('pagenumdiv').innerHTML= PAGE_NUM +"/"+ PAGE_COUNT;
-        }
-    }
-    loadDataForList();
 }
 /**
  * ----------------------------------------------字体滚动-------------------------------------------------------------*

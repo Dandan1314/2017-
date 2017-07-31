@@ -7,7 +7,7 @@ var PAGE_INFO = [{
 	pressRight: 'elF1',
 	pressOk: '',
 	args: [],
-	focusImg: ['images/focus.png'],
+	focusImg: '',
 	wholeMsg: '我是el0我是el0我是el0',
 	marquee:['elTitle0']
 },{

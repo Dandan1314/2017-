@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>variationalList</title>
+    <style>
+        /*翻页*/
+        #pageup, #pagedown, #pageUpFocus, #pageDownFocus, #pagenumdiv{
+            position: absolute;
+        }
+        #pageUpFocus, #pageDownFocus, #pageup, #pagedown{
+            width: 60px;
+            height: 60px;
+            left: 580px;
+        }
+        #pageup, #pageUpFocus{
+            top: 120px;
+        }
+        #pagedown, #pageDownFocus{
+            top: 394px;
+        }
+        #pageup{
+            background: url('images/upr.png') no-repeat center 16px;
+        }
+        #pagedown{
+            background: url('images/downr.png') no-repeat center center;
+        }
+        #pagenumdiv{
+            width: 56px;
+            height: 22px;
+            line-height: 22px;
+            top: 274px;
+            left: 583px;
+            font-size: 15px;
+            text-align: center;
+        }
+        /*焦点框*/
+        #divYellowBorder{position:absolute;border:solid 4px #FCFF05;}
+        #divImgBorder,#divBluePointBorder{position:absolute;z-index:10;}
+        #divList .divList{position: absolute;width:105px;height: 130px;border:1px solid #117d95;
+            background-color:orangered;
+            text-align: center;
+            line-height: 130px;
+            font-size:24px;
+        }
+        /*107+130=237 311 -237 = 74
+           242-127-105 = 10
+          */
+        /*#divList0{top:107px;left: 127px;}*/
+        /*#divList1{top:107px;left: 242px;}*/
+        /*#divList2{top:107px;left: 357px;}*/
+        /*#divList3{top:107px;left: 472px;}*/
+        /*#divList4{top:311px;left: 127px;}*/
+        /*#divList5{top:311px;left: 242px;}*/
+        /*#divList6{top:311px;left: 357px;}*/
+        /*#divList7{top:311px;left: 472px;}*/
+        /*焦点框*/
+        #divBorders div{
+            width:124px;height: 149px;
+            position:absolute;
+        }
+        /*233-118=115*/
+        /*#divBorder0{top:98px;left: 118px;}*/
+        /*#divBorder1{top:98px;left: 233px;}*/
+        /*#divBorder2{top:98px;left: 348px;}*/
+        /*#divBorder3{top:98px;left: 463px;}*/
+        /*#divBorder4{top:302px;left: 118px;}*/
+        /*#divBorder5{top:302px;left: 233px;}*/
+        /*#divBorder6{top:302px;left: 348px;}*/
+        /*#divBorder7{top:302px;left: 463px;}*/
+    </style>
+    <script>
+        //造数据
+       var  data = [];
+       (function creatData(len) {
+           var info = {}
+           for(var i = 0 ;i<len;i++){
+               info = {name:i+1}
+               data.push(info)
+           }
+       }(100))
+    </script>
+</head>
+<body onload="initPage()">
+<div id="divList"></div>
+<!--焦点框-->
+<div id="divBorders"></div>
+<div id="divImgBorder">
+    <img id="imgBorder" src="" width='102' height='47'/>
+    <img id="divYellowBorder" src="" alt="">
+    <img id="yellowBorder" src="" alt="">
+</div>
+<!--翻页-->
+<div id="page">
+    <div id="pageup"></div>
+    <div id="pageUpFocus"></div>
+    <div id="pagedown"></div>
+    <div id="pageDownFocus"></div>
+    <div id="pagenumdiv"></div>
+</div>
+
+</body>
+<script src="../Refactoring/mybz-CmsCommon.js"></script>
+<script src="../Refactoring/mybz-CmsZteCommon.js"></script>
+<script src="../Refactoring/mybz-UTIL.js"></script>
+<script src="js/index.js"></script>
+</html>
