@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>hello world!</title>
+</head>
+<body>
+<h1>Hello World!</h1>
+</body>
+<script>
+//    //兼容 IE10+，Firefox10+,Chrome14+,Opera12.1+,Safari7.1+
+var hiddenProperty = 'hidden' in document ? 'hidden' :
+        'webkitHidden' in document ? 'webkitHidden' :
+                'mozHidden' in document ? 'mozHidden' :
+                        null;
+var visibilityChangeEvent = hiddenProperty.replace(/hidden/i, 'visibilitychange');
+var onVisibilityChange = function(){
+    //在浏览当前标签页的情况
+    if (!document[hiddenProperty]) {
+        document.title = 'hello world!'
+    }else{//这是未在被浏览的情况下
+        document.title = '世界需要你!'
+    }
+}
+document.addEventListener(visibilityChangeEvent, onVisibilityChange);
+</script>
+</html>

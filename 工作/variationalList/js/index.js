@@ -9,8 +9,8 @@ var json =[];
 // 根据页数来判断记录当前json盒子的索引
 var page = PAGE_NUM -1;
 // 行数 / 列数
-var row = 4;
-var col = 10;
+var row = 5;
+var col = 6;
 //一页的最大个数
 var PAGE_SIZE = row * col ;
 //总页数
@@ -99,7 +99,6 @@ function creatInfo() {
             "args":[]}
     ];
     PAGE_INFO = PAGE_INFO.concat(UD_INFO);
-
 }
 //翻页
 function pressOk () {
@@ -140,7 +139,6 @@ function concat() {
     paging();
     creatFocus();
     creatInfo();
-
 }
 //根据行数和列数来设置样式
 function setStyle(id,width,height,leftMargin,topMargin,left,top) {
@@ -173,3 +171,4 @@ function setStyle(id,width,height,leftMargin,topMargin,left,top) {
     }
 
 }
+
