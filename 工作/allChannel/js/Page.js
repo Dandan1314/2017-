@@ -160,6 +160,7 @@ function initPage() {
 function loadPage(){
 	CHANNEL_LIST_DS = channelData.data;
     //取出数据,把开始条目和总条目存到对象channelListMap中
+	//每个数组中存的是数据的条目数
 	for(var i = 0, j = 0; i < CHANNEL_LIST_DS.length; i++){
 		var d = CHANNEL_LIST_DS[i];
 		if(d.channelNumber <= 10){//长春
@@ -414,17 +415,17 @@ function renderList(level, opt) {
 			createDList(d_begin);
 			break;
 		default://返回
-			createBList(b_list_begin);
-			createCList(c_list_begin);
-			date = date_ds[c_list_index];
-			channelId = CHANNEL_LIST_DS[b_list_index].channelId;
-			getSchedule(date, channelId);
-			a_list_add_current();
-			if(/f_D_list/.test(ACTIVE_OBJECT_KEY)){//在D列
-				b_list_add_current();
-				c_list_add_current();
-			}
-			break;
+        createBList(b_list_begin);
+        createCList(c_list_begin);
+        date = date_ds[c_list_index];
+        channelId = CHANNEL_LIST_DS[b_list_index].channelId;
+        getSchedule(date, channelId);
+        a_list_add_current();
+        if(/f_D_list/.test(ACTIVE_OBJECT_KEY)){//在D列
+            b_list_add_current();
+            c_list_add_current();
+        }
+        break;
 	}
 }
 
