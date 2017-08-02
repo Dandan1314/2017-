@@ -102,14 +102,9 @@ var CHANNEL_LIST_DS,//频道数据
     B_LIST_SIZE = 8,
     c_list_begin = 0,
     c_list_index = 0,
-    C_LIST_SIZE = 3,
-    C_LIST_TOTAL = 3,//3天回看
-    d_list_begin = 0,
+
     d_list_index= 0,
-    SHADOW_SIZE = 1,//阴影个数
-    D_LIST_SIZE = 8;
-// D列显示长度
-var d_showLen = 15;
+    SHADOW_SIZE = 1;//阴影个数
 // B列显示长度
 var b_showLen = 8;
 function initPage() {
@@ -118,6 +113,7 @@ function initPage() {
     initPageInfo();
     getTagShowFocus('f_A_list_0')
 }
+//合并数组
 function initPageInfo() {
     PAGE_INFO = PAGE_INFO_A_LIST.concat(PAGE_INFO_B_LIST).concat(PAGE_INFO_C_LIST).concat(PAGE_INFO_D_LIST)
 }
@@ -129,6 +125,7 @@ function aList() {
     }
 }
 function loadPage() {
+    //取出频道列表信息
     CHANNEL_LIST_DS = channelData.data;
     for(var i =0,j=0;i<CHANNEL_LIST_DS.length;i++){
         var d = CHANNEL_LIST_DS[i];
@@ -204,7 +201,7 @@ function createBList(begin) {
     function renderList(level,opt) {
         var b_begin, b_index, c_begin, c_index, d_begin, channelId, date;
         var _opt = {
-            begin :opt.bengin || 0,
+            begin :opt.begin || 0,
             index : opt.index || 0
         };
         switch (level){
@@ -289,7 +286,6 @@ function a_list_up() {
 function a_list_right() {
     a_list_add_current();
     var next_offset = b_list_index - b_list_begin;
-    console.log(next_offset);
     getTagShowFocus('f_B_list_'+next_offset);
 }
 function a_list_add_current(){
@@ -298,11 +294,6 @@ function a_list_add_current(){
     addClass(id,'current');
 }
 function b_list_left() {
-    /*var index = ACTIVE_OBJECT.args[0];
-     for(var i in channelListMap){
-     var d = channelListMap[i];
-
-     }*/
     var offset = a_list_index - a_list_begin;
     var id = 'f_A_list_' + offset;
     removeClass(id,'current');
@@ -351,7 +342,6 @@ function b_list_page_up() {
     //记录位置
     b_list_index = tmp_index;
     b_list_begin--;
-    reset_c_index();
     changeAList();
 
     renderList('B', {
@@ -381,17 +371,11 @@ function b_list_page_down() {
 
 /////////////////////////////////////
 
-//重置下标
-function reset_b_index() {
-    b_list_index = channelListMap[a_list_index][0];
-}
 
 //重置下标
 function reset_b_index() {
     b_list_index = channelListMap[a_list_index][0];
-
 }
-
 function playChannel() {
     var channel = CHANNEL_LIST_DS[b_list_index];
     playLiveOrRec(channel.channelNumber);
