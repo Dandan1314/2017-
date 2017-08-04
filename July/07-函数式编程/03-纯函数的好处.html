@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>纯函数的好处</title>
+</head>
+<body>
+
+</body>
+<script>
+    //不纯
+    var minimum = 21;
+    var checkAge = function(age) {
+        return age >= minimum;
+    };
+    // 纯的
+    var checkAge = function(age) {
+        var minimum = 21;
+        return age >= minimum;
+    };
+//上面两个函数的区别其实就在于mininum的位置不同,由于第一个函数的mininum在外界随时可能改变,从而对内部结果产生了影响
+    //并不符合函数式编程的理念
+    var obj = {
+        a : 12
+    }
+    Object.freeze(
+          obj
+    )//冻结 可以让对象内的值不受外界的影响
+    obj.a = 15
+    console.log(obj.a);
+
+</script>
+</html>

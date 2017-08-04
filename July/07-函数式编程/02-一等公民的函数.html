@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>一等公民的函数</title>
+</head>
+<body>
+
+</body>
+<script>
+    //简单的例子
+    var hi = function(name){
+        return "Hi " + name;
+    };
+
+    var greeting = function(name) {
+        return hi(name);
+    };
+    var greeting = hi;
+    greeting("times");
+    //函数式编程总是希望,我们输入不同的值,但是输出结果却是相同的
+    //就像是splice和slice的区别
+</script>
+</html>
