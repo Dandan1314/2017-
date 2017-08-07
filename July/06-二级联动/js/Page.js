@@ -112,10 +112,16 @@ function initPage() {
     loadPage();
     getTagShowFocus('f_A_list_0')
 }
+for(var i=0;i<C_LIST_TOTAL;i++){
+    var d = new Date() ;
+    d.setDate(d.getDate()-i);
+    date_ds.push(d);
+}
 //合并数组
 function initPageInfo() {
     PAGE_INFO = PAGE_INFO_A_LIST.concat(PAGE_INFO_B_LIST).concat(PAGE_INFO_C_LIST).concat(PAGE_INFO_D_LIST)
 }
+
 function aList() {
     var typeNames = ['长春', '吉视', '央视', '卫视', '数字', '高清', '轮播'];
     //写入A LIST
@@ -182,7 +188,7 @@ function createBList(begin) {
                 pressDown: j < (B_LIST_SIZE - 1) ? b_list_down : b_list_page_down,
                 pressLeft: b_list_left,
                 pressRight: b_list_right,
-                pressOk: '',
+                pressOk: null,
                 args: [i, j],
                 focusImg: [],
                 showLength: b_showLen,
@@ -195,8 +201,7 @@ function createBList(begin) {
         b_list.innerHTML = items.join('');
     }
 }
-//生成时间
-    function creatCList(begin) {
+    function createCList(begin) {
         c_list_begin = begin;
         var size = C_LIST_SIZE + SHADOW_SIZE;
         var cList = $.getElem('c_list'),
@@ -210,11 +215,11 @@ function createBList(begin) {
         (end >= C_LIST_TOTAL) && (end = C_LIST_TOTAL);
         for(var i = begin,j = 0;i < end ;i++,j++){
             // date_ds[i].format('MM月dd日');
-            var name = '1111';
+            var name = date_ds[i].format('MM月dd日');
             var id = 'f_C_list_'+j;
             var className = [];
             //拼接
-            var item = '<li id=" '+ id + '" class=" ' + className.join('') + '">' + name + '</li>>';
+            var item = '<li id="'+ id + '" class="'+ className.join('') + '">'+ name +'</li>>';
             items.push(item);
             if(j<C_LIST_SIZE){
                 var info = {
@@ -238,36 +243,52 @@ function createBList(begin) {
 
     }
 //生成列表
-    function renderList(level,opt) {
-        var b_begin, b_index, c_begin, c_index, d_begin, channelId, date;
-        var _opt = {
-            begin :opt.begin || 0,
-            index : opt.index || 0
-        };
-        switch (level){
-            case 'A':
-                a_list_index = _opt.index;
-                b_begin = channelListMap[_opt.index][0];
-                createBList(b_begin);
-                creatCList(0);
-                date = date_ds[0];
-                b_index = b_begin;
-                channelId = CHANNEL_LIST_DS[b_index].channelId;
-                break
-            case 'B':
-                b_begin = _opt.begin;
-                createBList(b_begin);
-                creatCList(0)
-                date = date_ds[0];
-                b_index = _opt.index;
-                channelId = CHANNEL_LIST_DS[b_index].channelId;
-                break
-            default://返回
-                createBList(b_list_begin);
-                a_list_add_current();
-                break;
-        }
+function renderList(level, opt) {
+    var b_begin, b_index, c_begin, c_index, d_begin, channelId, date;
+    var _opt = {
+        begin : opt.begin || 0,
+        index : opt.index || 0
+    };
+    switch(level){
+        case 'A':
+            a_list_index = _opt.index;
+            reset_b_index();
+            b_begin = channelListMap[_opt.index][0];
+            createBList(b_begin);
+            createCList(0);
+            date = date_ds[0];
+            b_index = b_begin;
+            channelId = CHANNEL_LIST_DS[b_index].channelId;
+            break;
+        case 'B':
+            b_begin = _opt.begin;
+            createBList(b_begin);
+            createCList(0);
+            date = date_ds[0];
+            b_index = _opt.index;
+            channelId = CHANNEL_LIST_DS[b_index].channelId;
+            break;
+        case 'C':
+            c_begin = _opt.begin;
+            c_index = _opt.index;
+            createCList(c_begin);
+            date = date_ds[c_index];
+            b_index = b_list_index;
+            channelId = CHANNEL_LIST_DS[b_index].channelId;
+            break;
+        case 'D':
+            d_begin = _opt.begin;
+            createDList(d_begin);
+            break;
+        default://返回
+            createBList(b_list_begin);
+            createCList(c_list_begin);
+            date = date_ds[c_list_index];
+            channelId = CHANNEL_LIST_DS[b_list_index].channelId;
+            a_list_add_current();
+            break;
     }
+}
 //样式操作
 //增加样式
 function addClass(el,className) {
@@ -347,18 +368,19 @@ function b_list_left() {
      }*/
     var offset = a_list_index - a_list_begin;
     var id = 'f_A_list_' + offset;
-    removeClass('current', id);
+    removeClass(id,'current');
     getTagShowFocus(id);
 }
 function b_list_right() {
     b_list_add_current();
     var next_offset = c_list_index - c_list_begin;
     getTagShowFocus('f_C_list_' + next_offset);
+
 }
 function b_list_add_current(){
     var offset = b_list_index - b_list_begin;
     var id = 'f_B_list_' + offset;
-    addClass('current', id);
+    addClass(id,'current');
 }
 function b_list_up() {
     var tmp_index = ACTIVE_OBJECT.args[0] - 1;
@@ -392,25 +414,26 @@ function b_list_down() {
 }
 function b_chagne_cTop() {
     var index = b_list_index - b_list_begin;
-    removeClass('top0 top1 top2 top3 top4 top5', 'c_list');
+    removeClass('c_list','top0 top1 top2 top3 top4 top5');
     switch (index) {
         case 0:
-            addClass('top0', 'c_list');
+            addClass('c_list','top0');
             break;
         case 1:
-            addClass('top1', 'c_list');
+            addClass('c_list','top1');
             break;
         case 2:
-            addClass('top2', 'c_list');
+            addClass('c_list','top2');
             break;
         case 3:
-            addClass('top3', 'c_list');
+            addClass('c_list','top3');
             break;
         case 4:
-            addClass('top4', 'c_list');
+            addClass('c_list','top4');
             break;
+
         default:
-            addClass('top5', 'c_list');
+            addClass('c_list','top5');
     }
 }
 
@@ -452,7 +475,7 @@ function b_list_page_down() {
 function c_list_left() {
     var offset = b_list_index - b_list_begin;
     var id = 'f_B_list_' + offset;
-    removeClass('current', id);
+    removeClass(id,'current',);
     getTagShowFocus(id);
 }
 function c_list_right() {
@@ -462,7 +485,7 @@ function c_list_right() {
 function c_list_add_current(){
     var offset = c_list_index - c_list_begin;
     var id = 'f_C_list_' + offset;
-    addClass('current', id);
+    addClass(id,'current');
 }
 
 function c_list_up() {
@@ -532,11 +555,10 @@ function c_list_page_down() {
 function reset_b_index() {
     b_list_index = channelListMap[a_list_index][0];
     reset_c_index();
-    reset_d_index();
 }
 function reset_c_index() {
     c_list_index = 0;
-   
+
 }
 
 function changeAList(){
