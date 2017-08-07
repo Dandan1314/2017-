@@ -90,7 +90,6 @@ var PAGE_INFO_B_LIST = [];
 var PAGE_INFO_C_LIST = [];
 var PAGE_INFO_D_LIST = [];
 // 默认焦点
-var ACTIVE_OBJECT;
 var CHANNEL_LIST_DS,//频道数据
     channelListMap = {},
     date_ds = [],//日期数据(7条)
@@ -102,15 +101,15 @@ var CHANNEL_LIST_DS,//频道数据
     B_LIST_SIZE = 8,
     c_list_begin = 0,
     c_list_index = 0,
-
-    d_list_index= 0,
-    SHADOW_SIZE = 1;//阴影个数
-// B列显示长度
-var b_showLen = 8;
+    C_LIST_SIZE = 3,
+    C_LIST_TOTAL = 3,//3天回看
+    d_list_begin = 0,
+    SHADOW_SIZE = 1,//阴影个数
+    D_LIST_SIZE = 8;
+var b_showLen = 8
 function initPage() {
     $.initPage();
     loadPage();
-    initPageInfo();
     getTagShowFocus('f_A_list_0')
 }
 //合并数组
@@ -124,6 +123,7 @@ function aList() {
         $.getElem('f_A_list_' + i).innerHTML = typeNames[i];
     }
 }
+
 function loadPage() {
     //取出频道列表信息
     CHANNEL_LIST_DS = channelData.data;
@@ -133,7 +133,6 @@ function loadPage() {
             j =0;
         }else if(d.channelNumber <= 200){//吉林
           j=1
-            // channelListMap[j] || (channelListMap[j] = [i]);
         }else if (d.channelNumber <= 300){//央视
             j=2;
         }else if(d.channelNumber <= 400){
@@ -183,7 +182,7 @@ function createBList(begin) {
                 pressDown: j < (B_LIST_SIZE - 1) ? b_list_down : b_list_page_down,
                 pressLeft: b_list_left,
                 pressRight: b_list_right,
-                pressOk: playChannel,
+                pressOk: '',
                 args: [i, j],
                 focusImg: [],
                 showLength: b_showLen,
@@ -196,7 +195,48 @@ function createBList(begin) {
         b_list.innerHTML = items.join('');
     }
 }
+//生成时间
+    function creatCList(begin) {
+        c_list_begin = begin;
+        var size = C_LIST_SIZE + SHADOW_SIZE;
+        var cList = $.getElem('c_list'),
+            dList = $.getElem('d_list');
+        //清空
+        cList.innerHTML = '';
+        dList.innerHTML = '';
+        PAGE_INFO_C_LIST = [];
+        var items = [];
+        var end = begin + size;
+        (end >= C_LIST_TOTAL) && (end = C_LIST_TOTAL);
+        for(var i = begin,j = 0;i < end ;i++,j++){
+            // date_ds[i].format('MM月dd日');
+            var name = '1111';
+            var id = 'f_C_list_'+j;
+            var className = [];
+            //拼接
+            var item = '<li id=" '+ id + '" class=" ' + className.join('') + '">' + name + '</li>>';
+            items.push(item);
+            if(j<C_LIST_SIZE){
+                var info = {
+                    key : id,
+                    pressUp: j > 0 ? c_list_up : c_list_page_up,
+                    pressDown: j < (C_LIST_SIZE - 1) ? c_list_down : c_list_page_down,
+                    pressLeft: c_list_left,
+                    pressRight: c_list_right,
+                    pressOk: null,
+                    args: [i, j],
+                    focusImg: [],
+                    showLength: '',
+                    wholeMsg: ''
+                };
+                PAGE_INFO_C_LIST.push(info)
+            }
+        }
+        initPageInfo();
+        cList.innerHTML = items.join('');
+        b_chagne_cTop();
 
+    }
 //生成列表
     function renderList(level,opt) {
         var b_begin, b_index, c_begin, c_index, d_begin, channelId, date;
@@ -209,6 +249,7 @@ function createBList(begin) {
                 a_list_index = _opt.index;
                 b_begin = channelListMap[_opt.index][0];
                 createBList(b_begin);
+                creatCList(0);
                 date = date_ds[0];
                 b_index = b_begin;
                 channelId = CHANNEL_LIST_DS[b_index].channelId;
@@ -216,6 +257,7 @@ function createBList(begin) {
             case 'B':
                 b_begin = _opt.begin;
                 createBList(b_begin);
+                creatCList(0)
                 date = date_ds[0];
                 b_index = _opt.index;
                 channelId = CHANNEL_LIST_DS[b_index].channelId;
@@ -225,7 +267,6 @@ function createBList(begin) {
                 a_list_add_current();
                 break;
         }
-
     }
 //样式操作
 //增加样式
@@ -247,17 +288,21 @@ var getTargetObj = $.getTargetObj;
 $.getTargetObj = function (keyOrFn) {
     typeof keyOrFn === 'function' ? (keyOrFn()) : (getTargetObj(keyOrFn));
 }
+
 //重写showFocusBorder
+// 由于是添加样式所以重写
 $.showFocusBorder = function () {
     hideFocusBorder();
     var id = ACTIVE_OBJECT.key;
     //显示焦点框
     addClass(id,'focusBorder');
 }
+//获取焦点,展示边框
 function getTagShowFocus(key) {
-    $.getTargetObj(key)
+    $.getTargetObj(key);
     $.showFocusBorder();
 }
+//隐藏边框
 function hideFocusBorder() {
     var oldEl = UTIL.getElByClass('focusBorder',document.body)[0];
     oldEl &&(removeClass(oldEl,'focusBorder'))
@@ -293,10 +338,16 @@ function a_list_add_current(){
     var id = 'f_A_list_' + offset;
     addClass(id,'current');
 }
+//Blist
 function b_list_left() {
+    /*var index = ACTIVE_OBJECT.args[0];
+     for(var i in channelListMap){
+     var d = channelListMap[i];
+
+     }*/
     var offset = a_list_index - a_list_begin;
     var id = 'f_A_list_' + offset;
-    removeClass(id,'current');
+    removeClass('current', id);
     getTagShowFocus(id);
 }
 function b_list_right() {
@@ -306,8 +357,8 @@ function b_list_right() {
 }
 function b_list_add_current(){
     var offset = b_list_index - b_list_begin;
-    var id = 'f_B_list' + offset;
-    addClass(id,'current');
+    var id = 'f_B_list_' + offset;
+    addClass('current', id);
 }
 function b_list_up() {
     var tmp_index = ACTIVE_OBJECT.args[0] - 1;
@@ -315,7 +366,9 @@ function b_list_up() {
     if(tmp_index < 0)return;
     //记录位置
     b_list_index = tmp_index;
+    reset_c_index();
     changeAList();
+
     renderList('C', {
         index : 0,
         begin : 0
@@ -329,6 +382,7 @@ function b_list_down() {
     if(tmp_index >= CHANNEL_LIST_DS.length)return;
     //记录位置
     b_list_index = tmp_index;
+    reset_c_index();
     changeAList();
     renderList('C', {
         index : 0,
@@ -336,12 +390,38 @@ function b_list_down() {
     });
     getTagShowFocus('f_B_list_' + tmp_offset);
 }
+function b_chagne_cTop() {
+    var index = b_list_index - b_list_begin;
+    removeClass('top0 top1 top2 top3 top4 top5', 'c_list');
+    switch (index) {
+        case 0:
+            addClass('top0', 'c_list');
+            break;
+        case 1:
+            addClass('top1', 'c_list');
+            break;
+        case 2:
+            addClass('top2', 'c_list');
+            break;
+        case 3:
+            addClass('top3', 'c_list');
+            break;
+        case 4:
+            addClass('top4', 'c_list');
+            break;
+        default:
+            addClass('top5', 'c_list');
+    }
+}
+
+
 function b_list_page_up() {
     var tmp_index = ACTIVE_OBJECT.args[0] - 1;
     if(tmp_index < 0)return;
     //记录位置
     b_list_index = tmp_index;
     b_list_begin--;
+    reset_c_index();
     changeAList();
 
     renderList('B', {
@@ -358,6 +438,7 @@ function b_list_page_down() {
     //记录位置
     b_list_index = tmp_index;
     b_list_begin++;
+    reset_c_index();
     changeAList();
 
     renderList('B', {
@@ -367,6 +448,81 @@ function b_list_page_down() {
     //最后一个
     getTagShowFocus('f_B_list_' + (B_LIST_SIZE - 1));
 }
+//Clist
+function c_list_left() {
+    var offset = b_list_index - b_list_begin;
+    var id = 'f_B_list_' + offset;
+    removeClass('current', id);
+    getTagShowFocus(id);
+}
+function c_list_right() {
+    c_list_add_current();
+    getTagShowFocus('f_D_list_0');
+}
+function c_list_add_current(){
+    var offset = c_list_index - c_list_begin;
+    var id = 'f_C_list_' + offset;
+    addClass('current', id);
+}
+
+function c_list_up() {
+    var tmp_index = ACTIVE_OBJECT.args[0] - 1;
+    var tmp_offset = ACTIVE_OBJECT.args[1] - 1;
+    if(tmp_index < 0)return;
+    //记录位置
+    c_list_index = tmp_index;
+
+    renderList('C', {
+        index : tmp_index,
+        begin : c_list_begin
+    });
+    getTagShowFocus('f_C_list_' + tmp_offset);
+}
+
+function c_list_down() {
+    var tmp_index = ACTIVE_OBJECT.args[0] + 1;
+    var tmp_offset = ACTIVE_OBJECT.args[1] + 1;
+    if(tmp_index >= C_LIST_TOTAL)return;
+    //记录位置
+    c_list_index = tmp_index;
+
+    renderList('C', {
+        index : tmp_index,
+        begin : c_list_begin
+    });
+    getTagShowFocus('f_C_list_' + tmp_offset);
+}
+
+function c_list_page_up() {
+    var tmp_index = ACTIVE_OBJECT.args[0] - 1;
+    if(tmp_index < 0)return;
+    //记录位置
+    c_list_index = tmp_index;
+    c_list_begin--;
+
+    renderList('C', {
+        index : tmp_index,
+        begin : c_list_begin
+    });
+    //第一个
+    getTagShowFocus('f_C_list_0');
+}
+
+function c_list_page_down() {
+    var tmp_index = ACTIVE_OBJECT.args[0] + 1;
+    if(tmp_index >= C_LIST_TOTAL)return;
+    //记录位置
+    c_list_index = tmp_index;
+    c_list_begin++;
+
+
+    renderList('C', {
+        index : tmp_index,
+        begin : c_list_begin
+    });
+    //最后一个
+    getTagShowFocus('f_C_list_' + (C_LIST_SIZE - 1));
+}
 
 
 /////////////////////////////////////
@@ -375,11 +531,14 @@ function b_list_page_down() {
 //重置下标
 function reset_b_index() {
     b_list_index = channelListMap[a_list_index][0];
+    reset_c_index();
+    reset_d_index();
 }
-function playChannel() {
-    var channel = CHANNEL_LIST_DS[b_list_index];
-    playLiveOrRec(channel.channelNumber);
+function reset_c_index() {
+    c_list_index = 0;
+   
 }
+
 function changeAList(){
     var tmp_index = a_list_index;
     for(var i in channelListMap){

@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="page-view-size" content="1280*720">
+    <title>主页</title>
+    <style>
+        body{
+            width: 1280px;
+            height: 720px;
+            margin: 0;
+            overflow: hidden;
+            background: transparent;
+        }
+    </style>
+    <script src="js/socket.io.js"></script>
+    <script>
+        var GLOBAL_NODE = 'huawei';
+    </script>
+    <script>
+        var isTest = /79:4000/.test(window.location.host);
+        //绑定服务地址
+        var BIND_SERVER = 'http://221.8.109.105:3100/';
+        //双屏服务地址
+        var RCTL_SERVER = 'http://221.8.109.105:3200/';
+        //动态服务地址
+        var GLOBAL_MONGO_DB_URL = 'http://221.8.109.74:9999/';
+        //预订服务地址
+        var GLOBAL_RESERVATION_URL = 'http://221.8.109.74:3000/';
+        //数据收集服务地址
+        var GLOBAL_DC_URL = 'http://221.8.109.73:9080/EPGDataAnalysis/ReciveServlet';
+        //节点号
+        var GLOBAL_DIST_NODE = '1100000001';
+
+        //测试地址
+        if(isTest){
+            GLOBAL_MONGO_DB_URL = 'http://221.8.109.79:9999/';//动态服务
+            GLOBAL_RESERVATION_URL = 'http://221.8.109.79:3000/';//预订服务
+        }
+
+        var url = window.location.href;
+        var strRegex = "^((?:https|http|ftp|rtsp|mms)?://(?:[0-9]{1,3}\.){3}[0-9]{1,3}.*/)pub/([A-Za-z1-9_-]+/)([A-Za-z1-9_-]+/).*$";
+        var reg = new RegExp(strRegex);
+        reg.exec(url.split("?")[0]);
+
+        //EPG前置
+        GLOBAL_PATH_PREFIX = RegExp.$1;
+        //分发域
+        GLOBAL_STB_NAME = RegExp.$2;
+        //站点
+        GLOBAL_SITE_NAME = RegExp.$3;
+        var pubUrl = 'pub/';
+
+        //常量
+        var CONSTANT = {
+            "isTest" : isTest,//开发环境标记
+            "serverUrl" : GLOBAL_PATH_PREFIX + pubUrl,//pub/目录
+            "baseUrl" : GLOBAL_PATH_PREFIX + pubUrl + GLOBAL_STB_NAME,//分发域目录
+            "siteUrl" : GLOBAL_PATH_PREFIX + pubUrl + GLOBAL_STB_NAME + GLOBAL_SITE_NAME,//站点目录
+            "resources" : GLOBAL_PATH_PREFIX + pubUrl + 'resources/',//resources目录
+            "stbName" : GLOBAL_STB_NAME,//分发域
+            "siteName" : GLOBAL_SITE_NAME,//站点
+            "mongoDBUrl" : GLOBAL_MONGO_DB_URL,//动态服务
+            "reservationUrl" : GLOBAL_RESERVATION_URL,//预定
+            "dcUrl" : GLOBAL_DC_URL,//数据收集
+            "node" : GLOBAL_NODE,//节点
+            "picServerUrl" : GLOBAL_PATH_PREFIX + "pic/"//图片
+        };
+        CONSTANT.homePage = CONSTANT.siteUrl + 'homeFlat/index.html?POSITIVE';
+        CONSTANT.searchPage = CONSTANT.siteUrl + 'searchFlat/index.html';
+        CONSTANT.redPage = CONSTANT.siteUrl + 'channelListFlat/index.html';
+        CONSTANT.greenPage = CONSTANT.siteUrl + 'channelListFlat/index.html';
+        CONSTANT.yellowPage = CONSTANT.siteUrl + 'homeFlat/index.html?pos=KEY_DIBBLING';
+        CONSTANT.bluePage = CONSTANT.siteUrl + 'homeFlat/index.html?pos=KEY_INFORMATION';
+        var $,
+                cwindow,
+                epgDomainHome = '',
+                epgDomain = epgDomain(),
+                userId = Authentication.CTCGetConfig("UserID"),
+                bindId = '0432002' + GLOBAL_NODE + '_' + userId,
+                stbId = Authentication.CUGetConfig("STBID");
+        function epgDomain() {
+            var tmpdomain = Authentication.CUGetConfig('EPGDomain');
+            /(http:\/\/\d+\.\d+\.\d+\.\d+\:\d+\/)(iptvepg\/)?/.test(tmpdomain);
+            epgDomainHome = RegExp.$2;
+            return RegExp.$1;
+        }
+
+        function load(){
+            var curl = CONSTANT.homePage;
+            if(!cwindow){
+                var topFrame = document.getElementById('topFrame');
+                cwindow = topFrame.contentWindow;
+            }
+            cwindow.location.href = curl;
+            checkActive();
+        }
+        function initPage(){
+            var topFrame = document.getElementById('topFrame');
+            cwindow = topFrame.contentWindow;
+            $ = cwindow.$;
+        }
+        document.onkeypress = function(e){
+            if(cwindow && $){
+                $.keyEvent(e || event);
+            }
+        };
+        /**
+         * 存储数据
+         */
+        var __localStorage = {};
+        function setItem(key, value){
+            __localStorage[key] = value;
+        }
+        function getItem(key){
+            return __localStorage[key];
+        }
+        function removeItem(key){
+            delete __localStorage[key];
+        }
+
+        /**
+         * 直播数据
+         */
+        var showCC = false;
+        var userGroup = Authentication.CUGetConfig("userGroupInfo");
+        if('11901' == userGroup || '11111' == userGroup){//长春:11901  11111:中心区域  -1:所有区域
+            showCC = true;
+        }
+        //直播频道MAP
+        var channelMap = {};
+        //channelListMap
+        var channelListMap = {};
+        //直播频道数组 dataSource/channelList/1100000001/index.js
+        var CHANNEL_LIST_DS = [];
+        var CHANNEL_LIST_NAME = ['长春', '吉视', '央视', '卫视', '数字', '高清', '轮播'];
+        //直播频道信息
+        function channelListCallback(dataset){
+            CHANNEL_LIST_DS = dataset.data || [];
+            var begin = showCC ? 0 : -1;
+            //删除CC频道
+            if(!showCC){
+                var tmp = [];
+                for(var i = 0; i < CHANNEL_LIST_DS.length; i++){
+                    var d = CHANNEL_LIST_DS[i];
+                    if(d.channelNumber > 10){//长春
+                        tmp.push(d);
+                    }
+                }
+                CHANNEL_LIST_DS = tmp;
+                CHANNEL_LIST_NAME.shift();
+            }
+            for(var i = 0, j = 0; i < CHANNEL_LIST_DS.length; i++){
+                var d = CHANNEL_LIST_DS[i];
+                //添加channelMap
+                channelMap[d.channelNumber] = d;
+                //添加channelListMap
+                if(d.channelNumber <= 10){//长春
+                    j = begin;
+                    channelListMap[j] || (channelListMap[j] = [i]);
+                }else if(d.channelNumber <= 200){//吉视
+                    j = begin + 1;
+                    channelListMap[j] || (channelListMap[j] = [i]);
+                }else if(d.channelNumber <= 300){//央视
+                    j = begin + 2;
+                    channelListMap[j] || (channelListMap[j] = [i]);
+                }else if(d.channelNumber <= 400){//卫视
+                    j = begin + 3;
+                    channelListMap[j] || (channelListMap[j] = [i]);
+                }else if(d.channelNumber < 500){//数字
+                    j = begin + 4;
+                    channelListMap[j] || (channelListMap[j] = [i]);
+                }else if(d.channelNumber <= 600){//高清
+                    j = begin + 5;
+                    channelListMap[j] || (channelListMap[j] = [i]);
+                }else{//轮播
+                    j = begin + 6;
+                    channelListMap[j] || (channelListMap[j] = [i]);
+                }
+                channelListMap[j][1] = i + 1;
+            }
+        }
+        var jsonp = function() {
+            var scripts = [];
+            return function(url, cache, timeout, timeoutFn){
+                var node,
+                        head = document.getElementsByTagName('head')[0];
+                if (scripts.length > 10) {
+                    head.removeChild(scripts.shift());
+                }
+                node = document.createElement('script');
+                node.type = 'text/javascript';
+                node.charset = 'UTF-8';
+                if (!cache) {
+                    url = url + (/\?/.test(url) ? '&' : '?') + Math.random();
+                }
+                node.src = url;
+                head.appendChild(node);
+                scripts.push(node);
+                if(timeout > 20 && typeof timeoutFn === 'function'){
+                    // setTimeout(timeoutFn, timeout);
+                }
+            };
+        }();
+    </script>
+    <!-- 双屏互动 -->
+    <script>
+        var SOCKET,
+                mobileIds = {},
+                lastPingTime = 0,
+                pingLostTime = 1000 * 60 * 10,
+                checkPingTimer,
+                checkOnlineTimer;
+        function checkPingStart(){
+            clearTimeout(checkPingTimer);
+            checkPingTimer = setTimeout(offLineSocket, pingLostTime);
+        }
+        //检测手机状态
+        function checkActive() {
+            jsonp(BIND_SERVER + 'user/mobileInfo/' + bindId + '/activeCallback', false, 2000, checkActive);
+        }
+        function activeCallback(result) {
+            if (result && result.code === 1) {
+                if(!SOCKET){
+                    checkOnlineStart();
+                }
+            }
+        }
+        function getMobileInfos(result){
+            if(result){
+                mobileInfosCallback(result);
+            }else{
+                jsonp(BIND_SERVER + 'user/mobileInfos/' + bindId + '/mobileInfosCallback');
+            }
+        }
+        function mobileInfosCallback(result){
+            var hasMobileActive = false;
+            if (result && result.code === 1) {
+                mobileIds = {};
+                for(var i in result.data){
+                    var d = result.data[i];
+                    if(d && d.active){
+                        mobileIds[d.mobileId] = d.mobileId;
+                        hasMobileActive = true;
+                    }
+                }
+                if(!SOCKET && hasMobileActive){
+                    checkActive();
+                }
+            }
+            if(!hasMobileActive){
+                clearTimeout(checkOnlineTimer);
+                // offLineSocket();
+            }
+        }
+        //检测手机是否被激活
+        function checkMobileActive(mobileId){
+            return !!mobileIds[mobileId];
+        }
+        function checkOnlineStart(){
+            clearTimeout(checkOnlineTimer);
+            checkOnlineTimer = setTimeout(checkOnline, 2000);
+        }
+        function checkOnline() {
+            jsonp(BIND_SERVER + 'user/shouldOnline/' + bindId + '/onlineCallback', false, 4000, onlineCallback);
+        }
+        function onlineCallback(result) {
+            out('checkOnline result ' + JSON.stringify(result));
+            if (result && result.code === 1) {
+                connectSocket();
+            } else {
+                checkOnlineStart();
+            }
+        }
+        function connectSocket(){
+            out('connectSocket');
+            SOCKET = io(RCTL_SERVER);
+            SOCKET.on('connect', function(){
+                out('login : ' + bindId);
+                SOCKET.emit('login', bindId);
+                checkPingStart();
+            });
+
+            SOCKET.on('order', function(order) {
+                var mobileId = order.split("*")[0];
+                var msg = order.split("*")[1];
+                socketOrder(mobileId, msg);
+            });
+
+            SOCKET.on('u_ping', function(data){
+                var cmd = data.split('*');
+                var mobileId = cmd[0];
+                if(!socketOrderPre(mobileId)){
+                    return;
+                }
+                out('PONG PONG PONG PONG PONG PONG');
+                SOCKET.emit('u_ping', bindId + '*' + mobileId + '*PONG');
+                lastPingTime = new Date();
+                checkPingStart();
+            });
+
+            SOCKET.on('error', function(err) {
+                out(err);
+                if (err) {
+                    SOCKET.disconnect();
+                    SOCKET = null;
+                    //checkOnline
+                    checkOnlineStart();
+                }
+            });
+            SOCKET.on('connect_error', function(err) {
+                out('connect_error : ' + err);
+            });
+
+            SOCKET.on('disconnect', function() {
+                out('disconnected, will reconnect automatically soon');
+            });
+            //加载可用手机列表
+            getMobileInfos();
+        }
+        function offLineSocket(){
+            out('offLineSocket , lastPingTime :' + lastPingTime);
+            if(SOCKET){
+                jsonp(BIND_SERVER + 'user/setOffline/bindId/' + bindId + '/setOfflineCallback');
+                SOCKET.emit('logout', bindId);
+                SOCKET.disconnect();
+                SOCKET = null;
+                //checkOnline
+                checkOnlineStart();
+            }
+        }
+        function setOfflineCallback(d){
+            out('setOfflineCallback ' + JSON.stringify(d));
+        }
+        //阻止未激活的手机操作
+        function socketOrderPre(mobileId, key){
+            if(!checkMobileActive(mobileId)){
+                out('not active : ' + mobileId);
+                if(key == 'PLAYCTL'){//返回pull的命令
+                    orderOk(mobileId, false, 'pull');
+                }else{
+                    orderOk(mobileId, false);
+                }
+                return false;
+            }
+            return true;
+        }
+        function socketOrder(mobileId, msg){
+            out(msg);
+            var params = msg.split('@');
+            if(params.length <= 1){
+                params = msg.split('_');
+            }
+            var key = params.shift();
+            if(!socketOrderPre(mobileId, key)){
+                return;
+            }
+            var ctrlFn = REMOTE_CTRL[key];
+            if(ctrlFn){
+                ctrlFn(mobileId, params);
+            }
+        }
+        function orderOk(mobileId, success, pull){
+            var backObj;
+            var type = pull ? 'pull' : 'push';
+            if(success){
+                var backObj = {'type': type,'code': '1'}
+            }else{
+                var backObj = {'type': type,'code': '-1','errorType':'1'}
+            }
+            SOCKET.emit('stb_order', bindId + '*' + mobileId + '*' + JSON.stringify(backObj));
+        }
+        var REMOTE_CTRL = {
+            CHANNEL : function(mobileId, params){//直播或时移
+                if(params[0]){
+                    var num = params[0];
+                    var playTime = params[1];
+                    out('playTime ' + playTime);
+                    $.playLiveOrRec(num, null, null, playTime);
+                    orderOk(mobileId, true);
+                }else{
+                    orderOk(mobileId, false);
+                }
+            },
+            PUSH_TO_TV : function(mobileId, params){
+                var COMMON_MS_CATEGORY_ID = 'mobile';
+                var contentId = params[0];
+                var playTime = params[1];
+                if(params.length == 2){//VOD
+                    $.playVideoByTime(contentId, COMMON_MS_CATEGORY_ID, null, playTime);
+                    orderOk(mobileId, true);
+                }else if(params.length == 3){//SERIES
+                    var seriesId = params[0];//剧头ID
+                    contentId = params[1];//子集ID
+                    playTime = params[2];
+                    $.playVideoByTime(contentId, COMMON_MS_CATEGORY_ID, seriesId, playTime);
+                    orderOk(mobileId, true);
+                }else{
+                    orderOk(mobileId, false);
+                }
+            },
+            CTRL : function(mobileId, params){
+                if(params.length){
+                    $.keyEvent({keyCode:params[0]});
+                    orderOk(mobileId, true);
+                }else{
+                    orderOk(mobileId, false);
+                }
+            },
+            PUSH_TVOD_TO_TV : function(mobileId, msg){
+                if (msg.length == 4) {
+                    var channelNum = msg[0];
+                    var startTime = msg[1];
+                    var endTime = msg[2];
+                    var playTime = msg[3];
+                    orderOk(mobileId, true);
+                    $.playLiveOrRec(channelNum, startTime, endTime, playTime);
+                }else{
+                    orderOk(mobileId, false);
+                }
+            },
+            PLAYCTL : function(mobileId, msg){
+                var errObj = {"type":"pull","code":"-1","errorType":"1"};
+                var outObj;
+                if(cwindow && cwindow.getPlayInfo){
+                    outObj = cwindow.getPlayInfo();
+                }
+                if(!outObj){
+                    outObj = errObj;
+                }
+                out(JSON.stringify(outObj));
+                SOCKET.emit('stb_order', bindId + '*' + mobileId + '*' + JSON.stringify(outObj));
+            }
+        };
+    </script>
+    <script src="../../../dataSource/channelList/1100000001Flat/index.js"></script>
+</head>
+<body onload="load()">
+<div id="out" style="color: green;font-size: 20px;z-index: 100;left:30px;top:30px;position:absolute;"></div>
+<script>
+    var out = function() {
+        var __icount = 0,
+                __outE;
+        return function(msg, maxLen) {
+            if(window.isTest){
+                if (!__outE) {
+                    __outE = document.getElementById('out');
+                }
+                if (__outE) {
+                    if (++__icount > 20) {
+                        __icount = 0;
+                        __outE.innerHTML = '';
+                    }
+                    __outE.innerHTML += (((maxLen && msg.length > maxLen) ? (msg.substring(0, maxLen) + '...') : msg) + '<br/>');
+                }
+            }
+        };
+    }();
+    if(isTest){
+        out(':) hello tester!');
+    }
+</script>
+<iframe style="position:absolute;left:0px;top:0px;width:1280px;height:720px;" id="topFrame" name="child" frameBorder=0 scrolling=no src=""></iframe>
+<!-- JSP数据 -->
+<script>
+    /*getMiniEPG(1, function(data){
+     log(JSON.stringify(data))
+     });*/
+    /*loadJspTvodData(1, '20170410034800', '20170410044000', function(data){
+     log(JSON.stringify(data))
+     });*/
+    /*var vod = {
+     contentId : '10001110000000000000000000127739',
+     categoryId : '20001110000000000000000000001349',
+     mediaType : '1',//播放类别：片花，正片 : 1
+     seriesId : ''//剧头
+     };
+     loadJspVodData(vod, function(data){
+     log(JSON.stringify(data))
+     });*/
+
+    /*var series = {
+     contentId : '10001110000000000000000000129823',
+     categoryId : '20001110000000000000000000000069',
+     mediaType : '1',//播放类别：片花，正片 : 1
+     seriesId : '10001110000000000000000000129822'//剧头
+     };
+     loadJspVodData(series, function(data){
+     log(JSON.stringify(data))
+     });*/
+    //获取直播播放信息
+    function getMiniEPG(channelNum, callback) {
+        var jspPath = epgDomain + epgDomainHome + "EPG/jsp/default/jsdata/CHANNEL_MINI_DATA.jsp";
+        var channelId = channelMap[channelNum].realNum;
+        if(!channelId){
+            callback();
+            return;
+        }
+        var url = jspPath + "?CHANNELID=" + channelId + "&channelnum=" + channelNum;//用channelIds里的值
+        url += '&callback=showInfoCallBack';
+        $.loaderData(url, {
+            success : function(data){
+                /*data = {
+                 curName : "",
+                 curTime : "",
+                 nextProgName : "",
+                 nextTime : "",
+                 mediacode : "",
+                 channelName : ""
+                 }*/
+                if(data){
+                    data.channelName = (data.channelName || '').replace('现网', '');
+                }
+                typeof callback === 'function' && callback(data);
+            },
+            error : function(){
+                typeof callback === 'function' && callback();
+            },
+            timeout : 1000,
+            jsonpName : 'showInfoCallBack'
+        });
+    }
+    //回看
+    function loadJspTvodData(channelNum, startTime, endTime, callback){
+        var jspPrePath = epgDomain + epgDomainHome + "EPG/jsp/default/jsdata/TVOD_DATA_PRE.jsp";
+        //startTime EndTime  格式 yyyymmddhhmmss
+        //ChannelNum=1&StartTime=" + startTime + "&EndTime=" + endTime
+        var preParams = {
+            ChannelNum : channelNum,
+            StartTime : startTime,
+            EndTime : endTime,
+            callback : 'jspPreCallBack'
+        };
+        var urlPre = $.search.append(jspPrePath, preParams);
+
+        var errReturn = {
+            isSuccess : false
+        };
+        $.loaderData(urlPre, {
+            success : function(params){
+                var jspPath = epgDomain + epgDomainHome + "EPG/jsp/default/jsdata/TVOD_DATA.jsp";
+                var url = jspPath + "?" + params + "&callback=jspTvodDataCallBack";
+                //没有参数PROGID，认为没有成功
+                if(/PROGID=[^&]+/.test(params)){
+                    $.loaderData(url , {
+                        success : function(data){
+                            /*data = {
+                             isSuccess : true,
+                             cInfo : {
+                             progId : "<%=iProgId%>",     //当前播放的vodid
+                             playUrl : "<%=playUrl%>", 	 //触发机顶盒播放url
+                             vodName : "<%=progName%>", 	//本vod的名字
+                             hasNext : <%=hasNext%>,//是否存在下一个节目单
+                             nextVodName : "<%=nextVodName%>",//下一节目名字
+                             nextBeginTime : "<%=nextBeginTime%>",//下一节开始时间
+                             nextEndTime : "<%=nextEndTime%>",//下一节结束时间
+                             tmpChannelName : "<%=tmpChannelName%>"//当前频道名称
+                             }
+                             };*/
+                            //修改返回结果
+                            if(data && typeof data.isSucess !== 'undefined'){
+                                data.isSuccess = data.isSucess;
+                                delete data.isSucess;
+                            }
+                            typeof callback === 'function' && callback(data);
+                        },
+                        error : function(){
+                            typeof callback === 'function' && callback(errReturn);
+                        },
+                        timeout : 1000,
+                        jsonpName : 'jspTvodDataCallBack'
+                    });
+                }else{
+                    typeof callback === 'function' && callback(errReturn);
+                }
+            },
+            error : function(){
+                typeof callback === 'function' && callback(errReturn);
+            },
+            timeout : 1000,
+            jsonpName : 'jspPreCallBack'
+        });
+    }
+    //点播
+    function loadJspVodData(opt, callback){
+        var jspPath = epgDomain + epgDomainHome + "EPG/jsp/default/jsdata/VOD_DATA.jsp";
+        //华为6位
+        //中兴22位
+        //广电32位
+        var params = {
+            ContentID : opt.contentId,//内容
+            categoryId : opt.categoryId,//分类
+            seriesId : opt.seriesId || '',//剧头
+            contentType : ((opt.contentId + "").length < 32 ? 2 : 1),//"VOD" : "1",  "LANVOD" : "2"
+            mediaType : opt.mediaType || 1,//播放类别：5:片花; 1:正片
+            breakpoint : opt.breakpoint || 0,
+            callback : "jspVodDataCallBack"
+        };
+        var url = $.search.append(jspPath, params);
+        $.loaderData(url, {
+            success : function(data){
+                /*data = {
+                 isSuccess : true,
+                 cInfo : {
+                 isAssess : false, //是否是片花播放
+                 isSeries : false,//子集标记
+                 isVodPlayPianHuaStatus : false,// vod以片花形式播放FLG false-假   true-真
+
+                 seriesId : '',//剧头ID,跟传入的一样
+                 progId : '',//当前播放的vodid 6位）
+                 vodName : "",//影片名
+                 director : "暂无信息",//导演
+                 actor : "暂无信息",//演员
+                 introduce : "暂无信息",//简介
+                 playUrl : '',//触发机顶盒播放url
+
+                 sceneNum : 0,//当前子集集数
+                 seriesName : "",//剧集名称
+                 sitcomNum : 0,//子集总数
+                 sitcomUpdateNum : 0,//更新至子集数
+                 senceIds : [],
+                 sceneNums : [],
+                 ContentIDGD : ""//剧头32位ID赋值
+                 }
+                 };*/
+                if(data && data.isSuccess && data.cInfo){
+                    if(data.cInfo.isSeries === '0'){//剧集时
+                        data.cInfo.isSeries = true;
+                        //转换成数据，但里面的数据就不是字符串而是数字类型
+                        data.cInfo.senceIds = $.parse(data.cInfo.senceIds || '[]');
+                        data.cInfo.sceneNums = $.parse(data.cInfo.sceneNums || '[]');
+                        data.cInfo.sitcomNum = +data.cInfo.sitcomNum;
+                        data.cInfo.sitcomUpdateNum = data.cInfo.senceIds.length;
+                        out(data.cInfo.sitcomNum);
+                        out(data.cInfo.senceIds.length);
+                        out(data.cInfo.sceneNums.length);
+                        var progId = data.cInfo.progId;
+                        for(var i in data.cInfo.senceIds){
+                            var pid = data.cInfo.senceIds[i];
+                            if(progId == pid){
+                                data.cInfo.sceneNum = data.cInfo.sceneNums[i];
+                                break;
+                            }
+                        }
+                    }else{
+                        data.cInfo.isSeries = false;
+                    }
+                }
+                typeof callback === 'function' && callback(data);
+            },
+            error : function(){
+                typeof callback === 'function' && callback();
+            },
+            timeout : 1000,
+            jsonpName : 'jspVodDataCallBack'
+        });
+    }
+</script>
+<!-- 数据收集 -->
+<script>
+    function getDcBaseInfo(){
+        var info = {
+            userid : userId,
+            stbid : stbId,
+            stbtype : 2,
+            processtype : 'MapInfoProcess',
+            version : 2,
+            time : new cwindow.Date().format('yyyyMMddhhmmss')//20120101101033
+        };
+        return info;
+    }
+    var VS = {
+        first : true,
+        firstBoot : function(){
+            if(!this.first)return;
+            this.first = false;
+            var analysistype = 'login';
+            this.send({
+                analysistype : analysistype,
+                MAC : Authentication.CUGetConfig("mac"),
+                stbModel : Authentication.CUGetConfig("STBType")
+            });
+        },
+        vodPlay: function(mediacode, duration, name, categoryId) {
+            var analysistype = 'vodbegin';
+            this.send({
+                vodid : mediacode,
+                times : duration,
+                vodname : name,
+                analysistype : analysistype,
+                colid : categoryId
+            });
+        },
+        serialPlay: function(mediacode, duration, name, categoryId) {
+            var analysistype = 'vodseriesbegin';
+            this.send({
+                vodid : mediacode,
+                times : duration,
+                vodname : name,
+                analysistype : analysistype,
+                colid : categoryId
+            });
+        },
+        tvodPlay: function(tvodchno, duration, name, begintime) {
+            var analysistype = 'tvodbegin';
+            this.send({
+                tvodchno : tvodchno,
+                tvodtimes : duration,
+                tvodname : name,
+                analysistype : analysistype,
+                tvodbegintime : begintime
+            });
+        },
+        vodQuit: function(type, quitType) {
+            var analysistype = 'vodend';
+            this.send({
+                analysistype : analysistype,
+                quittype : 'osd'
+            }, true);
+        },
+        livePlay: function(channelNum) {
+            var analysistype = 'channelcontinuebegin';
+            this.send({
+                channelid : channelNum,
+                analysistype : analysistype
+            });
+        },
+        liveContinue: function(channelNum) {
+            var analysistype = 'channelstate';
+            this.send({
+                channelid : channelNum,
+                analysistype : analysistype
+            });
+        },
+        liveQuit: function() {
+            var analysistype = 'access';
+            this.send({
+                analysistype : analysistype,
+                url : 'osd'
+            }, true);
+        },
+        page : function(referpage, url, columnid){
+            //第一次开机进页面
+            if(this.first){
+                var str = Authentication.CTCGetConfig("firstBoot");
+                var firstBoot = Authentication.CTCGetConfig("firstBoot") ? false : true;
+
+                if(firstBoot){
+                    Authentication.CTCSetConfig("firstBoot", '2');
+                    //发数据收集
+                    VS.firstBoot();
+                    return;
+                }
+            }
+            var analysistype = 'access';
+            this.send({
+                analysistype : analysistype,
+                referpage : referpage,
+                refer : true,
+                url : url,
+                columnid : columnid
+            });
+        },
+        zt : function(spName){
+            var analysistype = 'zt';
+            this.send({
+                analysistype : analysistype,
+                spName : spName
+            });
+        },
+        send : function(obj, sync){//sync: true:同步  false:异步,默认异步
+            var url = $.search.append(GLOBAL_DC_URL, cwindow.joinObj(getDcBaseInfo(), obj));
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", url, !sync);
+            xhr.send();
+        }
+    };
+</script>
+</body>
+</html>

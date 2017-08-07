@@ -456,7 +456,7 @@ function getscheduleInfo() {
 }
 function _scheduleInfoCallback() {}
 //获取节目单直播所在开始位置
-function getDListStartIndex() {
+function getDListStartIndex() {//获取节目单所在开始位置
 	if(c_list_index != 0)return 0;//不在今天
 	var ds = schedule_ds || [];
 	var now = new Date().format('yyyy-MM-dd hh:mm:ss');
