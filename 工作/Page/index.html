@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body {
+            background: url("bg.jpg") no-repeat;
+        }
+    </style>
+    <style>
+        .img-holder {
+            background: grey;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            display: block;
+            z-index: -1;
+        }
+
+        .tj-video-div .img-holder {
+            background: transparent;
+        }
+
+        .focusBorder {
+            border: 4px solid rgba(250, 50, 0, .7);
+            border-radius: 3px;
+            box-sizing: border-box;
+            transform: scale(1.1);
+            -webkit-transform: scale(1.1);
+            z-index: 10;
+        }
+
+        /* @supports (box-shadow: 0 0 15px 5px rgba(250,50,0,.7)) { */
+        .focusBorder {
+            border: 2px solid rgba(200, 200, 200, .8);
+            box-shadow: 0 0 15px 5px rgba(250, 50, 0, .7);
+        }
+
+        /* } */
+    </style>
+    <style>
+        body {
+            visibility: hidden;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 1280px;
+            height: 720px;
+            margin: 0;
+            padding: 0;
+            /*overflow: hidden;*/
+            font-family: "微软雅黑";
+        }
+
+        .d-none {
+            display: none;
+        }
+
+        .f-container {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 1280px;
+            height: 720px;
+            /*overflow: hidden;*/
+        }
+
+        .f-container div {
+            box-sizing: border-box;
+        }
+
+        .f-container .abs-pos {
+            position: absolute;
+        }
+
+        /* page and sub-page */
+        .f-container .page {
+            position: absolute;
+        }
+
+        .transition {
+            transition: transform .5s;
+            -webkit-transition: -webkit-transform .5s;
+        }
+
+        .page .sub-page {
+            top: 210px;
+        }
+
+        .sub-page .f-div {
+            margin: 3px;
+            padding: 0;
+            display: block;
+            position: absolute;
+        }
+
+        /* translate3d(0,0,0)  */
+        .page .sub-page-1 {
+            left: 38px;
+        }
+
+        /* translate3d(-2367px,0,0)  */
+        .page .sub-page-2 {
+            left: 2423px;
+        }
+
+        /* translate3d(-3647px,0,0) */
+        .page .sub-page-3 {
+            left: 3700px;
+        }
+
+        /* translate3d(-4927px,0,0) */
+        .page .sub-page-4 {
+            left: 5030px;
+        }
+
+        /* translate3d(-6207px,0,0) */
+        .page .sub-page-5 {
+            left: 6280px;
+        }
+
+        /* translate3d(-7487px,0,0) */
+        .page .sub-page-6 {
+            left: 7550px;
+        }
+
+        .sub-page .wrapper {
+            display: block;
+            position: absolute;
+            height: 440px;
+        }
+
+        .wrapper .sub-wrapper {
+            display: block;
+            position: absolute;
+        }
+
+        .sub-wrapper-tj {
+            width: 480px;
+        }
+
+        .sub-wrapper-zt {
+            width: 514px;
+        }
+
+        /* poster size */
+        /* 471x266 */
+        .f-container .tj-video-div {
+            width: 471px;
+            height: 266px;
+        }
+
+        .f-container .tj-video-div.focusBorder {
+            transform: none;
+            -webkit-transform: none;
+        }
+
+        /* 153x153 */
+        .f-container .tj-square-div {
+            width: 153px;
+            height: 153px;
+        }
+
+        /* 347x209 */
+        .f-container .tj-horiz-div {
+            width: 347px;
+            height: 209px;
+        }
+
+        /* 175x210 */
+        .f-container .tj-verti-div {
+            width: 175px;
+            height: 210px;
+        }
+
+        /* 353x212 */
+        .f-container .vip-horiz-div {
+            width: 353px;
+            height: 212px;
+        }
+
+        /* 255x210 */
+        .f-container .vip-square-div {
+            width: 255px;
+            height: 210px;
+        }
+
+        /* 175x210 */
+        .f-container .vip-verti-div {
+            width: 175px;
+            height: 210px;
+        }
+
+        /* 353x212 */
+        .f-container .db-horiz-div {
+            width: 353px;
+            height: 212px;
+        }
+
+        /* 255x210 */
+        .f-container .db-square-div {
+            width: 255px;
+            height: 210px;
+        }
+
+        /* 175x210 */
+        .f-container .db-verti-div {
+            width: 175px;
+            height: 210px;
+        }
+
+        /* 287x210 */
+        .f-container .zt-square-div {
+            width: 287px;
+            height: 210px;
+        }
+
+        /* 514x212 */
+        .f-container .zt-horiz-div {
+            width: 514px;
+            height: 210px;
+        }
+
+        /* 280x420 */
+        .f-container .app-verti-div {
+            width: 220px;
+            height: 425px;
+        }
+
+        /* 223x212 */
+        .f-container .mine-square-div {
+            width: 223px;
+            height: 212px;
+        }
+
+        /* tabs */
+        .f-container .tabs {
+            position: absolute;
+            display: block;
+            left: 150px;
+            top: 112px;
+            width: 1000px;
+            color: white;
+            font-size: 30px;
+        }
+
+        .f-container .tab {
+            position: absolute;
+            padding: 7px 28px;
+            margin: 0 25px;
+            box-sizing: border-box;
+            white-space: nowrap;
+        }
+
+        .f-container .tab.active {
+            border-bottom: 4px solid rgba(250, 50, 0, .7);
+        }
+
+        /* .now-time */
+        .now-time {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            color: #ddd;
+            font-size: 25px;
+        }
+
+        .now-time .time {
+            color: white;
+            font-size: 35px;
+            margin: 0 15px;
+        }
+
+        .now-time .date {
+            margin: 0 10px;
+        }
+
+        .now-time .day {
+            margin: 0 10px;
+        }
+
+        #tab_tj {
+            left: 34px;
+            top: 0px;
+            width: 115px;
+            height: 56px;
+        }
+
+        #tab_db {
+            left: 199px;
+            top: 0px;
+            width: 116px;
+            height: 56px;
+        }
+
+        #tab_vip {
+            left: 365px;
+            top: 0px;
+            width: 104px;
+            height: 56px;
+        }
+
+        #tab_zt {
+            left: 519px;
+            top: 0px;
+            width: 116px;
+            height: 56px;
+        }
+
+        #tab_app {
+            left: 685px;
+            top: 0px;
+            width: 116px;
+            height: 56px;
+        }
+
+        #tab_mine {
+            left: 851px;
+            top: 0px;
+            width: 115px;
+            height: 56px;
+        }
+
+        #tj_div_0 {
+            left: -1px;
+            top: 5px;
+            width: 476px;
+            height: 266px;
+        }
+
+        #tj_div_1 {
+            left: 3px;
+            top: 281px;
+            width: 154px;
+            height: 154px;
+        }
+
+        #tj_div_2 {
+            left: 163px;
+            top: 281px;
+            width: 153px;
+            height: 154px;
+        }
+
+        #tj_div_3 {
+            left: 321px;
+            top: 281px;
+            width: 153px;
+            height: 154px;
+        }
+
+        #tj_div_4 {
+            left: 483px;
+            top: 5px;
+            width: 348px;
+            height: 210px;
+        }
+
+        #tj_div_5 {
+            left: 483px;
+            top: 225px;
+            width: 348px;
+            height: 210px;
+        }
+
+        #tj_div_6 {
+            left: 836px;
+            top: 5px;
+            width: 175px;
+            height: 210px;
+        }
+
+        #tj_div_7 {
+            left: 836px;
+            top: 225px;
+            width: 175px;
+            height: 210px;
+        }
+
+        #tj_div_8 {
+            left: 1018px;
+            top: 5px;
+            width: 175px;
+            height: 210px;
+        }
+
+        #tj_div_9 {
+            left: 1018px;
+            top: 225px;
+            width: 175px;
+            height: 210px;
+        }
+
+        #tj_div_10 {
+            left: 1198px;
+            top: 5px;
+            width: 348px;
+            height: 210px;
+        }
+
+        #tj_div_11 {
+            left: 1198px;
+            top: 225px;
+            width: 348px;
+            height: 210px;
+        }
+
+        #tj_div_12 {
+            left: 1551px;
+            top: 5px;
+            width: 175px;
+            height: 210px;
+        }
+
+        #tj_div_13 {
+            left: 1551px;
+            top: 225px;
+            width: 175px;
+            height: 210px;
+        }
+
+        #tj_div_14 {
+            left: 1731px;
+            top: 5px;
+            width: 175px;
+            height: 210px;
+        }
+
+        #tj_div_15 {
+            left: 1731px;
+            top: 225px;
+            width: 175px;
+            height: 210px;
+        }
+
+        #tj_div_16 {
+            left: 1913px;
+            top: 5px;
+            width: 175px;
+            height: 210px;
+        }
+
+        #tj_div_17 {
+            left: 1913px;
+            top: 225px;
+            width: 175px;
+            height: 210px;
+        }
+
+        #tj_div_18 {
+            left: 2094px;
+            top: 5px;
+            width: 175px;
+            height: 210px;
+        }
+
+        #tj_div_19 {
+            left: 2094px;
+            top: 225px;
+            width: 175px;
+            height: 210px;
+        }
+
+        #db_div_0 {
+            left: 3px;
+            top: 4px;
+            width: 354px;
+            height: 213px;
+        }
+
+        #db_div_1 {
+            left: 3px;
+            top: 224px;
+            width: 354px;
+            height: 213px;
+        }
+
+        #db_div_2 {
+            left: 363px;
+            top: 5px;
+            width: 255px;
+            height: 210px;
+        }
+
+        #db_div_3 {
+            left: 363px;
+            top: 225px;
+            width: 255px;
+            height: 210px;
+        }
+
+        #db_div_4 {
+            left: 623px;
+            top: 5px;
+            width: 175px;
+            height: 210px;
+        }
+
+        #db_div_5 {
+            left: 623px;
+            top: 225px;
+            width: 175px;
+            height: 210px;
+        }
+
+        #db_div_6 {
+            left: 804px;
+            top: 5px;
+            width: 175px;
+            height: 210px;
+        }
+
+        #db_div_7 {
+            left: 804px;
+            top: 225px;
+            width: 175px;
+            height: 210px;
+        }
+
+        #db_div_8 {
+            left: 985px;
+            top: 5px;
+            width: 175px;
+            height: 210px;
+        }
+
+        #db_div_9 {
+            left: 985px;
+            top: 225px;
+            width: 175px;
+            height: 210px;
+        }
+
+        #vip_div_0 {
+            left: 3px;
+            top: 4px;
+            width: 354px;
+            height: 213px;
+        }
+
+        #vip_div_1 {
+            left: 3px;
+            top: 224px;
+            width: 354px;
+            height: 213px;
+        }
+
+        #vip_div_2 {
+            left: 363px;
+            top: 5px;
+            width: 255px;
+            height: 210px;
+        }
+
+        #vip_div_3 {
+            left: 363px;
+            top: 225px;
+            width: 255px;
+            height: 210px;
+        }
+
+        #vip_div_4 {
+            left: 623px;
+            top: 5px;
+            width: 175px;
+            height: 210px;
+        }
+
+        #vip_div_5 {
+            left: 623px;
+            top: 225px;
+            width: 175px;
+            height: 210px;
+        }
+
+        #vip_div_6 {
+            left: 804px;
+            top: 5px;
+            width: 175px;
+            height: 210px;
+        }
+
+        #vip_div_7 {
+            left: 804px;
+            top: 225px;
+            width: 175px;
+            height: 210px;
+        }
+
+        #vip_div_8 {
+            left: 985px;
+            top: 5px;
+            width: 175px;
+            height: 210px;
+        }
+
+        #vip_div_9 {
+            left: 985px;
+            top: 225px;
+            width: 175px;
+            height: 210px;
+        }
+
+        #zt_div_0 {
+            left: 3px;
+            top: 5px;
+            width: 288px;
+            height: 210px;
+        }
+
+        #zt_div_1 {
+            left: 3px;
+            top: 225px;
+            width: 288px;
+            height: 210px;
+        }
+
+        #zt_div_2 {
+            left: 296px;
+            top: 5px;
+            width: 514px;
+            height: 210px;
+        }
+
+        #zt_div_3 {
+            left: 298px;
+            top: 225px;
+            width: 251px;
+            height: 210px;
+        }
+
+        #zt_div_4 {
+            left: 558px;
+            top: 225px;
+            width: 251px;
+            height: 210px;
+        }
+
+        #zt_div_5 {
+            left: 816px;
+            top: 5px;
+            width: 255px;
+            height: 210px;
+        }
+
+        #zt_div_6 {
+            left: 816px;
+            top: 225px;
+            width: 255px;
+            height: 210px;
+        }
+
+        #app_div_0 {
+            left: 10px;
+            top: 10px;
+            width: 220px;
+            height: 425px;
+        }
+
+        #app_div_1 {
+            left: 235px;
+            top: 10px;
+            width: 220px;
+            height: 425px;
+        }
+
+        #app_div_2 {
+            left: 460px;
+            top: 10px;
+            width: 220px;
+            height: 425px;
+        }
+
+        #app_div_3 {
+            left: 685px;
+            top: 10px;
+            width: 220px;
+            height: 425px;
+        }
+
+        #app_div_4 {
+            left: 910px;
+            top: 10px;
+            width: 220px;
+            height: 425px;
+        }
+
+        #app_div_1.not-hw-v9.focusBorder:after {
+            content: "";
+            position: absolute;
+            display: block;
+            z-index: 1;
+            width: 100%;
+            height: 100%;
+            background: no-repeat;
+        }
+
+        #app_div_2.focusBorder:after {
+            content: "";
+            position: absolute;
+            display: block;
+            z-index: 1;
+            width: 100%;
+            height: 100%;
+            background: no-repeat;
+        }
+
+        #app_div_3.focusBorder:after {
+            content: "";
+            position: absolute;
+            display: block;
+            z-index: 1;
+            width: 100%;
+            height: 100%;
+            background: no-repeat;
+        }
+
+        #app_div_4.focusBorder:after {
+            content: "";
+            position: absolute;
+            display: block;
+            z-index: 1;
+            width: 100%;
+            height: 100%;
+            background: no-repeat;
+        }
+
+        #mine_div_0 {
+            left: 3px;
+            top: 4px;
+            width: 224px;
+            height: 213px;
+        }
+
+        #mine_div_1 {
+            left: 3px;
+            top: 224px;
+            width: 224px;
+            height: 213px;
+        }
+
+        #mine_div_2 {
+            left: 233px;
+            top: 4px;
+            width: 223px;
+            height: 213px;
+        }
+
+        #mine_div_3 {
+            left: 233px;
+            top: 224px;
+            width: 223px;
+            height: 213px;
+        }
+
+        #mine_div_4 {
+            left: 461px;
+            top: 4px;
+            width: 223px;
+            height: 213px;
+        }
+
+        #mine_div_5 {
+            left: 461px;
+            top: 224px;
+            width: 223px;
+            height: 213px;
+        }
+
+        #mine_div_6 {
+            left: 690px;
+            top: 4px;
+            width: 223px;
+            height: 213px;
+        }
+
+        #mine_div_7 {
+            left: 690px;
+            top: 224px;
+            width: 223px;
+            height: 213px;
+        }
+
+        #mine_div_8 {
+            left: 919px;
+            top: 4px;
+            width: 223px;
+            height: 213px;
+        }
+
+        #mine_div_9 {
+            left: 919px;
+            top: 224px;
+            width: 223px;
+            height: 213px;
+        }
+
+        .f-container .curtain {
+            position: absolute;
+            left: 20px;
+            top: 200px;
+            width: 518px;
+            height: 298px;
+            z-index: -1;
+        }
+
+        .f-container .title {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            color: white;
+            z-index: 1;
+            font-size: 24px;
+        }
+
+        #msg {
+            position: absolute;
+            bottom: 20px;
+            left: 100px;
+            height: 30px;
+            width: 1000px;
+            line-height: 30px;
+            font-size: 24px;
+            color: white;
+        }
+
+        #notice {
+            position: absolute;
+            width: 18px;
+            height: 16px;
+            left: 77px;
+            bottom: 27px;
+        }
+    </style>
+    <script src="../Refactoring/mybz-CmsCommon.js"></script>
+    <script src="../Refactoring/mybz-CmsZteCommon.js"></script>
+    <script src="../Refactoring/mybz-UTIL.js"></script>
+</head>
+<body onload="initPage()" onunload="stopMp();saveFocus();"
+      style=" visibility: visible;">
+<div class="f-container" id="sy_container">
+    <div class="tabs">
+        <div id="tab_tj" class="tab active">推荐</div>
+        <div id="tab_db" class="tab">点播</div>
+        <div id="tab_vip" class="tab">VIP</div>
+        <div id="tab_zt" class="tab">专题</div>
+        <div id="tab_app" class="tab">娱乐</div>
+        <div id="tab_mine" class="tab">我的</div>
+    </div>
+    <div id="curtain" class="curtain d-none"></div>
+    <div class="page transition" style="transform: translateX(0px);">
+        <div class="abs-pos sub-page sub-page-1">
+            <div class="wrapper">
+                <div class="f-div tj-video-div" id="tj_div_0"></div>
+                <div class="sub-wrapper sub-wrapper-tj">
+                    <div class="f-div tj-square-div focusBorder" id="tj_div_1">
+                        <img class="img-holder">
+                    </div>
+                    <div class="f-div tj-square-div" id="tj_div_2">
+                        <img class="img-holder">
+                    </div>
+                    <div class="f-div tj-square-div" id="tj_div_3">
+                        <img class="img-holder">
+                    </div>
+                </div>
+                <div class="f-div tj-horiz-div" id="tj_div_4">
+                    <img class="img-holder">
+                    <div class="title">楚乔传（精编版）</div>
+                </div>
+                <div class="f-div tj-horiz-div" id="tj_div_5">
+                    <img class="img-holder">
+                    <div class="title">战狼</div>
+                </div>
+                <div class="f-div tj-verti-div" id="tj_div_6">
+                    <img class="img-holder">
+                    <div class="title">逆时营救</div>
+                </div>
+                <div class="f-div tj-verti-div" id="tj_div_7"><img class="img-holder">
+                    <div class="title">异星觉醒</div>
+                </div>
+                <div class="f-div tj-verti-div" id="tj_div_8"><img class="img-holder">
+                    <div class="title">神探狄仁杰第...</div>
+                </div>
+                <div class="f-div tj-verti-div" id="tj_div_9"><img class="img-holder">
+                    <div class="title">极限挑战第三季</div>
+                </div>
+                <div class="f-div tj-horiz-div" id="tj_div_10"><img class="img-holder">
+                    <div class="title">醉玲珑</div>
+                </div>
+                <div class="f-div tj-horiz-div" id="tj_div_11"><img class="img-holder">
+                    <div class="title">飞虎队大营救</div>
+                </div>
+                <div class="f-div tj-verti-div" id="tj_div_12"><img class="img-holder">
+                    <div class="title">学生兵</div>
+                </div>
+                <div class="f-div tj-verti-div" id="tj_div_13"><img class="img-holder" >
+                    <div class="title">少林问道</div>
+                </div>
+                <div class="f-div tj-verti-div" id="tj_div_14"><img class="img-holder" >
+                    <div class="title">浪花一朵朵</div>
+                </div>
+                <div class="f-div tj-verti-div" id="tj_div_15"><img class="img-holder" >
+                    <div class="title">绝密543</div>
+                </div>
+                <div class="f-div tj-verti-div" id="tj_div_16"><img class="img-holder" >
+                    <div class="title">黑土热血</div>
+                </div>
+                <div class="f-div tj-verti-div" id="tj_div_17"><img class="img-holder" >
+                    <div class="title">开心剧乐部</div>
+                </div>
+                <div class="f-div tj-verti-div" id="tj_div_18"><img class="img-holder" >
+                    <div class="title">双屏互动APP"...</div>
+                </div>
+                <div class="f-div tj-verti-div" id="tj_div_19"><img class="img-holder" >
+                    <div class="title">蓝精灵：寻找...</div>
+                </div>
+            </div>
+        </div>
+        <div class="abs-pos sub-page sub-page-2">
+            <div class="wrapper">
+                <div class="f-div db-horiz-div" id="db_div_0"><img class="img-holder" >
+                </div>
+                <div class="f-div db-horiz-div" id="db_div_1"><img class="img-holder">
+                </div>
+                <div class="f-div db-square-div" id="db_div_2"><img class="img-holder" >
+                </div>
+                <div class="f-div db-square-div" id="db_div_3"><img class="img-holder">
+                </div>
+                <div class="f-div db-verti-div" id="db_div_4"><img class="img-holder" >
+                    <div class="title">少儿</div>
+                </div>
+                <div class="f-div db-verti-div" id="db_div_5"><img class="img-holder" >
+                    <div class="title">新闻</div>
+                </div>
+                <div class="f-div db-verti-div" id="db_div_6"><img class="img-holder" >
+                    <div class="title">动漫</div>
+                </div>
+                <div class="f-div db-verti-div" id="db_div_7"><img class="img-holder" >
+                    <div class="title">音乐</div>
+                </div>
+                <div class="f-div db-verti-div" id="db_div_8"><img class="img-holder" >
+                    <div class="title">纪录片</div>
+                </div>
+                <div class="f-div db-verti-div" id="db_div_9"><img class="img-holder" >
+                    <div class="title">敬请期待</div>
+                </div>
+            </div>
+        </div>
+        <div class="abs-pos sub-page sub-page-3">
+            <div class="wrapper">
+                <div class="f-div vip-horiz-div" id="vip_div_0"><img class="img-holder" >
+                </div>
+                <div class="f-div vip-horiz-div" id="vip_div_1"><img class="img-holder" >
+                </div>
+                <div class="f-div vip-square-div" id="vip_div_2"><img class="img-holder" >
+                </div>
+                <div class="f-div vip-square-div" id="vip_div_3"><img class="img-holder">
+                </div>
+                <div class="f-div vip-verti-div" id="vip_div_4"><img class="img-holder" >
+                    <div class="title">告密者-4K</div>
+                </div>
+                <div class="f-div vip-verti-div" id="vip_div_5"><img class="img-holder" >
+                    <div class="title">天将雄师-4k</div>
+                </div>
+                <div class="f-div vip-verti-div" id="vip_div_6"><img class="img-holder" >
+                    <div class="title">精灵旅社2-4K</div>
+                </div>
+                <div class="f-div vip-verti-div" id="vip_div_7"><img class="img-holder" >
+                    <div class="title">谜城-4K</div>
+                </div>
+                <div class="f-div vip-verti-div" id="vip_div_8"><img class="img-holder" >
+                    <div class="title">林肯-4K</div>
+                </div>
+                <div class="f-div vip-verti-div" id="vip_div_9"><img class="img-holder" >
+                    <div class="title">帮助-4K</div>
+                </div>
+            </div>
+        </div>
+        <div class="abs-pos sub-page sub-page-4">
+            <div class="wrapper">
+                <div class="f-div zt-square-div" id="zt_div_0"><img class="img-holder" >
+                </div>
+                <div class="f-div zt-square-div" id="zt_div_1"><img class="img-holder" >
+                </div>
+                <div class="f-div zt-horiz-div" id="zt_div_2"><img class="img-holder" >
+                </div>
+                <div class="sub-wrapper sub-wrapper-zt">
+                    <div class="f-div vip-square-div" id="zt_div_3"><img class="img-holder" >
+                    </div>
+                    <div class="f-div vip-square-div" id="zt_div_4"><img class="img-holder" >
+                    </div>
+                </div>
+                <div class="f-div vip-square-div" id="zt_div_5"><img class="img-holder" >
+                </div>
+                <div class="f-div vip-square-div" id="zt_div_6"><img class="img-holder" >
+                </div>
+            </div>
+        </div>
+        <div class="abs-pos sub-page sub-page-5">
+            <div class="wrapper">
+                <div class="f-div app-verti-div" id="app_div_0"><img class="img-holder" >
+                </div>
+                <div class="f-div app-verti-div not-hw-v9" id="app_div_1"><img class="img-holder">
+                </div>
+                <div class="f-div app-verti-div" id="app_div_2"><img class="img-holder">
+                </div>
+                <div class="f-div app-verti-div" id="app_div_3"><img class="img-holder">
+                </div>
+                <div class="f-div app-verti-div" id="app_div_4"><img class="img-holder" >
+                </div>
+            </div>
+        </div>
+        <div class="abs-pos sub-page sub-page-6">
+            <div class="wrapper">
+                <div class="f-div mine-square-div" id="mine_div_0"><img class="img-holder" >
+                </div>
+                <div class="f-div mine-square-div" id="mine_div_1"><img class="img-holder" >
+                </div>
+                <div class="f-div mine-square-div" id="mine_div_2"><img class="img-holder" >
+                </div>
+                <div class="f-div mine-square-div" id="mine_div_3"><img class="img-holder" >
+                </div>
+                <div class="f-div mine-square-div" id="mine_div_4"><img class="img-holder" >
+                </div>
+                <div class="f-div mine-square-div" id="mine_div_5"><img class="img-holder" >
+                </div>
+                <div class="f-div mine-square-div" id="mine_div_6"><img class="img-holder" >
+                </div>
+                <div class="f-div mine-square-div" id="mine_div_7"><img class="img-holder">
+                </div>
+                <div class="f-div mine-square-div" id="mine_div_8"><img class="img-holder" >
+                </div>
+                <div class="f-div mine-square-div" id="mine_div_9"><img class="img-holder" >
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="js/Page.js"></script>
+<div id="notice"></div>
+<div id="msg">
+    <marquee width="100%" height="99%" scrollamount="4" style="width: 100%; height: 99%;">
+        重大福利，手机看视频免流量啦！吉林联通手机用户可通过“我的”菜单，选择“手机绑定”页面，扫描二维码下载双屏互动客户端“沃视达”，快来体验吧！
+    </marquee>
+</div>
+<script>
+    if (MARQUEE_TEXT_ARR.length) {
+        var msg = MARQUEE_TEXT_ARR.join('*****');
+        $('#msg').html('<marquee width="100%" height="99%" scrollamount="4" style="width: 100%; height: 99%;">'
+                + msg + '</marquee>');
+    }
+</script>
+
+
+<div id="now_time" class="now-time"><span class="time">17:32</span><span class="date">2017-08-07</span><span
+        class="day">星期一</span></div>
+</body>
+</html>

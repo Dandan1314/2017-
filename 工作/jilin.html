@@ -1,780 +1,584 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<html><head>
     <meta charset="UTF-8">
     <meta name="page-view-size" content="1280*720">
-    <title>主页</title>
+    <title>首页|吉林联通</title>
     <style>
-        body{
-            width: 1280px;
-            height: 720px;
-            margin: 0;
-            overflow: hidden;
+        .img-holder {
+            background: grey;
+            width:100%;
+            height: 100%;
+            position: absolute;
+            display: block;
+            z-index: -1;
+        }
+        .tj-video-div .img-holder {
             background: transparent;
         }
+        .focusBorder {
+            border:4px solid rgba(250,50,0,.7);
+            border-radius: 3px;
+            box-sizing: border-box;
+            transform: scale(1.1);
+            -webkit-transform: scale(1.1);
+            z-index: 10;
+        }
+        /* @supports (box-shadow: 0 0 15px 5px rgba(250,50,0,.7)) { */
+        .focusBorder {
+            border:2px solid rgba(200,200,200,.8);
+            box-shadow: 0 0 15px 5px rgba(250,50,0,.7);
+        }
+        /* } */
     </style>
-    <script src="js/socket.io.js"></script>
+    <style>
+        body { visibility: hidden; position: absolute; left: 0; top: 0;width: 1280px; height: 720px; margin: 0; padding: 0; overflow: hidden;  font-family: "微软雅黑"; }
+        .d-none { display: none; }
+        .f-container { position: absolute; left: 0; top:0; width: 1280px; height: 720px; overflow:hidden; }
+        .f-container div { box-sizing: border-box; }
+        .f-container .abs-pos { position: absolute; }
+        /* page and sub-page */
+        .f-container .page { position: absolute; }
+        .transition { transition:transform .5s; -webkit-transition:-webkit-transform .5s; }
+        .page .sub-page {top: 210px; }
+        .sub-page .f-div { margin:3px; padding: 0; display: block; position: absolute; }
+        /* translate3d(0,0,0)  */
+        .page .sub-page-1 { left: 38px; }
+        /* translate3d(-2367px,0,0)  */
+        .page .sub-page-2 { left: 2423px; }
+        /* translate3d(-3647px,0,0) */
+        .page .sub-page-3 {left:3700px; }
+        /* translate3d(-4927px,0,0) */
+        .page .sub-page-4 {left:5030px; }
+        /* translate3d(-6207px,0,0) */
+        .page .sub-page-5 {left:6280px; }
+        /* translate3d(-7487px,0,0) */
+        .page .sub-page-6 {left:7550px; }
+        .sub-page .wrapper { display: block; position: absolute; height:440px; }
+        .wrapper .sub-wrapper { display: block; position: absolute; }
+        .sub-wrapper-tj { width:480px; }
+        .sub-wrapper-zt { width:514px; }
+        /* poster size */
+        /* 471x266 */
+        .f-container .tj-video-div { width: 471px; height: 266px; }
+        .f-container .tj-video-div.focusBorder { transform:none; -webkit-transform: none; }
+        /* 153x153 */
+        .f-container .tj-square-div { width: 153px; height: 153px; }
+        /* 347x209 */
+        .f-container .tj-horiz-div { width: 347px; height: 209px; }
+        /* 175x210 */
+        .f-container .tj-verti-div { width: 175px; height: 210px; }
+        /* 353x212 */
+        .f-container .vip-horiz-div { width: 353px; height: 212px; }
+        /* 255x210 */
+        .f-container .vip-square-div { width: 255px; height: 210px; }
+        /* 175x210 */
+        .f-container .vip-verti-div { width: 175px; height: 210px; }
+        /* 353x212 */
+        .f-container .db-horiz-div { width: 353px; height: 212px; }
+        /* 255x210 */
+        .f-container .db-square-div { width: 255px; height: 210px; }
+        /* 175x210 */
+        .f-container .db-verti-div { width: 175px; height: 210px; }
+        /* 287x210 */
+        .f-container .zt-square-div { width: 287px; height: 210px; }
+        /* 514x212 */
+        .f-container .zt-horiz-div { width: 514px; height: 210px; }
+        /* 280x420 */
+        .f-container .app-verti-div { width: 220px; height: 425px; }
+        /* 223x212 */
+        .f-container .mine-square-div { width: 223px; height: 212px; }
+
+        /* tabs */
+        .f-container .tabs { position: absolute; display: block; left: 150px; top: 112px; width: 1000px; color: white; font-size: 30px; }
+        .f-container .tab { position:absolute; padding: 7px 28px; margin: 0 25px; box-sizing: border-box; white-space: nowrap; }
+        .f-container .tab.active { border-bottom:4px solid rgba(250,50,0,.7); }
+        /* .now-time */
+        .now-time { position: absolute; right: 20px; top: 20px; color: #ddd; font-size: 25px; }
+        .now-time .time { color: white; font-size: 35px; margin: 0 15px; }
+        .now-time .date { margin: 0 10px; }
+        .now-time .day { margin: 0 10px; }
+
+        #tab_tj { left: 34px; top: 0px; width: 115px; height: 56px; }
+        #tab_db { left: 199px; top: 0px; width: 116px; height: 56px; }
+        #tab_vip { left: 365px; top: 0px; width: 104px; height: 56px; }
+        #tab_zt { left: 519px; top: 0px; width: 116px; height: 56px; }
+        #tab_app { left: 685px; top: 0px; width: 116px; height: 56px; }
+        #tab_mine { left: 851px; top: 0px; width: 115px; height: 56px; }
+        #tj_div_0 { left: -1px; top: 5px; width: 476px; height: 266px; }
+        #tj_div_1 { left: 3px; top: 281px; width: 154px; height: 154px; }
+        #tj_div_2 { left: 163px; top: 281px; width: 153px; height: 154px; }
+        #tj_div_3 { left: 321px; top: 281px; width: 153px; height: 154px; }
+        #tj_div_4 { left: 483px; top: 5px; width: 348px; height: 210px; }
+        #tj_div_5 { left: 483px; top: 225px; width: 348px; height: 210px; }
+        #tj_div_6 { left: 836px; top: 5px; width: 175px; height: 210px; }
+        #tj_div_7 { left: 836px; top: 225px; width: 175px; height: 210px; }
+        #tj_div_8 { left: 1018px; top: 5px; width: 175px; height: 210px; }
+        #tj_div_9 { left: 1018px; top: 225px; width: 175px; height: 210px; }
+        #tj_div_10 { left: 1198px; top: 5px; width: 348px; height: 210px; }
+        #tj_div_11 { left: 1198px; top: 225px; width: 348px; height: 210px; }
+        #tj_div_12 { left: 1551px; top: 5px; width: 175px; height: 210px; }
+        #tj_div_13 { left: 1551px; top: 225px; width: 175px; height: 210px; }
+        #tj_div_14 { left: 1731px; top: 5px; width: 175px; height: 210px; }
+        #tj_div_15 { left: 1731px; top: 225px; width: 175px; height: 210px; }
+        #tj_div_16 { left: 1913px; top: 5px; width: 175px; height: 210px; }
+        #tj_div_17 { left: 1913px; top: 225px; width: 175px; height: 210px; }
+        #tj_div_18 { left: 2094px; top: 5px; width: 175px; height: 210px; }
+        #tj_div_19 { left: 2094px; top: 225px; width: 175px; height: 210px; }
+        #db_div_0 { left: 3px; top: 4px; width: 354px; height: 213px; }
+        #db_div_1 { left: 3px; top: 224px; width: 354px; height: 213px; }
+        #db_div_2 { left: 363px; top: 5px; width: 255px; height: 210px; }
+        #db_div_3 { left: 363px; top: 225px; width: 255px; height: 210px; }
+        #db_div_4 { left: 623px; top: 5px; width: 175px; height: 210px; }
+        #db_div_5 { left: 623px; top: 225px; width: 175px; height: 210px; }
+        #db_div_6 { left: 804px; top: 5px; width: 175px; height: 210px; }
+        #db_div_7 { left: 804px; top: 225px; width: 175px; height: 210px; }
+        #db_div_8 { left: 985px; top: 5px; width: 175px; height: 210px; }
+        #db_div_9 { left: 985px; top: 225px; width: 175px; height: 210px; }
+        #vip_div_0 { left: 3px; top: 4px; width: 354px; height: 213px; }
+        #vip_div_1 { left: 3px; top: 224px; width: 354px; height: 213px; }
+        #vip_div_2 { left: 363px; top: 5px; width: 255px; height: 210px; }
+        #vip_div_3 { left: 363px; top: 225px; width: 255px; height: 210px; }
+        #vip_div_4 { left: 623px; top: 5px; width: 175px; height: 210px; }
+        #vip_div_5 { left: 623px; top: 225px; width: 175px; height: 210px; }
+        #vip_div_6 { left: 804px; top: 5px; width: 175px; height: 210px; }
+        #vip_div_7 { left: 804px; top: 225px; width: 175px; height: 210px; }
+        #vip_div_8 { left: 985px; top: 5px; width: 175px; height: 210px; }
+        #vip_div_9 { left: 985px; top: 225px; width: 175px; height: 210px; }
+        #zt_div_0 { left: 3px; top: 5px; width: 288px; height: 210px; }
+        #zt_div_1 { left: 3px; top: 225px; width: 288px; height: 210px; }
+        #zt_div_2 { left: 296px; top: 5px; width: 514px; height: 210px; }
+        #zt_div_3 { left: 298px; top: 225px; width: 251px; height: 210px; }
+        #zt_div_4 { left: 558px; top: 225px; width: 251px; height: 210px; }
+        #zt_div_5 { left: 816px; top: 5px; width: 255px; height: 210px; }
+        #zt_div_6 { left: 816px; top: 225px; width: 255px; height: 210px; }
+        #app_div_0 { left: 10px; top: 10px; width: 220px; height: 425px; }
+        #app_div_1 { left: 235px; top: 10px; width: 220px; height: 425px; }
+        #app_div_2 { left: 460px; top: 10px; width: 220px; height: 425px; }
+        #app_div_3 { left: 685px; top: 10px; width: 220px; height: 425px; }
+        #app_div_4 { left: 910px; top: 10px; width: 220px; height: 425px; }
+        #app_div_1.not-hw-v9.focusBorder:after { content:""; position:absolute; display: block; z-index:1; width:100%; height:100%; background: url("images/app/wjyx_faded.jpg") no-repeat; }
+        #app_div_2.focusBorder:after { content:""; position:absolute; display: block; z-index:1; width:100%; height:100%; background: url("images/app/bfyy_faded.jpg") no-repeat; }
+        #app_div_3.focusBorder:after { content:""; position:absolute; display: block; z-index:1; width:100%; height:100%; background: url("images/app/jy_faded.jpg") no-repeat; }
+        #app_div_4.focusBorder:after { content:""; position:absolute; display: block; z-index:1; width:100%; height:100%; background: url("images/app/wjsx_faded.jpg") no-repeat; }
+        #mine_div_0 { left: 3px; top: 4px; width: 224px; height: 213px; }
+        #mine_div_1 { left: 3px; top: 224px; width: 224px; height: 213px; }
+        #mine_div_2 { left: 233px; top: 4px; width: 223px; height: 213px; }
+        #mine_div_3 { left: 233px; top: 224px; width: 223px; height: 213px; }
+        #mine_div_4 { left: 461px; top: 4px; width: 223px; height: 213px; }
+        #mine_div_5 { left: 461px; top: 224px; width: 223px; height: 213px; }
+        #mine_div_6 { left: 690px; top: 4px; width: 223px; height: 213px; }
+        #mine_div_7 { left: 690px; top: 224px; width: 223px; height: 213px; }
+        #mine_div_8 { left: 919px; top: 4px; width: 223px; height: 213px; }
+        #mine_div_9 { left: 919px; top: 224px; width: 223px; height: 213px; }
+
+        .f-container .curtain { position: absolute; left: 20px; top: 200px; width: 518px; height: 298px; z-index: -1; background: url(images/curtain.png); }
+        .f-container .title { position: absolute; bottom: 0; width: 100%; height: 40px; line-height: 40px; text-align: center; background: url("images/text_mask.png") repeat; color: white; z-index: 1; font-size: 24px; }
+
+        #msg { position: absolute; bottom: 20px; left: 100px; height: 30px; width: 1000px; line-height: 30px; font-size: 24px; color: white; }
+        #notice { position: absolute; width: 18px; height: 16px; left: 77px; bottom: 27px; background: url(images/notice.png) no-repeat; }
+    </style>
+    <link rel="stylesheet" href="../../../resources/playControl/css/common.css">
+    <script src="../../../resources/Refactoring/JLLTCommon.js"></script>
+    <script src="../../../resources/Refactoring/MP.js"></script>
     <script>
-        var GLOBAL_NODE = 'huawei';
-    </script>
-    <script>
-        var isTest = /79:4000/.test(window.location.host);
-        //绑定服务地址
-        var BIND_SERVER = 'http://221.8.109.105:3100/';
-        //双屏服务地址
-        var RCTL_SERVER = 'http://221.8.109.105:3200/';
-        //动态服务地址
-        var GLOBAL_MONGO_DB_URL = 'http://221.8.109.74:9999/';
-        //预订服务地址
-        var GLOBAL_RESERVATION_URL = 'http://221.8.109.74:3000/';
-        //数据收集服务地址
-        var GLOBAL_DC_URL = 'http://221.8.109.73:9080/EPGDataAnalysis/ReciveServlet';
-        //节点号
-        var GLOBAL_DIST_NODE = '1100000001';
-
-        //测试地址
-        if(isTest){
-            GLOBAL_MONGO_DB_URL = 'http://221.8.109.79:9999/';//动态服务
-            GLOBAL_RESERVATION_URL = 'http://221.8.109.79:3000/';//预订服务
-        }
-
-        var url = window.location.href;
-        var strRegex = "^((?:https|http|ftp|rtsp|mms)?://(?:[0-9]{1,3}\.){3}[0-9]{1,3}.*/)pub/([A-Za-z1-9_-]+/)([A-Za-z1-9_-]+/).*$";
-        var reg = new RegExp(strRegex);
-        reg.exec(url.split("?")[0]);
-
-        //EPG前置
-        GLOBAL_PATH_PREFIX = RegExp.$1;
-        //分发域
-        GLOBAL_STB_NAME = RegExp.$2;
-        //站点
-        GLOBAL_SITE_NAME = RegExp.$3;
-        var pubUrl = 'pub/';
-
-        //常量
-        var CONSTANT = {
-            "isTest" : isTest,//开发环境标记
-            "serverUrl" : GLOBAL_PATH_PREFIX + pubUrl,//pub/目录
-            "baseUrl" : GLOBAL_PATH_PREFIX + pubUrl + GLOBAL_STB_NAME,//分发域目录
-            "siteUrl" : GLOBAL_PATH_PREFIX + pubUrl + GLOBAL_STB_NAME + GLOBAL_SITE_NAME,//站点目录
-            "resources" : GLOBAL_PATH_PREFIX + pubUrl + 'resources/',//resources目录
-            "stbName" : GLOBAL_STB_NAME,//分发域
-            "siteName" : GLOBAL_SITE_NAME,//站点
-            "mongoDBUrl" : GLOBAL_MONGO_DB_URL,//动态服务
-            "reservationUrl" : GLOBAL_RESERVATION_URL,//预定
-            "dcUrl" : GLOBAL_DC_URL,//数据收集
-            "node" : GLOBAL_NODE,//节点
-            "picServerUrl" : GLOBAL_PATH_PREFIX + "pic/"//图片
-        };
-        CONSTANT.homePage = CONSTANT.siteUrl + 'homeFlat/index.html?POSITIVE';
-        CONSTANT.searchPage = CONSTANT.siteUrl + 'searchFlat/index.html';
-        CONSTANT.redPage = CONSTANT.siteUrl + 'channelListFlat/index.html';
-        CONSTANT.greenPage = CONSTANT.siteUrl + 'channelListFlat/index.html';
-        CONSTANT.yellowPage = CONSTANT.siteUrl + 'homeFlat/index.html?pos=KEY_DIBBLING';
-        CONSTANT.bluePage = CONSTANT.siteUrl + 'homeFlat/index.html?pos=KEY_INFORMATION';
-        var $,
-                cwindow,
-                epgDomainHome = '',
-                epgDomain = epgDomain(),
-                userId = Authentication.CTCGetConfig("UserID"),
-                bindId = '0432002' + GLOBAL_NODE + '_' + userId,
-                stbId = Authentication.CUGetConfig("STBID");
-        function epgDomain() {
-            var tmpdomain = Authentication.CUGetConfig('EPGDomain');
-            /(http:\/\/\d+\.\d+\.\d+\.\d+\:\d+\/)(iptvepg\/)?/.test(tmpdomain);
-            epgDomainHome = RegExp.$2;
-            return RegExp.$1;
-        }
-
-        function load(){
-            var curl = CONSTANT.homePage;
-            if(!cwindow){
-                var topFrame = document.getElementById('topFrame');
-                cwindow = topFrame.contentWindow;
-            }
-            cwindow.location.href = curl;
-            checkActive();
-        }
-        function initPage(){
-            var topFrame = document.getElementById('topFrame');
-            cwindow = topFrame.contentWindow;
-            $ = cwindow.$;
-        }
-        document.onkeypress = function(e){
-            if(cwindow && $){
-                $.keyEvent(e || event);
-            }
-        };
-        /**
-         * 存储数据
-         */
-        var __localStorage = {};
-        function setItem(key, value){
-            __localStorage[key] = value;
-        }
-        function getItem(key){
-            return __localStorage[key];
-        }
-        function removeItem(key){
-            delete __localStorage[key];
-        }
-
-        /**
-         * 直播数据
-         */
-        var showCC = false;
-        var userGroup = Authentication.CUGetConfig("userGroupInfo");
-        if('11901' == userGroup || '11111' == userGroup){//长春:11901  11111:中心区域  -1:所有区域
-            showCC = true;
-        }
-        //直播频道MAP
-        var channelMap = {};
-        //channelListMap
-        var channelListMap = {};
-        //直播频道数组 dataSource/channelList/1100000001/index.js
-        var CHANNEL_LIST_DS = [];
-        var CHANNEL_LIST_NAME = ['长春', '吉视', '央视', '卫视', '数字', '高清', '轮播'];
-        //直播频道信息
-        function channelListCallback(dataset){
-            CHANNEL_LIST_DS = dataset.data || [];
-            var begin = showCC ? 0 : -1;
-            //删除CC频道
-            if(!showCC){
-                var tmp = [];
-                for(var i = 0; i < CHANNEL_LIST_DS.length; i++){
-                    var d = CHANNEL_LIST_DS[i];
-                    if(d.channelNumber > 10){//长春
-                        tmp.push(d);
+        var isHWv9 = (function(){
+            var stbType = Authentication.CUGetConfig("STBType");
+            //华为V9A可启动小沃
+            return /EC6108V9A/.test(stbType);
+        })();
+        function reMap(map, arr){
+            var markMap={}, i,j;
+            for(var k in map) {
+                i=k;
+                if(!markMap[i]){
+                    markMap[i]=!0;
+                    while(typeof (j=map[i])!='undefined' && !markMap[j]) {
+                        markMap[j]=!0;
+                        i=swap(i,j);
                     }
                 }
-                CHANNEL_LIST_DS = tmp;
-                CHANNEL_LIST_NAME.shift();
             }
-            for(var i = 0, j = 0; i < CHANNEL_LIST_DS.length; i++){
-                var d = CHANNEL_LIST_DS[i];
-                //添加channelMap
-                channelMap[d.channelNumber] = d;
-                //添加channelListMap
-                if(d.channelNumber <= 10){//长春
-                    j = begin;
-                    channelListMap[j] || (channelListMap[j] = [i]);
-                }else if(d.channelNumber <= 200){//吉视
-                    j = begin + 1;
-                    channelListMap[j] || (channelListMap[j] = [i]);
-                }else if(d.channelNumber <= 300){//央视
-                    j = begin + 2;
-                    channelListMap[j] || (channelListMap[j] = [i]);
-                }else if(d.channelNumber <= 400){//卫视
-                    j = begin + 3;
-                    channelListMap[j] || (channelListMap[j] = [i]);
-                }else if(d.channelNumber < 500){//数字
-                    j = begin + 4;
-                    channelListMap[j] || (channelListMap[j] = [i]);
-                }else if(d.channelNumber <= 600){//高清
-                    j = begin + 5;
-                    channelListMap[j] || (channelListMap[j] = [i]);
-                }else{//轮播
-                    j = begin + 6;
-                    channelListMap[j] || (channelListMap[j] = [i]);
-                }
-                channelListMap[j][1] = i + 1;
+            function swap(newIndex, oriIndex) {
+                var hole=arr[newIndex];
+                arr[newIndex]=arr[oriIndex];
+                arr[oriIndex]=hole;
+                return oriIndex;
             }
+            return arr;
         }
-        var jsonp = function() {
-            var scripts = [];
-            return function(url, cache, timeout, timeoutFn){
-                var node,
-                        head = document.getElementsByTagName('head')[0];
-                if (scripts.length > 10) {
-                    head.removeChild(scripts.shift());
-                }
-                node = document.createElement('script');
-                node.type = 'text/javascript';
-                node.charset = 'UTF-8';
-                if (!cache) {
-                    url = url + (/\?/.test(url) ? '&' : '?') + Math.random();
-                }
-                node.src = url;
-                head.appendChild(node);
-                scripts.push(node);
-                if(timeout > 20 && typeof timeoutFn === 'function'){
-                    // setTimeout(timeoutFn, timeout);
-                }
-            };
-        }();
+        var list_a=[
+            // 推荐横图
+
+
+            {contentId:'10001110000000000000000000154585',name:'楚乔传（精编版）',url:'detailPage/1000/1110/0000/0000/0000/0000/0015/iaDvcKxNoTFEIRhJrfgmxWteYWHJsut4585.html', contentType:'2',contentCharges:'1100000021','categoryId':'1100000663', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0022/aQXweeFlmxXRZtgdycWiFvuYEESHvRY4396.jpg'}
+            ,
+
+
+            {contentId:'10001110000000000000000000155524',name:'战狼',url:'detailPage/1000/1110/0000/0000/0000/0000/0015/aQXzXeFlmxXRZtgdycWiFvuYEDSaLuX5524.html', contentType:'0',contentCharges:'1100000021','categoryId':'1100000663', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0022/PpZeCCEsyYRfVcDBWLXsEUUTOUrNTlV5931.jpg'}
+            ,
+
+
+            {contentId:'10001110000000000000000000151750',name:'醉玲珑',url:'detailPage/1000/1110/0000/0000/0000/0000/0015/keCqucfiQOcLShZbGyKjfxgduprdVdn1750.html', contentType:'2',contentCharges:'1100000021','categoryId':'1100000663', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0022/VStZqqAWZYJvcBXpEMOKAjTyWjURJUX0482.jpg'}
+            ,
+
+
+            {contentId:'10001110000000000000000000154582',name:'飞虎队大营救',url:'detailPage/1000/1110/0000/0000/0000/0000/0015/CNfLBkTDGHWduUEjXTRVTpMiJstYNwI4582.html', contentType:'2',contentCharges:'1100000021','categoryId':'1100000663', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0022/uygsaaMVnUbFDXUTLRrsMAOwxXylPkv4288.jpg'}
+
+        ];
+        var list_b=[
+            // 推荐竖图
+
+
+            {contentId:'10001110000000000000000000154962',name:'逆时营救',url:'detailPage/1000/1110/0000/0000/0000/0000/0015/vByKEdWwTgIGaVocsVmWWuCXXqxMbGT4962.html', contentType:'0',contentCharges:'1100000021','categoryId':'1100000664', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0022/UMaAMMXYJDGKPVuLmNydXUSRZmOnZZY5936.jpg'}
+            ,
+
+
+            {contentId:'10001110000000000000000000154985',name:'神探狄仁杰第四部',url:'detailPage/1000/1110/0000/0000/0000/0000/0015/yDTiRpPfUspkbedovHUrPsYCjWTtGTZ4985.html', contentType:'2',contentCharges:'1100000021','categoryId':'1100000664', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0022/uygsaaMVnUbFDXUTLRrsMAOwxXylSru4587.jpg'}
+            ,
+
+
+            {contentId:'10001110000000000000000000154942',name:'异星觉醒',url:'detailPage/1000/1110/0000/0000/0000/0000/0015/xFpNWxKWBZVNklayssQTKgocCIebmch4942.html', contentType:'0',contentCharges:'1100000021','categoryId':'1100000664', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0022/wHSoGGusptLrlyVFKWCwuYDBUwJbUcN4461.jpg'}
+            ,
+
+
+            {contentId:'10001110000000000000000000150555',name:'极限挑战第三季',url:'detailPage/1000/1110/0000/0000/0000/0000/0015/eYNxtXcajfUhngKYVDVkcFWULnnUUBx0555.html', contentType:'7',contentCharges:'1100000021','categoryId':'1100000664', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0022/FXwfEEVvTKSleoQDPujxVWmUNbVtblA4311.jpg'}
+            ,
+
+
+            {contentId:'10001110000000000000000000154769',name:'学生兵',url:'detailPage/1000/1110/0000/0000/0000/0000/0015/pwKRPURusEtcCUXTIhGPRMrWfoxxpCm4769.html', contentType:'2',contentCharges:'1100000021','categoryId':'1100000664', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0022/TxPcssZTvIKCjNirynaBZhlfVuADLvZ4291.jpg'}
+            ,
+
+
+            {contentId:'10001110000000000000000000153422',name:'少林问道',url:'detailPage/1000/1110/0000/0000/0000/0000/0015/pwKRPURusEtcCUXTIhGPRMrWfoxwpjM3422.html', contentType:'2',contentCharges:'1100000021','categoryId':'1100000664', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0022/ZKEXAAehWkYTOWxsbdFIeavsHsMWMWY2296.jpg'}
+            ,
+
+
+            {contentId:'10001110000000000000000000154896',name:'浪花一朵朵',url:'detailPage/1000/1110/0000/0000/0000/0000/0015/WvuBxggwHhWXiGlfnKoTgtVFDQuamCp4896.html', contentType:'2',contentCharges:'1100000021','categoryId':'1100000664', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0022/vByNddWwTgIGaVocsVmWWuCXXrDyUSp4612.jpg'}
+            ,
+
+
+            {contentId:'10001110000000000000000000154583',name:'绝密543',url:'detailPage/1000/1110/0000/0000/0000/0000/0015/TWsZsPhpwLgDmXNOSZlHhRGxyAUkpUt4583.html', contentType:'2',contentCharges:'1100000021','categoryId':'1100000664', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0022/ZKEXAAehWkYTOWxsbdFIeavsHsMUvXV4301.jpg'}
+            ,
+
+
+            {contentId:'10001110000000000000000000154984',name:'黑土热血',url:'detailPage/1000/1110/0000/0000/0000/0000/0015/TxPTHsZTvIKCjNirynaBZhlfVvMOSlA4984.html', contentType:'2',contentCharges:'1100000021','categoryId':'1100000664', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0022/WvuEgggwHhWXiGlfnKoTgtVFDRxwkFY4618.jpg'}
+            ,
+
+
+            {contentId:'10001110000000000000000000152678',name:'开心剧乐部',url:'detailPage/1000/1110/0000/0000/0000/0000/0015/TxPTHsZTvIKCjNirynaBZhlfVvMMEEb2678.html', contentType:'7',contentCharges:'1100000021','categoryId':'1100000664', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0022/IZYHzzkLgjeHXTTyMJxWkiWnwvXfuGf4317.jpg'}
+            ,
+
+
+            {contentId:'10001110000000000000000000146493',name:'双屏互动APP\"沃视达\"',url:'detailPage/1000/1110/0000/0000/0000/0000/0014/bYjULhVJUGCSwnsgaoPMVysuVZEVmxc6493.html', contentType:'0',contentCharges:'1100000021','categoryId':'1100000664', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0021/vByNddWwTgIGaVocsVmWWuCXXrCTsGV5064.jpg'}
+            ,
+
+
+            {contentId:'10001110000000000000000000149562',name:'蓝精灵：寻找神秘村',url:'detailPage/1000/1110/0000/0000/0000/0000/0014/vByKEdWwTgIGaVocsVmWWuCXXqyqqaT9562.html', contentType:'0',contentCharges:'1100000021','categoryId':'1100000664', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0022/WvuEgggwHhWXiGlfnKoTgtVFDRxtjAg1870.jpg'}
+
+        ];
+        var list_c=[
+            // 点播入口图
+
+
+            {contentId:'10007110000000000000000000000725',name:'#',url:'/jlgdhd_new/kanbaFlat/dy/xpsy/', contentType:'3',contentCharges:'','categoryId':'1100000665', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0022/NlcbllWXVTvULMRkOxtCWwbadwnfFHj0141.jpg'}
+            ,
+
+
+            {contentId:'10007110000000000000000000000727',name:'#',url:'/jlgdhd_new/kanbaFlat/zy/zrx/', contentType:'3',contentCharges:'','categoryId':'1100000665', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0022/TxPcssZTvIKCjNirynaBZhlfVuAsnLQ0142.jpg'}
+            ,
+
+
+            {contentId:'10007110000000000000000000000738',name:'少儿',url:'/jlgdhd_new/kanbaFlat/se/dm/index.html', contentType:'3',contentCharges:'','categoryId':'1100000665', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0022/TWsWPPhpwLgDmXNOSZlHhRGxyBYnDTX0144.jpg'}
+            ,
+
+
+            {contentId:'10007110000000000000000000000847',name:'动漫',url:'/jlgdhd_new/kanbaFlat/dm/gcdm/', contentType:'3',contentCharges:'','categoryId':'1100000665', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0022/fcTVWWsxXnuiJaeVwPYOsKQDmDeHlXt0145.jpg'}
+            ,
+
+
+            {contentId:'10007110000000000000000000000846',name:'纪录片',url:'/jlgdhd_new/kanbaFlat/jlp/rwls/', contentType:'3',contentCharges:'','categoryId':'1100000665', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0022/wwVnyytyPRuUNrGxZgVptbyvcuuKYyW0146.jpg'}
+            ,
+
+
+            {contentId:'10007110000000000000000000000726',name:'#',url:'/jlgdhd_new/kanbaFlat/dsj/tbrb/', contentType:'3',contentCharges:'','categoryId':'1100000665', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0022/wHSoGGusptLrlyVFKWCwuYDBUwJVHwD0147.jpg'}
+            ,
+
+
+            {contentId:'10007110000000000000000000000734',name:'#',url:'/jlgdhd_new/kanbaFlat/ty/zcls/', contentType:'3',contentCharges:'','categoryId':'1100000665', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0022/BTshVVIHWWZVQCmUuSivILNOGyVypsd0148.jpg'}
+            ,
+
+
+            {contentId:'10007110000000000000000000000737',name:'新闻',url:'/jlgdhd_new/kanbaFlat/xw/ylzx/', contentType:'3',contentCharges:'','categoryId':'1100000665', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0022/HTniWWLPwuhyoDCXVINwLEXTrybSWDK0149.jpg'}
+            ,
+
+
+            {contentId:'10007110000000000000000000000739',name:'音乐',url:'/jlgdhd_new/kanbaFlat/yy/qb/', contentType:'3',contentCharges:'','categoryId':'1100000665', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0022/OfHIHHnTFSsmAikGwseXnZayoxhwkGJ0150.jpg'}
+            ,
+
+
+            {contentId:'10007110000000000000000000000821',name:'敬请期待',url:'##', contentType:'3',contentCharges:'','categoryId':'1100000665', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0020/nsLRvvdZVJUTrxfwtYcSdeFPBUsDdZy1350.jpg'}
+
+        ];
+        var list_d=[
+            // “专题”页
+
+
+            {contentId:'20002110000000000000000000000548',name:'喜迎省十一次党代会',url:'detailPage/2000/2110/0000/0000/0000/0000/0000/eWMtGtQtLajwxwvsdYBhQoHVpEOUXZS0548/index.html', contentType:'4',contentCharges:'','categoryId':'1100000666', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0020/IZYHzzkLgjeHXTTyMJxWkiWnwvZAsui7882.jpg'}
+            ,
+
+
+            {contentId:'20002110000000000000000000000563',name:'精彩吉林 相约世界',url:'detailPage/2000/2110/0000/0000/0000/0000/0000/OaDwYKxNoTFEIRhJrfgmxWteYVVsQwK0563/index.html', contentType:'4',contentCharges:'','categoryId':'1100000666', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0021/XOwUYYSBxVnoYmjXpykFSIirlYPNSul2465.jpg'}
+            ,
+
+
+            {contentId:'20002110000000000000000000000625',name:'将改革进行到底',url:'detailPage/2000/2110/0000/0000/0000/0000/0000/jhdeUTiEtmaPBpTSAkWuiNwZsbFfNXi0625/index.html', contentType:'4',contentCharges:'','categoryId':'1100000666', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0022/SnuGxxJIKAdBUTOwRbfVJkxsvipvsoW2566.jpg'}
+            ,
+
+
+            {contentId:'20002110000000000000000000000564',name:'“一带一路”国际合作高峰论坛',url:'detailPage/2000/2110/0000/0000/0000/0000/0000/mReHaJNUbClsHupIjiwYNXyhnJvxUYu0564/index.html', contentType:'4',contentCharges:'','categoryId':'1100000666', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0021/GVXMbbwrDwHARJbaxvYXwsdoYeWpXvM2691.jpg'}
+            ,
+
+
+            {contentId:'20002110000000000000000000000508',name:'军旅战争',url:'detailPage/2000/2110/0000/0000/0000/0000/0000/kgUWyoaRuiQpTwWnJevLalwKPYXceGd0508/index.html', contentType:'4',contentCharges:'','categoryId':'1100000666', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0020/uLJjUUmYRoisvPHVYjTtmCpIyOLQSTI2762.jpg'}
+            ,
+
+
+            {contentId:'20002110000000000000000000000482',name:'我们一起看过的动画',url:'detailPage/2000/2110/0000/0000/0000/0000/0000/itYVXYlMYNouTywZkawElGsgsdBFtiW0482/index.html', contentType:'4',contentCharges:'','categoryId':'1100000666', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0019/UrvBOOyXfusQUjANTwJcySkGayODTVg9781.jpg'}
+            ,
+
+
+            {contentId:'20002110000000000000000000000321',name:'有理讲理专题',url:'detailPage/2000/2110/0000/0000/0000/0000/0000/QLJhCUmYRoisvPHVYjTtmCpIyMxOtYK0321/index.html', contentType:'4',contentCharges:'','categoryId':'1100000666', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0016/PpZeCCEsyYRfVcDBWLXsEUUTOTtZxcI2874.jpg'}
+            ,
+
+
+            {contentId:'10007110000000000000000000000742',name:'专题1',url:'/jlgdhd_new/myIptvFlat/recent/', contentType:'3',contentCharges:'','categoryId':'1100000666', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0019/XGFajjwUypwYEAMiTWbDwyJleglorwx8781.jpg'}
+            ,
+
+
+            {contentId:'10007110000000000000000000000743',name:'专题2',url:'/jlgdhd_new/myIptvFlat/recent/', contentType:'3',contentCharges:'','categoryId':'1100000666', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0019/TWsWPPhpwLgDmXNOSZlHhRGxyAYmyNu8782.jpg'}
+            ,
+
+
+            {contentId:'10007110000000000000000000000744',name:'专题3',url:'/jlgdhd_new/myIptvFlat/recent/', contentType:'3',contentCharges:'','categoryId':'1100000666', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0019/hgUYooaRuiQpTwWnJevLalwKPXNkGfA8783.jpg'}
+            ,
+
+
+            {contentId:'10007110000000000000000000000741',name:'全部专题',url:'#qbzt#', contentType:'3',contentCharges:'','categoryId':'1100000666', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0019/PpZeCCEsyYRfVcDBWLXsEUUTOTwqcUy8780.jpg'}
+
+        ];
+        var list_e=[
+            // VIP入口图
+
+
+            {contentId:'10007110000000000000000000000748',name:'#',url:'/jlgdhd_new/kanbaFlat/hqys/qb/', contentType:'3',contentCharges:'','categoryId':'1100000667', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0019/HTniWWLPwuhyoDCXVINwLEXTrzIsXGu8788.jpg'}
+            ,
+
+
+            {contentId:'10007110000000000000000000000749',name:'#',url:'/jlgdhd_new/kanbaFlat/4k/qb/', contentType:'3',contentCharges:'','categoryId':'1100000667', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0020/uLJjUUmYRoisvPHVYjTtmCpIyOLSVsf4249.jpg'}
+            ,
+
+
+            {contentId:'10007110000000000000000000000750',name:'#',url:'/jlgdhd_new/kanbaFlat/hlwpc/qb/', contentType:'3',contentCharges:'','categoryId':'1100000667', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0020/VStZqqAWZYJvcBXpEMOKAjTyWjSIYbx2824.jpg'}
+            ,
+
+
+            {contentId:'10007110000000000000000000000751',name:'#',url:'/jlgdhd_new/kanbaFlat/wyzxb/qb/', contentType:'3',contentCharges:'','categoryId':'1100000667', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0019/UrvBOOyXfusQUjANTwJcySkGayOCpUX8791.jpg'}
+
+        ];
+        var list_e1=[
+            // “VIP”推荐
+
+
+            {contentId:'10001110000000000000000000140225',name:'告密者-4K',url:'detailPage/1000/1110/0000/0000/0000/0000/0014/fcTSpWsxXnuiJaeVwPYOsKQDmCXSmme0225.html', contentType:'0',contentCharges:'1100000021','categoryId':'1100000668', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0020/MbQFiiGAdXVVpSyhilsUGrntKgbDMeX7627.jpg'}
+            ,
+
+
+            {contentId:'10001110000000000000000000139907',name:'精灵旅社2-4K',url:'detailPage/1000/1110/0000/0000/0000/0000/0013/MbQCYiGAdXVVpSyhilsUGrntKfXxvvO9907.html', contentType:'0',contentCharges:'1100000021','categoryId':'1100000668', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0021/sPImwwYnubEOGfyvguDyYdcHXTQhKKU3859.jpg'}
+            ,
+
+
+            {contentId:'10001110000000000000000000138391',name:'林肯-4K',url:'detailPage/1000/1110/0000/0000/0000/0000/0013/ZKEYvAehWkYTOWxsbdFIeavsHtOJteV8391.html', contentType:'0',contentCharges:'1100000021','categoryId':'1100000668', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0020/JdmduuykYrDIyZntlVsAyfKYWSdNTTf6644.jpg'}
+            ,
+
+
+            {contentId:'10001110000000000000000000065495',name:'天将雄师-4k',url:'detailPage/1000/1110/0000/0000/0000/0000/0006/KVRHIQYgIeAWfvFPYUXZYQBuTLxaxhw5495.html', contentType:'0',contentCharges:'1100000021','categoryId':'1100000668', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0021/LhdgTTiEtmaPBpTSAkWuiNwZsdiYGvW3853.jpg'}
+            ,
+
+
+            {contentId:'10001110000000000000000000138260',name:'谜城-4K',url:'detailPage/1000/1110/0000/0000/0000/0000/0013/hgUVAoaRuiQpTwWnJevLalwKPXHPBfC8260.html', contentType:'0',contentCharges:'1100000021','categoryId':'1100000668', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0020/hgUYooaRuiQpTwWnJevLalwKPWgglHH4659.jpg'}
+            ,
+
+
+            {contentId:'10001110000000000000000000138353',name:'帮助-4K',url:'detailPage/1000/1110/0000/0000/0000/0000/0013/iaDvcKxNoTFEIRhJrfgmxWteYWFFebW8353.html', contentType:'0',contentCharges:'1100000021','categoryId':'1100000668', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0020/eYNyXXcajfUhngKYVDVkcFWULoYuoSu5306.jpg'}
+            ,
+
+
+            {contentId:'10007110000000000000000000000753',name:'推荐2',url:'/jlgdhd_new/myIptvFlat/recent/', contentType:'3',contentCharges:'','categoryId':'1100000668', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0020/wHSoGGusptLrlyVFKWCwuYDBUwHkjNW1613.jpg'}
+            ,
+
+
+            {contentId:'10007110000000000000000000000752',name:'推荐1',url:'/jlgdhd_new/myIptvFlat/recent/', contentType:'3',contentCharges:'','categoryId':'1100000668', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0020/suhpIIUKSdMxyFcHuEUnUYXpTKuOWkP1609.jpg'}
+            ,
+
+
+            {contentId:'10007110000000000000000000000754',name:'推荐3',url:'/jlgdhd_new/myIptvFlat/recent/', contentType:'3',contentCharges:'','categoryId':'1100000668', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0020/pwKUUURusEtcCUXTIhGPRMrWfpwbGdq1602.jpg'}
+            ,
+
+
+            {contentId:'10007110000000000000000000000755',name:'推荐4',url:'/jlgdhd_new/myIptvFlat/recent/', contentType:'3',contentCharges:'','categoryId':'1100000668', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0020/XOwUYYSBxVnoYmjXpykFSIirlYOcQUl1598.jpg'}
+            ,
+
+
+            {contentId:'10007110000000000000000000000756',name:'推荐5',url:'/jlgdhd_new/myIptvFlat/recent/', contentType:'3',contentCharges:'','categoryId':'1100000668', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0019/nsLRvvdZVJUTrxfwtYcSdeFPBVRKDyU8797.jpg'}
+            ,
+
+
+            {contentId:'10007110000000000000000000000757',name:'推荐6',url:'/jlgdhd_new/myIptvFlat/recent/', contentType:'3',contentCharges:'','categoryId':'1100000668', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0020/vByNddWwTgIGaVocsVmWWuCXXrBBTdr1597.jpg'}
+
+        ];
+        var list_f=[
+            // 应用
+        ];
+        var list_g=[
+            // 我的
+
+
+            {contentId:'10007110000000000000000000000694',name:'设置',url:'#set#', contentType:'3',contentCharges:'','categoryId':'1100000669', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0019/wwVnyytyPRuUNrGxZgVptbyvctvYmDb8724.jpg'}
+            ,
+
+
+            {contentId:'10007110000000000000000000000696',name:'最近观看',url:'/jlgdhd_new/myIptvFlat/recent/', contentType:'3',contentCharges:'','categoryId':'1100000669', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0019/FXwfEEVvTKSleoQDPujxVWmUNaTUJtx8725.jpg'}
+            ,
+
+
+            {contentId:'10007110000000000000000000000697',name:'我的收藏',url:'/jlgdhd_new/myIptvFlat/fav/', contentType:'3',contentCharges:'','categoryId':'1100000669', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0019/sPImwwYnubEOGfyvguDyYdcHXUXuMbO8726.jpg'}
+            ,
+
+
+            {contentId:'10007110000000000000000000000698',name:'直播预订',url:'/jlgdhd_new/myIptvFlat/reserve/', contentType:'3',contentCharges:'','categoryId':'1100000669', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0019/TWsWPPhpwLgDmXNOSZlHhRGxyAYmyHy8728.jpg'}
+            ,
+
+
+            {contentId:'10007110000000000000000000000699',name:'手机绑定',url:'/jlgdhd_new/myIptvFlat/linkMobile/', contentType:'3',contentCharges:'','categoryId':'1100000669', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0019/pwKUUURusEtcCUXTIhGPRMrWfoxiVxT8729.jpg'}
+            ,
+
+
+            {contentId:'10007110000000000000000000000700',name:'我的通知',url:'/jlgdhd_new/myIptvFlat/mineUnicom/', contentType:'3',contentCharges:'','categoryId':'1100000669', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0019/SnuGxxJIKAdBUTOwRbfVJkxsvhfUdVP9876.jpg'}
+            ,
+
+
+            {contentId:'10007110000000000000000000000701',name:'用户注册',url:'##', contentType:'3',contentCharges:'','categoryId':'1100000669', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0019/gWMvttQtLajwxwvsdYBhQoHVpFYWWVJ8732.jpg'}
+            ,
+
+
+            {contentId:'10007110000000000000000000000702',name:'我的订购',url:'##', contentType:'3',contentCharges:'','categoryId':'1100000669', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0019/QjGDTTXoiFOtKuWUDUIaXBLAROusLMO8733.jpg'}
+            ,
+
+
+            {contentId:'10007110000000000000000000000703',name:'我的红白',url:'##', contentType:'3',contentCharges:'','categoryId':'1100000669', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0019/tuASLLobElmyWswKeQHRoVPWuTVdzLT8734.jpg'}
+            ,
+
+
+            {contentId:'10007110000000000000000000000704',name:'版本切换',url:'##', contentType:'3',contentCharges:'','categoryId':'1100000669', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0019/VStZqqAWZYJvcBXpEMOKAjTyWipOgCY8735.jpg'}
+
+        ];
+        var list_h=[
+            // 推荐左下角
+
+
+            {contentId:'10007110000000000000000000000705',name:'#',url:'/jlgdhd_new/channelListFlat/', contentType:'3',contentCharges:'','categoryId':'1100000662', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0019/YEkCVVCdMVNnwsPWQmpbCDuLSBSXeky8736.jpg'}
+            ,
+
+
+            {contentId:'10007110000000000000000000000706',name:'#',url:'/jlgdhd_new/myIptvFlat/recent/', contentType:'3',contentCharges:'','categoryId':'1100000662', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0020/uLJjUUmYRoisvPHVYjTtmCpIyOLRTPn3019.jpg'}
+            ,
+
+
+            {contentId:'10007110000000000000000000000707',name:'#',url:'/jlgdhd_new/searchFlat/', contentType:'3',contentCharges:'','categoryId':'1100000662', 'pic':'../../../../pic/1000/4110/0000/0000/0000/0000/0019/uygsaaMVnUbFDXUTLRrsMAOwxYTtYsp8740.jpg'}
+
+        ];
+        var list_i=[
+            // 全部专题
+            {}
+        ];
+        /*推荐*/
+        var DATA_VIDEO_ARR=[
+
+
+            {name:'#',url:'channel://201',contentType:''}
+
+        ];
+        var DATA_TJ_LIST = DATA_VIDEO_ARR.concat(list_h).concat(list_a.slice(0,2)).concat(reMap({1:2},list_b.slice(0,4))).concat(list_a.slice(2,4)).concat(list_b.slice(4,12));
+
+        var tjImgs=[];
+        var tjUrls=[];
+        for(var i=0,len=tjImgs.length;i<len;i++)tjImgs[i]&&(DATA_TJ_LIST[i].pic=tjImgs[i]);
+        for(var i=0,len=tjUrls.length;i<len;i++)tjUrls[i]&&(DATA_TJ_LIST[i].url=tjUrls[i]);
+
+        var MARQUEE_TEXT_ARR=[
+
+
+            '重大福利，手机看视频免流量啦！吉林联通手机用户可通过“我的”菜单，选择“手机绑定”页面，扫描二维码下载双屏互动客户端“沃视达”，快来体验吧！'//'不用时删除'
+
+        ];
+        /*点播*/
+        var DATA_DB_LIST = reMap({
+            1:5, 2:1, 3:6, 4:2, 5:7, 6:3, 7:8, 8:4
+        },list_c);
+        var dbImgs=[];
+        var dbUrls=[];
+        for(var i=0,len=dbImgs.length;i<len;i++)dbImgs[i]&&(DATA_DB_LIST[i].pic=dbImgs[i]);
+        for(var i=0,len=dbUrls.length;i<len;i++)dbUrls[i]&&(DATA_DB_LIST[i].url=dbUrls[i]);
+        /*VIP*/
+        var DATA_VIP_LIST = list_e.concat(reMap({
+            2:1, 4:2, 1:3, 3:4
+        }, list_e1));
+        var vipImgs=[];
+        for(var i=0,len=vipImgs.length;i<len;i++)vipImgs[i]&&(DATA_VIP_LIST[i].pic=vipImgs[i]);
+        /*专题*/
+        var DATA_ZT_LIST = [].concat(reMap({
+            2:1, 5:2, 1:3, 3:4, 4:5
+        },list_d));
+        var ztImgs=[];
+        for(var i=0,len=ztImgs.length;i<len;i++)ztImgs[i]&&(DATA_ZT_LIST[i].pic=ztImgs[i]);
+        /*应用*/
+        var DATA_APP_LIST = list_f;
+        for(var i=0;i<5;i++) DATA_APP_LIST[i]={};
+        var appImgs=['images/app/app_wjyl.jpg','images/app/app_wjyx.jpg','images/app/app_bfyy.jpg','images/app/app_jy.jpg','images/app/app_wjsx.jpg'];
+        if (!isHWv9) appImgs[1]='images/app/app_wjyx_locked.jpg';
+        var appUrls=['app://wjyl','app://wjyx','app://bfyy','app://jy','app://wjsx'];
+        for(var i=0,len=appImgs.length;i<len;i++) appImgs[i]&&(DATA_APP_LIST[i].pic=appImgs[i]);
+        for(var i=0,len=appUrls.length;i<len;i++) appUrls[i]&&(DATA_APP_LIST[i].url=appUrls[i]);
+        /*我的*/
+        var DATA_MINE_LIST = reMap({
+            1:5, 2:1, 3:6, 4:2, 5:7, 6:3, 7:8, 8:4
+        },list_g);
+        var mineImgs=[];
+        var mineUrls=[];
+        for(var i=0,len=mineImgs.length;i<len;i++)mineImgs[i]&&(DATA_MINE_LIST[i].pic=mineImgs[i]);
+        for(var i=0,len=mineUrls.length;i<len;i++)mineUrls[i]&&(DATA_MINE_LIST[i].url=mineUrls[i]);
     </script>
-    <!-- 双屏互动 -->
-    <script>
-        var SOCKET,
-                mobileIds = {},
-                lastPingTime = 0,
-                pingLostTime = 1000 * 60 * 10,
-                checkPingTimer,
-                checkOnlineTimer;
-        function checkPingStart(){
-            clearTimeout(checkPingTimer);
-            checkPingTimer = setTimeout(offLineSocket, pingLostTime);
-        }
-        //检测手机状态
-        function checkActive() {
-            jsonp(BIND_SERVER + 'user/mobileInfo/' + bindId + '/activeCallback', false, 2000, checkActive);
-        }
-        function activeCallback(result) {
-            if (result && result.code === 1) {
-                if(!SOCKET){
-                    checkOnlineStart();
-                }
-            }
-        }
-        function getMobileInfos(result){
-            if(result){
-                mobileInfosCallback(result);
-            }else{
-                jsonp(BIND_SERVER + 'user/mobileInfos/' + bindId + '/mobileInfosCallback');
-            }
-        }
-        function mobileInfosCallback(result){
-            var hasMobileActive = false;
-            if (result && result.code === 1) {
-                mobileIds = {};
-                for(var i in result.data){
-                    var d = result.data[i];
-                    if(d && d.active){
-                        mobileIds[d.mobileId] = d.mobileId;
-                        hasMobileActive = true;
-                    }
-                }
-                if(!SOCKET && hasMobileActive){
-                    checkActive();
-                }
-            }
-            if(!hasMobileActive){
-                clearTimeout(checkOnlineTimer);
-                // offLineSocket();
-            }
-        }
-        //检测手机是否被激活
-        function checkMobileActive(mobileId){
-            return !!mobileIds[mobileId];
-        }
-        function checkOnlineStart(){
-            clearTimeout(checkOnlineTimer);
-            checkOnlineTimer = setTimeout(checkOnline, 2000);
-        }
-        function checkOnline() {
-            jsonp(BIND_SERVER + 'user/shouldOnline/' + bindId + '/onlineCallback', false, 4000, onlineCallback);
-        }
-        function onlineCallback(result) {
-            out('checkOnline result ' + JSON.stringify(result));
-            if (result && result.code === 1) {
-                connectSocket();
-            } else {
-                checkOnlineStart();
-            }
-        }
-        function connectSocket(){
-            out('connectSocket');
-            SOCKET = io(RCTL_SERVER);
-            SOCKET.on('connect', function(){
-                out('login : ' + bindId);
-                SOCKET.emit('login', bindId);
-                checkPingStart();
-            });
-
-            SOCKET.on('order', function(order) {
-                var mobileId = order.split("*")[0];
-                var msg = order.split("*")[1];
-                socketOrder(mobileId, msg);
-            });
-
-            SOCKET.on('u_ping', function(data){
-                var cmd = data.split('*');
-                var mobileId = cmd[0];
-                if(!socketOrderPre(mobileId)){
-                    return;
-                }
-                out('PONG PONG PONG PONG PONG PONG');
-                SOCKET.emit('u_ping', bindId + '*' + mobileId + '*PONG');
-                lastPingTime = new Date();
-                checkPingStart();
-            });
-
-            SOCKET.on('error', function(err) {
-                out(err);
-                if (err) {
-                    SOCKET.disconnect();
-                    SOCKET = null;
-                    //checkOnline
-                    checkOnlineStart();
-                }
-            });
-            SOCKET.on('connect_error', function(err) {
-                out('connect_error : ' + err);
-            });
-
-            SOCKET.on('disconnect', function() {
-                out('disconnected, will reconnect automatically soon');
-            });
-            //加载可用手机列表
-            getMobileInfos();
-        }
-        function offLineSocket(){
-            out('offLineSocket , lastPingTime :' + lastPingTime);
-            if(SOCKET){
-                jsonp(BIND_SERVER + 'user/setOffline/bindId/' + bindId + '/setOfflineCallback');
-                SOCKET.emit('logout', bindId);
-                SOCKET.disconnect();
-                SOCKET = null;
-                //checkOnline
-                checkOnlineStart();
-            }
-        }
-        function setOfflineCallback(d){
-            out('setOfflineCallback ' + JSON.stringify(d));
-        }
-        //阻止未激活的手机操作
-        function socketOrderPre(mobileId, key){
-            if(!checkMobileActive(mobileId)){
-                out('not active : ' + mobileId);
-                if(key == 'PLAYCTL'){//返回pull的命令
-                    orderOk(mobileId, false, 'pull');
-                }else{
-                    orderOk(mobileId, false);
-                }
-                return false;
-            }
-            return true;
-        }
-        function socketOrder(mobileId, msg){
-            out(msg);
-            var params = msg.split('@');
-            if(params.length <= 1){
-                params = msg.split('_');
-            }
-            var key = params.shift();
-            if(!socketOrderPre(mobileId, key)){
-                return;
-            }
-            var ctrlFn = REMOTE_CTRL[key];
-            if(ctrlFn){
-                ctrlFn(mobileId, params);
-            }
-        }
-        function orderOk(mobileId, success, pull){
-            var backObj;
-            var type = pull ? 'pull' : 'push';
-            if(success){
-                var backObj = {'type': type,'code': '1'}
-            }else{
-                var backObj = {'type': type,'code': '-1','errorType':'1'}
-            }
-            SOCKET.emit('stb_order', bindId + '*' + mobileId + '*' + JSON.stringify(backObj));
-        }
-        var REMOTE_CTRL = {
-            CHANNEL : function(mobileId, params){//直播或时移
-                if(params[0]){
-                    var num = params[0];
-                    var playTime = params[1];
-                    out('playTime ' + playTime);
-                    $.playLiveOrRec(num, null, null, playTime);
-                    orderOk(mobileId, true);
-                }else{
-                    orderOk(mobileId, false);
-                }
-            },
-            PUSH_TO_TV : function(mobileId, params){
-                var COMMON_MS_CATEGORY_ID = 'mobile';
-                var contentId = params[0];
-                var playTime = params[1];
-                if(params.length == 2){//VOD
-                    $.playVideoByTime(contentId, COMMON_MS_CATEGORY_ID, null, playTime);
-                    orderOk(mobileId, true);
-                }else if(params.length == 3){//SERIES
-                    var seriesId = params[0];//剧头ID
-                    contentId = params[1];//子集ID
-                    playTime = params[2];
-                    $.playVideoByTime(contentId, COMMON_MS_CATEGORY_ID, seriesId, playTime);
-                    orderOk(mobileId, true);
-                }else{
-                    orderOk(mobileId, false);
-                }
-            },
-            CTRL : function(mobileId, params){
-                if(params.length){
-                    $.keyEvent({keyCode:params[0]});
-                    orderOk(mobileId, true);
-                }else{
-                    orderOk(mobileId, false);
-                }
-            },
-            PUSH_TVOD_TO_TV : function(mobileId, msg){
-                if (msg.length == 4) {
-                    var channelNum = msg[0];
-                    var startTime = msg[1];
-                    var endTime = msg[2];
-                    var playTime = msg[3];
-                    orderOk(mobileId, true);
-                    $.playLiveOrRec(channelNum, startTime, endTime, playTime);
-                }else{
-                    orderOk(mobileId, false);
-                }
-            },
-            PLAYCTL : function(mobileId, msg){
-                var errObj = {"type":"pull","code":"-1","errorType":"1"};
-                var outObj;
-                if(cwindow && cwindow.getPlayInfo){
-                    outObj = cwindow.getPlayInfo();
-                }
-                if(!outObj){
-                    outObj = errObj;
-                }
-                out(JSON.stringify(outObj));
-                SOCKET.emit('stb_order', bindId + '*' + mobileId + '*' + JSON.stringify(outObj));
-            }
-        };
-    </script>
-    <script src="../../../dataSource/channelList/1100000001Flat/index.js"></script>
 </head>
-<body onload="load()">
-<div id="out" style="color: green;font-size: 20px;z-index: 100;left:30px;top:30px;position:absolute;"></div>
+<body onload="initPage()" onunload="stopMp();saveFocus();" style="background: url(&quot;images/bg.png&quot;) no-repeat transparent; visibility: visible;">
+<div class="f-container" id="sy_container">
+    <div class="tabs">
+        <div id="tab_tj" class="tab active">推荐</div>
+        <div id="tab_db" class="tab">点播</div>
+        <div id="tab_vip" class="tab">VIP</div>
+        <div id="tab_zt" class="tab">专题</div>
+        <div id="tab_app" class="tab">娱乐</div>
+        <div id="tab_mine" class="tab">我的</div>
+    </div>
+    <div id="curtain" class="curtain d-none"></div>
+    <div class="page transition" style="transform: translateX(0px);"><div class="abs-pos sub-page sub-page-1"><div class="wrapper"><div class="f-div tj-video-div focusBorder" id="tj_div_0"></div><div class="sub-wrapper sub-wrapper-tj"><div class="f-div tj-square-div" id="tj_div_1"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0019/YEkCVVCdMVNnwsPWQmpbCDuLSBSXeky8736.jpg"></div><div class="f-div tj-square-div" id="tj_div_2"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0020/uLJjUUmYRoisvPHVYjTtmCpIyOLRTPn3019.jpg"></div><div class="f-div tj-square-div" id="tj_div_3"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0019/uygsaaMVnUbFDXUTLRrsMAOwxYTtYsp8740.jpg"></div></div><div class="f-div tj-horiz-div" id="tj_div_4"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0022/aQXweeFlmxXRZtgdycWiFvuYEESHvRY4396.jpg"><div class="title">楚乔传（精编版）</div></div><div class="f-div tj-horiz-div" id="tj_div_5"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0022/PpZeCCEsyYRfVcDBWLXsEUUTOUrNTlV5931.jpg"><div class="title">战狼</div></div><div class="f-div tj-verti-div" id="tj_div_6"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0022/UMaAMMXYJDGKPVuLmNydXUSRZmOnZZY5936.jpg"><div class="title">逆时营救</div></div><div class="f-div tj-verti-div" id="tj_div_7"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0022/wHSoGGusptLrlyVFKWCwuYDBUwJbUcN4461.jpg"><div class="title">异星觉醒</div></div><div class="f-div tj-verti-div" id="tj_div_8"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0022/uygsaaMVnUbFDXUTLRrsMAOwxXylSru4587.jpg"><div class="title">神探狄仁杰第...</div></div><div class="f-div tj-verti-div" id="tj_div_9"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0022/FXwfEEVvTKSleoQDPujxVWmUNbVtblA4311.jpg"><div class="title">极限挑战第三季</div></div><div class="f-div tj-horiz-div" id="tj_div_10"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0022/VStZqqAWZYJvcBXpEMOKAjTyWjURJUX0482.jpg"><div class="title">醉玲珑</div></div><div class="f-div tj-horiz-div" id="tj_div_11"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0022/uygsaaMVnUbFDXUTLRrsMAOwxXylPkv4288.jpg"><div class="title">飞虎队大营救</div></div><div class="f-div tj-verti-div" id="tj_div_12"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0022/TxPcssZTvIKCjNirynaBZhlfVuADLvZ4291.jpg"><div class="title">学生兵</div></div><div class="f-div tj-verti-div" id="tj_div_13"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0022/ZKEXAAehWkYTOWxsbdFIeavsHsMWMWY2296.jpg"><div class="title">少林问道</div></div><div class="f-div tj-verti-div" id="tj_div_14"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0022/vByNddWwTgIGaVocsVmWWuCXXrDyUSp4612.jpg"><div class="title">浪花一朵朵</div></div><div class="f-div tj-verti-div" id="tj_div_15"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0022/ZKEXAAehWkYTOWxsbdFIeavsHsMUvXV4301.jpg"><div class="title">绝密543</div></div><div class="f-div tj-verti-div" id="tj_div_16"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0022/WvuEgggwHhWXiGlfnKoTgtVFDRxwkFY4618.jpg"><div class="title">黑土热血</div></div><div class="f-div tj-verti-div" id="tj_div_17"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0022/IZYHzzkLgjeHXTTyMJxWkiWnwvXfuGf4317.jpg"><div class="title">开心剧乐部</div></div><div class="f-div tj-verti-div" id="tj_div_18"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0021/vByNddWwTgIGaVocsVmWWuCXXrCTsGV5064.jpg"><div class="title">双屏互动APP"...</div></div><div class="f-div tj-verti-div" id="tj_div_19"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0022/WvuEgggwHhWXiGlfnKoTgtVFDRxtjAg1870.jpg"><div class="title">蓝精灵：寻找...</div></div></div></div><div class="abs-pos sub-page sub-page-2"><div class="wrapper"><div class="f-div db-horiz-div" id="db_div_0"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0022/NlcbllWXVTvULMRkOxtCWwbadwnfFHj0141.jpg"></div><div class="f-div db-horiz-div" id="db_div_1"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0022/wHSoGGusptLrlyVFKWCwuYDBUwJVHwD0147.jpg"></div><div class="f-div db-square-div" id="db_div_2"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0022/TxPcssZTvIKCjNirynaBZhlfVuAsnLQ0142.jpg"></div><div class="f-div db-square-div" id="db_div_3"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0022/BTshVVIHWWZVQCmUuSivILNOGyVypsd0148.jpg"></div><div class="f-div db-verti-div" id="db_div_4"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0022/TWsWPPhpwLgDmXNOSZlHhRGxyBYnDTX0144.jpg"><div class="title">少儿</div></div><div class="f-div db-verti-div" id="db_div_5"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0022/HTniWWLPwuhyoDCXVINwLEXTrybSWDK0149.jpg"><div class="title">新闻</div></div><div class="f-div db-verti-div" id="db_div_6"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0022/fcTVWWsxXnuiJaeVwPYOsKQDmDeHlXt0145.jpg"><div class="title">动漫</div></div><div class="f-div db-verti-div" id="db_div_7"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0022/OfHIHHnTFSsmAikGwseXnZayoxhwkGJ0150.jpg"><div class="title">音乐</div></div><div class="f-div db-verti-div" id="db_div_8"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0022/wwVnyytyPRuUNrGxZgVptbyvcuuKYyW0146.jpg"><div class="title">纪录片</div></div><div class="f-div db-verti-div" id="db_div_9"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0020/nsLRvvdZVJUTrxfwtYcSdeFPBUsDdZy1350.jpg"><div class="title">敬请期待</div></div></div></div><div class="abs-pos sub-page sub-page-3"><div class="wrapper"><div class="f-div vip-horiz-div" id="vip_div_0"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0019/HTniWWLPwuhyoDCXVINwLEXTrzIsXGu8788.jpg"></div><div class="f-div vip-horiz-div" id="vip_div_1"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0020/uLJjUUmYRoisvPHVYjTtmCpIyOLSVsf4249.jpg"></div><div class="f-div vip-square-div" id="vip_div_2"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0020/VStZqqAWZYJvcBXpEMOKAjTyWjSIYbx2824.jpg"></div><div class="f-div vip-square-div" id="vip_div_3"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0019/UrvBOOyXfusQUjANTwJcySkGayOCpUX8791.jpg"></div><div class="f-div vip-verti-div" id="vip_div_4"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0020/MbQFiiGAdXVVpSyhilsUGrntKgbDMeX7627.jpg"><div class="title">告密者-4K</div></div><div class="f-div vip-verti-div" id="vip_div_5"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0021/LhdgTTiEtmaPBpTSAkWuiNwZsdiYGvW3853.jpg"><div class="title">天将雄师-4k</div></div><div class="f-div vip-verti-div" id="vip_div_6"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0021/sPImwwYnubEOGfyvguDyYdcHXTQhKKU3859.jpg"><div class="title">精灵旅社2-4K</div></div><div class="f-div vip-verti-div" id="vip_div_7"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0020/hgUYooaRuiQpTwWnJevLalwKPWgglHH4659.jpg"><div class="title">谜城-4K</div></div><div class="f-div vip-verti-div" id="vip_div_8"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0020/JdmduuykYrDIyZntlVsAyfKYWSdNTTf6644.jpg"><div class="title">林肯-4K</div></div><div class="f-div vip-verti-div" id="vip_div_9"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0020/eYNyXXcajfUhngKYVDVkcFWULoYuoSu5306.jpg"><div class="title">帮助-4K</div></div></div></div><div class="abs-pos sub-page sub-page-4"><div class="wrapper"><div class="f-div zt-square-div" id="zt_div_0"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0020/IZYHzzkLgjeHXTTyMJxWkiWnwvZAsui7882.jpg"></div><div class="f-div zt-square-div" id="zt_div_1"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0021/GVXMbbwrDwHARJbaxvYXwsdoYeWpXvM2691.jpg"></div><div class="f-div zt-horiz-div" id="zt_div_2"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0021/XOwUYYSBxVnoYmjXpykFSIirlYPNSul2465.jpg"></div><div class="sub-wrapper sub-wrapper-zt"><div class="f-div vip-square-div" id="zt_div_3"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0020/uLJjUUmYRoisvPHVYjTtmCpIyOLQSTI2762.jpg"></div><div class="f-div vip-square-div" id="zt_div_4"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0019/UrvBOOyXfusQUjANTwJcySkGayODTVg9781.jpg"></div></div><div class="f-div vip-square-div" id="zt_div_5"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0022/SnuGxxJIKAdBUTOwRbfVJkxsvipvsoW2566.jpg"></div><div class="f-div vip-square-div" id="zt_div_6"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0016/PpZeCCEsyYRfVcDBWLXsEUUTOTtZxcI2874.jpg"></div></div></div><div class="abs-pos sub-page sub-page-5"><div class="wrapper"><div class="f-div app-verti-div " id="app_div_0"><img class="img-holder" src="images/app/app_wjyl.jpg"></div><div class="f-div app-verti-div not-hw-v9" id="app_div_1"><img class="img-holder" src="images/app/app_wjyx_locked.jpg"></div><div class="f-div app-verti-div " id="app_div_2"><img class="img-holder" src="images/app/app_bfyy.jpg"></div><div class="f-div app-verti-div " id="app_div_3"><img class="img-holder" src="images/app/app_jy.jpg"></div><div class="f-div app-verti-div " id="app_div_4"><img class="img-holder" src="images/app/app_wjsx.jpg"></div></div></div><div class="abs-pos sub-page sub-page-6"><div class="wrapper"><div class="f-div mine-square-div" id="mine_div_0"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0019/wwVnyytyPRuUNrGxZgVptbyvctvYmDb8724.jpg"></div><div class="f-div mine-square-div" id="mine_div_1"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0019/SnuGxxJIKAdBUTOwRbfVJkxsvhfUdVP9876.jpg"></div><div class="f-div mine-square-div" id="mine_div_2"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0019/FXwfEEVvTKSleoQDPujxVWmUNaTUJtx8725.jpg"></div><div class="f-div mine-square-div" id="mine_div_3"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0019/gWMvttQtLajwxwvsdYBhQoHVpFYWWVJ8732.jpg"></div><div class="f-div mine-square-div" id="mine_div_4"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0019/sPImwwYnubEOGfyvguDyYdcHXUXuMbO8726.jpg"></div><div class="f-div mine-square-div" id="mine_div_5"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0019/QjGDTTXoiFOtKuWUDUIaXBLAROusLMO8733.jpg"></div><div class="f-div mine-square-div" id="mine_div_6"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0019/TWsWPPhpwLgDmXNOSZlHhRGxyAYmyHy8728.jpg"></div><div class="f-div mine-square-div" id="mine_div_7"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0019/tuASLLobElmyWswKeQHRoVPWuTVdzLT8734.jpg"></div><div class="f-div mine-square-div" id="mine_div_8"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0019/pwKUUURusEtcCUXTIhGPRMrWfoxiVxT8729.jpg"></div><div class="f-div mine-square-div" id="mine_div_9"><img class="img-holder" src="../../../../pic/1000/4110/0000/0000/0000/0000/0019/VStZqqAWZYJvcBXpEMOKAjTyWipOgCY8735.jpg"></div></div></div></div></div>
+<script src="js/Page.js"></script>
+<div id="notice"></div>
+<div id="msg"><marquee width="100%" height="99%" scrollamount="4" style="width: 100%; height: 99%;">重大福利，手机看视频免流量啦！吉林联通手机用户可通过“我的”菜单，选择“手机绑定”页面，扫描二维码下载双屏互动客户端“沃视达”，快来体验吧！</marquee></div>
 <script>
-    var out = function() {
-        var __icount = 0,
-                __outE;
-        return function(msg, maxLen) {
-            if(window.isTest){
-                if (!__outE) {
-                    __outE = document.getElementById('out');
-                }
-                if (__outE) {
-                    if (++__icount > 20) {
-                        __icount = 0;
-                        __outE.innerHTML = '';
-                    }
-                    __outE.innerHTML += (((maxLen && msg.length > maxLen) ? (msg.substring(0, maxLen) + '...') : msg) + '<br/>');
-                }
-            }
-        };
-    }();
-    if(isTest){
-        out(':) hello tester!');
+    if(MARQUEE_TEXT_ARR.length){
+        var msg = MARQUEE_TEXT_ARR.join('*****');
+        $('#msg').html('<marquee width="100%" height="99%" scrollamount="4" style="width: 100%; height: 99%;">' + msg + '</marquee>');
     }
 </script>
-<iframe style="position:absolute;left:0px;top:0px;width:1280px;height:720px;" id="topFrame" name="child" frameBorder=0 scrolling=no src=""></iframe>
-<!-- JSP数据 -->
-<script>
-    /*getMiniEPG(1, function(data){
-     log(JSON.stringify(data))
-     });*/
-    /*loadJspTvodData(1, '20170410034800', '20170410044000', function(data){
-     log(JSON.stringify(data))
-     });*/
-    /*var vod = {
-     contentId : '10001110000000000000000000127739',
-     categoryId : '20001110000000000000000000001349',
-     mediaType : '1',//播放类别：片花，正片 : 1
-     seriesId : ''//剧头
-     };
-     loadJspVodData(vod, function(data){
-     log(JSON.stringify(data))
-     });*/
 
-    /*var series = {
-     contentId : '10001110000000000000000000129823',
-     categoryId : '20001110000000000000000000000069',
-     mediaType : '1',//播放类别：片花，正片 : 1
-     seriesId : '10001110000000000000000000129822'//剧头
-     };
-     loadJspVodData(series, function(data){
-     log(JSON.stringify(data))
-     });*/
-    //获取直播播放信息
-    function getMiniEPG(channelNum, callback) {
-        var jspPath = epgDomain + epgDomainHome + "EPG/jsp/default/jsdata/CHANNEL_MINI_DATA.jsp";
-        var channelId = channelMap[channelNum].realNum;
-        if(!channelId){
-            callback();
-            return;
-        }
-        var url = jspPath + "?CHANNELID=" + channelId + "&channelnum=" + channelNum;//用channelIds里的值
-        url += '&callback=showInfoCallBack';
-        $.loaderData(url, {
-            success : function(data){
-                /*data = {
-                 curName : "",
-                 curTime : "",
-                 nextProgName : "",
-                 nextTime : "",
-                 mediacode : "",
-                 channelName : ""
-                 }*/
-                if(data){
-                    data.channelName = (data.channelName || '').replace('现网', '');
-                }
-                typeof callback === 'function' && callback(data);
-            },
-            error : function(){
-                typeof callback === 'function' && callback();
-            },
-            timeout : 1000,
-            jsonpName : 'showInfoCallBack'
-        });
-    }
-    //回看
-    function loadJspTvodData(channelNum, startTime, endTime, callback){
-        var jspPrePath = epgDomain + epgDomainHome + "EPG/jsp/default/jsdata/TVOD_DATA_PRE.jsp";
-        //startTime EndTime  格式 yyyymmddhhmmss
-        //ChannelNum=1&StartTime=" + startTime + "&EndTime=" + endTime
-        var preParams = {
-            ChannelNum : channelNum,
-            StartTime : startTime,
-            EndTime : endTime,
-            callback : 'jspPreCallBack'
-        };
-        var urlPre = $.search.append(jspPrePath, preParams);
 
-        var errReturn = {
-            isSuccess : false
-        };
-        $.loaderData(urlPre, {
-            success : function(params){
-                var jspPath = epgDomain + epgDomainHome + "EPG/jsp/default/jsdata/TVOD_DATA.jsp";
-                var url = jspPath + "?" + params + "&callback=jspTvodDataCallBack";
-                //没有参数PROGID，认为没有成功
-                if(/PROGID=[^&]+/.test(params)){
-                    $.loaderData(url , {
-                        success : function(data){
-                            /*data = {
-                             isSuccess : true,
-                             cInfo : {
-                             progId : "<%=iProgId%>",     //当前播放的vodid
-                             playUrl : "<%=playUrl%>", 	 //触发机顶盒播放url
-                             vodName : "<%=progName%>", 	//本vod的名字
-                             hasNext : <%=hasNext%>,//是否存在下一个节目单
-                             nextVodName : "<%=nextVodName%>",//下一节目名字
-                             nextBeginTime : "<%=nextBeginTime%>",//下一节开始时间
-                             nextEndTime : "<%=nextEndTime%>",//下一节结束时间
-                             tmpChannelName : "<%=tmpChannelName%>"//当前频道名称
-                             }
-                             };*/
-                            //修改返回结果
-                            if(data && typeof data.isSucess !== 'undefined'){
-                                data.isSuccess = data.isSucess;
-                                delete data.isSucess;
-                            }
-                            typeof callback === 'function' && callback(data);
-                        },
-                        error : function(){
-                            typeof callback === 'function' && callback(errReturn);
-                        },
-                        timeout : 1000,
-                        jsonpName : 'jspTvodDataCallBack'
-                    });
-                }else{
-                    typeof callback === 'function' && callback(errReturn);
-                }
-            },
-            error : function(){
-                typeof callback === 'function' && callback(errReturn);
-            },
-            timeout : 1000,
-            jsonpName : 'jspPreCallBack'
-        });
-    }
-    //点播
-    function loadJspVodData(opt, callback){
-        var jspPath = epgDomain + epgDomainHome + "EPG/jsp/default/jsdata/VOD_DATA.jsp";
-        //华为6位
-        //中兴22位
-        //广电32位
-        var params = {
-            ContentID : opt.contentId,//内容
-            categoryId : opt.categoryId,//分类
-            seriesId : opt.seriesId || '',//剧头
-            contentType : ((opt.contentId + "").length < 32 ? 2 : 1),//"VOD" : "1",  "LANVOD" : "2"
-            mediaType : opt.mediaType || 1,//播放类别：5:片花; 1:正片
-            breakpoint : opt.breakpoint || 0,
-            callback : "jspVodDataCallBack"
-        };
-        var url = $.search.append(jspPath, params);
-        $.loaderData(url, {
-            success : function(data){
-                /*data = {
-                 isSuccess : true,
-                 cInfo : {
-                 isAssess : false, //是否是片花播放
-                 isSeries : false,//子集标记
-                 isVodPlayPianHuaStatus : false,// vod以片花形式播放FLG false-假   true-真
-
-                 seriesId : '',//剧头ID,跟传入的一样
-                 progId : '',//当前播放的vodid 6位）
-                 vodName : "",//影片名
-                 director : "暂无信息",//导演
-                 actor : "暂无信息",//演员
-                 introduce : "暂无信息",//简介
-                 playUrl : '',//触发机顶盒播放url
-
-                 sceneNum : 0,//当前子集集数
-                 seriesName : "",//剧集名称
-                 sitcomNum : 0,//子集总数
-                 sitcomUpdateNum : 0,//更新至子集数
-                 senceIds : [],
-                 sceneNums : [],
-                 ContentIDGD : ""//剧头32位ID赋值
-                 }
-                 };*/
-                if(data && data.isSuccess && data.cInfo){
-                    if(data.cInfo.isSeries === '0'){//剧集时
-                        data.cInfo.isSeries = true;
-                        //转换成数据，但里面的数据就不是字符串而是数字类型
-                        data.cInfo.senceIds = $.parse(data.cInfo.senceIds || '[]');
-                        data.cInfo.sceneNums = $.parse(data.cInfo.sceneNums || '[]');
-                        data.cInfo.sitcomNum = +data.cInfo.sitcomNum;
-                        data.cInfo.sitcomUpdateNum = data.cInfo.senceIds.length;
-                        out(data.cInfo.sitcomNum);
-                        out(data.cInfo.senceIds.length);
-                        out(data.cInfo.sceneNums.length);
-                        var progId = data.cInfo.progId;
-                        for(var i in data.cInfo.senceIds){
-                            var pid = data.cInfo.senceIds[i];
-                            if(progId == pid){
-                                data.cInfo.sceneNum = data.cInfo.sceneNums[i];
-                                break;
-                            }
-                        }
-                    }else{
-                        data.cInfo.isSeries = false;
-                    }
-                }
-                typeof callback === 'function' && callback(data);
-            },
-            error : function(){
-                typeof callback === 'function' && callback();
-            },
-            timeout : 1000,
-            jsonpName : 'jspVodDataCallBack'
-        });
-    }
-</script>
-<!-- 数据收集 -->
-<script>
-    function getDcBaseInfo(){
-        var info = {
-            userid : userId,
-            stbid : stbId,
-            stbtype : 2,
-            processtype : 'MapInfoProcess',
-            version : 2,
-            time : new cwindow.Date().format('yyyyMMddhhmmss')//20120101101033
-        };
-        return info;
-    }
-    var VS = {
-        first : true,
-        firstBoot : function(){
-            if(!this.first)return;
-            this.first = false;
-            var analysistype = 'login';
-            this.send({
-                analysistype : analysistype,
-                MAC : Authentication.CUGetConfig("mac"),
-                stbModel : Authentication.CUGetConfig("STBType")
-            });
-        },
-        vodPlay: function(mediacode, duration, name, categoryId) {
-            var analysistype = 'vodbegin';
-            this.send({
-                vodid : mediacode,
-                times : duration,
-                vodname : name,
-                analysistype : analysistype,
-                colid : categoryId
-            });
-        },
-        serialPlay: function(mediacode, duration, name, categoryId) {
-            var analysistype = 'vodseriesbegin';
-            this.send({
-                vodid : mediacode,
-                times : duration,
-                vodname : name,
-                analysistype : analysistype,
-                colid : categoryId
-            });
-        },
-        tvodPlay: function(tvodchno, duration, name, begintime) {
-            var analysistype = 'tvodbegin';
-            this.send({
-                tvodchno : tvodchno,
-                tvodtimes : duration,
-                tvodname : name,
-                analysistype : analysistype,
-                tvodbegintime : begintime
-            });
-        },
-        vodQuit: function(type, quitType) {
-            var analysistype = 'vodend';
-            this.send({
-                analysistype : analysistype,
-                quittype : 'osd'
-            }, true);
-        },
-        livePlay: function(channelNum) {
-            var analysistype = 'channelcontinuebegin';
-            this.send({
-                channelid : channelNum,
-                analysistype : analysistype
-            });
-        },
-        liveContinue: function(channelNum) {
-            var analysistype = 'channelstate';
-            this.send({
-                channelid : channelNum,
-                analysistype : analysistype
-            });
-        },
-        liveQuit: function() {
-            var analysistype = 'access';
-            this.send({
-                analysistype : analysistype,
-                url : 'osd'
-            }, true);
-        },
-        page : function(referpage, url, columnid){
-            //第一次开机进页面
-            if(this.first){
-                var str = Authentication.CTCGetConfig("firstBoot");
-                var firstBoot = Authentication.CTCGetConfig("firstBoot") ? false : true;
-
-                if(firstBoot){
-                    Authentication.CTCSetConfig("firstBoot", '2');
-                    //发数据收集
-                    VS.firstBoot();
-                    return;
-                }
-            }
-            var analysistype = 'access';
-            this.send({
-                analysistype : analysistype,
-                referpage : referpage,
-                refer : true,
-                url : url,
-                columnid : columnid
-            });
-        },
-        zt : function(spName){
-            var analysistype = 'zt';
-            this.send({
-                analysistype : analysistype,
-                spName : spName
-            });
-        },
-        send : function(obj, sync){//sync: true:同步  false:异步,默认异步
-            var url = $.search.append(GLOBAL_DC_URL, cwindow.joinObj(getDcBaseInfo(), obj));
-            var xhr = new XMLHttpRequest();
-            xhr.open("GET", url, !sync);
-            xhr.send();
-        }
-    };
-</script>
-</body>
-</html>
+<div id="now_time" class="now-time"><span class="time">15:27</span><span class="date">2017-08-07</span><span class="day">星期一</span></div></body></html>
