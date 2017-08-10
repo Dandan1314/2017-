@@ -13,64 +13,73 @@
         var type = Object.prototype.toString.apply(obj);
         //字符串
         //数字或者布尔类型
-         if (type == "[object Number]" || type == "[object Boolean]"||type =="[object String]"){
+        if(type =="[object String]"){
+            return  '"'+ obj +'"'
+        }
+        else if (type == "[object Number]" || type == "[object Boolean]"){
             //NAN
             if(isNaN(obj)){
                 return "null"
             }else {
-                return '"'+obj+'"'
+                return obj.toString();
             }
         }
-         //undefined 或function
         else if (type == "[object Undefined]" || type == "[object Function]"){
             return undefined
         }
-         //null
         else if(type == "[object Null]"){
             return "null"
         }
-         // 内置对象Date
         else if(type == "[object Date]"){
-             var d = new Date();
-             var year = d.getFullYear();
-             var month = d.getMonth()+1 > 9 ? d.getMonth()+1 : "0"+(d.getMonth()+1);
-             var date = d.getDate() > 9 ?  d.getDate() : "0"+ d.getDate();
-             var hour = (d.getHours()-8 )> 9 ? d.getHours()-8 : "0"+(d.getHours()-8);
-             var m = d.getMinutes()>9 ? d.getMinutes():"0"+ d.getMinutes();
-             var s = d.getSeconds()>9 ? d.getSeconds() : "0"+d.getSeconds();
-             var ms = d.getMilliseconds()>99 ? d.getMilliseconds() : (d.getMilliseconds() >9 ? "0"+d.getMilliseconds() :"00"+d.getMilliseconds()) ;
-             var nowdate = year + '-'+ month + '-'+ date
-             var gmt =  '"'+nowdate+'T'+hour+':'+m+':'+s+'.'+ms+'Z"'
-             return gmt
+            var d= obj;
+            var monthList = ["Jan","Feb","Mar","Apr","May","June","July","Aug","Sept","Oct","Nov","Dec"];
+            var date  = obj.toUTCString();
+            var index;
+            var month;
+            for(var i=0;i<monthList.length;i++){
+                index = date.indexOf(monthList[i]);
+                if(index != -1){
+                    month = index
+                };
+            }
+            var dateList = date.split(" ");
+            month = month > 9 ? month:"0"+month;
+            var day = dateList[1];
+            var year = dateList[3];
+            var time =  dateList[4];
+            var ms = d.getMilliseconds()>99 ? d.getMilliseconds() : (d.getMilliseconds() >9 ? "0"+d.getMilliseconds() :"00"+d.getMilliseconds()) ;
+            var nowdate = year + '-'+ month + '-'+ day
+            var gmt =  '"'+nowdate+'T'+time+'.'+ms+'Z"'
+            return gmt
         }
         else if(type == "[object RegExp]") {
             return "{}"
         }
-         //传入数组
         else if (type == "[object Array]"){
             for(var i = 0 ; i < obj.length ;i++){
                 arr.push(stringify(obj[i]));
             }
-             // 数组中undefined会转换成null
+
             for(var i = 0;i<arr.length;i++ ){
-               if(arr[i] === "undefined"){
-                 arr[arr.indexOf(arr[i])]  ="null"
-               }
+                if(arr[i] == undefined){
+                    arr[arr.indexOf(arr[i])]  ="null"
+                }
             }
             return '[' + arr.join(',') + ']';
         }
-         // 如果是Object
         else if (type == "[object Object]"){
             var arr2 = [];
             var iType
-                for(var i in obj){
-                    iType = Object.prototype.toString.apply(obj[i]);
-                    if(iType != "[object Function]" && iType !="[object Undefined]"){
-                        arr2.push('"'+i+'"'+":"+stringify(obj[i]))
-                    }
+            for(var i in obj){
+                iType = Object.prototype.toString.apply(obj[i]);
+                if(iType != "[object Function]" && iType !="[object Undefined]"){
+                    arr2.push('"'+i+'"'+":"+ stringify(obj[i]))
                 }
             }
-           return '{' + arr2.join(',') + '}';
+        }
+        return '{' + arr2.join(',') + '}';
     }
+
+
 </script>
 </html>
