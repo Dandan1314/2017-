@@ -18,10 +18,11 @@
         }
         else if (type == "[object Number]" || type == "[object Boolean]"){
             //NAN
-            if(isNaN(obj)){
+            if(isNaN(obj)|| obj === Infinity || obj === -Infinity){
                 return "null"
-            }else {
+            } else {
                 return obj.toString();
+//            return obj;
             }
         }
         else if (type == "[object Undefined]" || type == "[object Function]"){
