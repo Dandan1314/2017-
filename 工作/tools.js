@@ -28,4 +28,19 @@ function indexObj(arr, value, key) {
         if (key && arr[i][key] === value || !key && arr[i] === value)return i;}
     return -1
 }
+/*字段*/
+//判断字符长度是否超出
+function substring(name, l){
+    var trunc= UTIL.substringOneLine(name, l);
+    if(trunc){
+        return UTIL.substringOneLine(name, l-1)+'...';
+    }
+}
+/*功能类*/
+//根据ID展示焦点
+function getTargetObj(key) {
+    $.getTargetObj(key);
+    $.showFocusBorder();
+}
+
 
