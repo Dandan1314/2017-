@@ -21,6 +21,21 @@ function getStyle(element, attr){
         return window.getComputedStyle(element,null)[attr];
     }
 }
+/**
+ *
+ * @param str -属性名
+ * @param str -属性值
+ * @returns -传i返回当前dom元素,不传返回当前dom[t]的值 只能返回内部值,如果是外部连接,请使用getStyle
+ * @forxeample dom("box").attr("style").width)|dom("box").attr("className","box")
+ */
+function dom(t) {
+    if ("string" == typeof t)var r = document.getElementById(t); else var r = t;
+    return r && !r.attr && (r.attr = attr), r;
+}
+function attr(t, i) {
+    return i ? (this[t] = "" + i, this) : this[t]
+}
+//获取
 /*数组*/
 //根据key值和属性值来获取对象在数组中的索引
 function indexObj(arr, value, key) {
@@ -115,4 +130,31 @@ Date.prototype.MaxDayOfDate = function() {
     var result = dateDiff(date1.Format('yyyy-MM-dd'),date2.Format('yyyy-MM-dd'));
     return result;
 }
+//返回当前值在数组的索引
+/**
+ * 
+ * @param arr
+ * @param value
+ * @param key
+ * @returns {number}
+ */
 
+function indexObj(n, r, k) {
+    for (var e = 0; e < n.length; e++)if (k && n[e][k] === r || !k && n[e] === r)return e;
+    return -1
+}
+
+//清除全局所有定时器
+//调试的时候可以使用
+var pageTimer = {} ; //定义计算器全局变量
+//赋值模拟
+pageTimer["timer1"] = setInterval(function(){},2000);
+pageTimer["timer2"] = setInterval(function(){},2000);
+//全部清除方法
+for(var each in pageTimer){
+    clearInterval(pageTimer[each]);
+}
+//暴力清除
+for(var i = 1; i < 1000; i++) {
+    clearInterval(i);
+}
