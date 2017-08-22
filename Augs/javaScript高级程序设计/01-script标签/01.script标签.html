@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>script标签</title>
+</head>
+<script src="test.js" defer></script>
+<script src="test2.js" async></script>
+<body>
+<p style="white-space: pre">
+         一般情况下,最好将script标签放置于body标签后,这样可以在加载完页面基础数据后加载script
+    当使用外链脚本时,可以加入defer或async属性,他们的作用大致相同,都是先下载外链脚本,等基础数据
+    执行完毕后,再执行.区别是,defer在一般情况下会按顺序执行,而async不会. 下面这个例子就是在body
+    上方加入外链脚本test.js.其中加入的是一段alert(a),a是放在body后script标签内命名的变量,如果可
+    以alert出文字,证明外链脚本是最后执行的.在这个界面中还加入了一个<\noscript\>/标签,它是用来当浏
+    览器不支持javaScript或javaScript脚本已被禁用时,才会显示的标签
+</p>
+<noscript>
+    <p>
+        你的浏览器不支持javaScript或javaScript脚本已被禁用
+    </p>
+</noscript>
+</body>
+<script>
+    var a = "hello world",b = "world is beautiful";
+</script>
+</html>

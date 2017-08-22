@@ -143,7 +143,7 @@ function indexObj(n, r, k) {
     for (var e = 0; e < n.length; e++)if (k && n[e][k] === r || !k && n[e] === r)return e;
     return -1
 }
-
+/*定时器*/
 //清除全局所有定时器
 //调试的时候可以使用
 var pageTimer = {} ; //定义计算器全局变量

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>数据类型</title>
+</head>
+<body>
+<p style="white-space: pre">
+    在javaScript中有五种基本数据类型,分别是 String Number Null Undefined Boolean 和一种复杂数据类型Object;
+    在ES6中新添加了一种数据类型,symbol;
+    在一般情况下我们可以使用 typeof 操作符来判断数据类型,但null在使用typeof时会返回Object,只是因为认为是
+    引用了一个空对象
+    1.Undefined
+        通常我们给一个变量命名后,不赋值,系统就会默认给它赋值为undefined.虽然系统会隐式的给变量赋值,但依然
+    推荐显示的给变量赋值为undefined;
+    2.Null
+        null经常在声明一个空对象的时候使用,因为系统就是认为null是一个空对象指针;
+    3.Number
+        Number类型 支持八进制 十进制 十六进制 ,计算时转换为十进制进行计算
+    保存浮点值要比整数值消耗内存大一倍,所以ECMA会不失时机的将一些数值转化为整数,例如 1.0;
+    浮点数值的最高精度是17.
+        浮点数值计算会有舍入误差,尽量避免使用
+    if(a+b == 0.3){ //不要这样判断
+        alert("you got 0.3")
+    }
+        Number类型中有几个特殊值,-infinite infinite NaN
+    这里要说的是NaN,任何数值除0返回的结果都是NaN;
+    设计NaN的任何操作返回结果也是NaN,需要注意的是NaN与任何数值都不相等包括它自己;
+    isNaN()来判断是否是NaN
+    数值转换
+     Number();
+        布尔值,true会转换为1,false会转换成0;
+        数字,正常的返回;
+        null,返回0;
+        undefined,返回NaN;
+        字符串,按照一定规则来实现,如"111"返回111,"asd1111"返回NaN,""返回0;
+    parseInt();
+        通常使用parseInt来取代Number();
+        parseInt()有两个参数,第一个参数为要转化的值,第二个参数为进制(默认是十进制);
+    parseFloat();
+    parseFloat()与parseInt()不同的是当遇到一个 . 时会继续往后解析,但当有两个 . 的时候
+    就不再解析了;还有parseFloat()只支持十进制
+    例如: parseInt(11.5) // 11
+          parseFloat(11.5) // 11.5
+    4.String
+         字符串有一些特殊的字面量;比如转义符 \, 需要注意的是,当使用转义符时,可能会出现多个
+    字符代表一个字,所以此时使用 字符串.length就不能准确的找到字符了
+        字符串的特点;
+            在javaScript中字符串的是不能变化的,也就是说,当重新定义字符串时,后台会把原字符串
+    销毁,重新创建字符串,在一些老版本浏览器中,拼接字符串会出现卡顿现象,例如IE6;
+        转换为字符串
+            大部分类型都toString(),除了null和undefined
+        String();
+            返回对应的字符串,null返回"null",undefined返回"undefined";
+    5.Object
+        创建对象可以使用关键字 new; var obj  =  new Object() ; var obj = new Object//这样也可以,但不推荐
+    或者 var obj = {};
+        每个实例对象都有,以下属性
+        Constructor : 保存这创建当前对象的函数;
+        hasOwnproperty : 用于检查给定属性是否在当前的实例中;参数必须以字符串的形式传入;
+        isPrototypeOf : 用于检查传入对象是否是另一个对象的原型;
+        propertyIsEnumerable : 用于检查给定的属性是否可以使用for-in来进行枚举
+</p>
+</body>
+<script>
+    var meassage;
+    var age
+    console.log(meassage);
+    console.log(age);
+    console.log(Number(""));
+</script>
+</html>
