@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>操作符</title>
+</head>
+<body style="white-space: pre">
+1.一元操作符
+    1.++ --;
+    a++ 和 ++a区别
+    var num1 = 20;
+    var num2 = 2;
+    var num5 = num1
+    var num3 = ++num1 + num2 //23
+    var num4 = num5++ + num2 //22
+     -- 同理
+    在操作除了Number以外类型的值时,按照以下规则;
+    布尔值:true转换成1,false转换成0;
+    字符串: 无有效数字字符转化为NaN,有的则转化为数字字符进行运算;
+    对象: 按照对象类型规范进行运算;
+    2. + 和-\
+    +
+    正常的数值计算,
+    如果是布尔值会转化为Number类型
+    如果是非有效数字字符转化为NaN;
+    -
+    会转换为相反,如整数会变成负数;
+2.布尔操作符
+    !
+    按照正常规则返回布尔值
+    &&
+    遇到false返回false;
+    遇到所有值都为true,返回最后一个true操作值;
+    遇到undefined返回undefined;
+    遇到null返回null
+    遇到NaN返回NaN;
+
+    ||
+
+
+
+
+</body>
+<script>
+    var num1 = 20;
+    var num2 = 2;
+    var num5 = num1;
+    var num3 = ++num1 + num2 //23
+    var num4 = num5++ + num2 //22
+    console.log(num3);
+    console.log(num4);
+    console.log(num1 && false);
+
+</script>
+</html>

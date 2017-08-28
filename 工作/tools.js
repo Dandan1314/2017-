@@ -154,7 +154,9 @@ pageTimer["timer2"] = setInterval(function(){},2000);
 for(var each in pageTimer){
     clearInterval(pageTimer[each]);
 }
-//暴力清除
+//暴力清除定时器
 for(var i = 1; i < 1000; i++) {
     clearInterval(i);
 }
+/*正则表达式*/
+var Chinese = new RegExp('[\u0391-\uFFE5]');
