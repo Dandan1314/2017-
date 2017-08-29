@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Data类型</title>
+</head>
+<body style="white-space: pre">
+Data类型
+    创建一个Date
+            var date = new Date();
+    Date.now();
+        取得当前的毫秒数 //可用来测试代码段的运行速度
+    Date.valueof ;可以用来比较日期,转化为毫秒比较,保证正确性;
+日期格式化方法;
+    Date类型还有一些专门格式化为字符串的方法:
+        toDateString();以特定的格式显示星期几,月,日和年
+        toTimeString();以特定的格式显示时分秒和时区
+        toLocaleDateString();以特定地区的格式显示星期几,月,日和年
+        toLocaleTimeString();以特定地区的格式显示时分秒
+        toUTCString();显示格林威治时间;
+日期/时间组件方法:
+    方法很多,写几个常用的;
+    getTime();获取毫秒数(当前时间转化为毫秒数);
+    getFullYear();获取四位数年份;
+    getMonth();获取日期中的月.0代表1月-11代表12月;
+    getDate();获取日期中的日 1-31;
+    getDay();获取星期几 0代表周日,6代表周六;
+    getHour();获取小时数; 0-23;
+    getMinutes();获取分钟数0-59;
+    getSenconds();获取秒数;0-59;
+    getMillisenconds;获取毫秒数;
+
+
+</body>
+<script>
+    var date = new Date()
+    console.log(date.toDateString());
+    console.log(date.toTimeString());
+    console.log(date.toLocaleDateString());
+    console.log(date.toLocaleTimeString());
+    console.log(date.toUTCString());
+
+</script>
+</html>

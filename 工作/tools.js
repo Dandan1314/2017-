@@ -160,3 +160,17 @@ for(var i = 1; i < 1000; i++) {
 }
 /*正则表达式*/
 var Chinese = new RegExp('[\u0391-\uFFE5]');
+/*最短的数组去重*/
+//ES6新增方法set
+
+[...new Set([1, "1", 2, 1, 1, 3])]
+/*取出数组中的最大值和最小值*/
+var numbers = [5, 458 , 120 , -215 , 228 , 400 , 122205, -85411];
+var maxInNumbers = Math.max.apply(Math, numbers);
+var minInNumbers = Math.min.apply(Math, numbers);
+/*arguments转化为数组*/
+var argArray = Array.prototype.slice.call(arguments);
+// 或者ES6：
+var argArray = Array.from(arguments)
+//offsetTop 和getBoundingClientRect().top的区别;
+//offsetTop获取的是到上一个定位元素的距离;
