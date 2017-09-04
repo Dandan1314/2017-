@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Query</title>
+</head>
+<script src="common.js"></script>
+<style>
+.cur{width: 200px;height: 200px;border: 1px solid #000;}
+.red {background-color: red};
+</style>
+<body style="white-space: pre">
+$.isDom();判断是否是原生dom元素;
+$.isEqualNode(dom, dom2);判断两个dom是否相等
+addClass();可以传入多个类名,字符串用空格隔开,也可以传入数组;
+appendTo();将某个元素插入到另一个元素中;
+attr();获取/设置元素属性
+css();获取/设置元素的样式
+first();返回第一个元素
+hide();隐藏元素;
+show();显示元素;
+html(); = innerHTML;
+item(); 返回第几个元素;
+last();返回最后一个元素;
+remove();移除元素;
+
+
+<div id="box" class = 'box'></div>
+<div id="box2"></div>
+</body>
+<script>
+$('#box').addClass(['cur','red']);
+var box2 = $('box2')[0];
+var box = $('.box')[0];
+$('<h1>hello</h1>').appendTo($('#box'))
+var a = new Toast({delay : 1000, msg : '使用局部Toast a - 默认信息'});
+a();//显示信息"使用局部Toast a - 默认信息"一秒钟
+a({delay : -1, msg : '测试内容'});//一直显示信息"测试内容"
+a({delay : 0});//关闭显示"测试内容"
+var b = new Toast({msg : '使用局部Toast b - 默认信息'});
+</script>
+</html>
