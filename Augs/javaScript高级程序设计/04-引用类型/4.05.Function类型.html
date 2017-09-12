@@ -4,7 +4,44 @@
     <meta charset="UTF-8">
     <title>Function</title>
 </head>
-<body>
+<body style="white-space: pre">
+  在函数内部有两个特殊的对象,arguments和this;
+arguments是一个类数组对象,this指向调用方法的对象,当在全局作用域下调用函数,this指向的是window
+caller 返回引用这个方法的方法
+每个函数都有两个属性,length和prototype;
+length是函数参数个数
+prototype为原型对象,且不可枚举
+call apply改变this指向
+bind 也会改变this的指向
 
 </body>
+<script>
+    function sum(a,b) {
+        return a+b;
+    }
+    //apply
+    function applySum() {
+      return  sum.apply(this,arguments);
+    }
+    function applySum1(a,b) {
+        return  sum.apply(this,[a,b]);
+    }
+    //call
+    function callSum(a,b) {
+
+        return sum.call(this,a,b)
+    }
+//    console.log(applySum(1, 10));
+//    console.log(applySum1(10, 10));
+//    console.log(callSum(1,5));
+    var o ={
+        name :'xiaoming'
+    }
+    window.name = 'xiaohua';
+    function bindFun() {
+        console.log(this.name);
+    }
+    var a = bindFun.bind(o);
+    a();
+</script>
 </html>
