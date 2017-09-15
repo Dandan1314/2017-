@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>理解对象</title>
+</head>
+<body style="white-space: pre">
+创建对象的最简单方式就是创建一个Object实例;
+var person = new Object();
+person.name = "xiaoming";
+person.run = function(){
+    console.log('run');
+}
+之后为它添加属性和方法
+现在大家都比较喜欢使用字面量的方式来创建对象;
+
+var person = {
+        name: "xiaoming",
+        run:function(){
+        console.log('run')
+}
+}
+这样创建对象和使用newObject是一样的.
+6.1.1 属性类型
+ECMAScript中有两种属性:数据属性和访问器属性,作为内部属性他们是不被访问的;
+要修改默认的特性,必须使用ES5中的Object.defineProperty()方法,这个方法接受三个参数:
+属性所在的对象 属性的名字和一个描述符对象其中描述符对象的属性必须是:configurable enumerable
+writable 和value .设置其中的一或多个值,可以修改对应的特性值
+2.访问期属性
+Configurable Enumerable Get Set
+使用方法和属性类型相似,必须使用Object.defineProperty()方法定义,传入的最后一个参数略有不同.
+    var book = {
+        _year:2004,
+        edition:1
+    };
+Object.defineProperty(book,"year",{
+        get:function () {
+        return this._year;
+    },
+    set:function (newValue) {
+        if(newValue>2004){
+            this._year = newValue;
+            this.edition += newValue -2004;
+        }
+    }
+})
+</body>
+<script>
+    var person = {
+        name: "xiaoming",
+        run: function () {
+            console.log('run');
+        }
+    }
+    Object.defineProperty(person,"name",{
+        writable:false,
+//        value:"xiaogang"
+    })
+    person.name = "xiaohua";
+    console.log(person.name);
+    var book = {
+        _year:2004,
+        edition:1
+    };
+    Object.defineProperty(book,"year",{
+        get:function () {
+            return this._year;
+        },
+        set:function (newValue) {
+            if(newValue>2004){
+                this._year = newValue;
+                this.edition += newValue -2004;
+            }
+        }
+    })
+    console.log(book.year);
+    console.log(book.edition);
+</script>
+</html>

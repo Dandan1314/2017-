@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>创建对象</title>
+</head>
+<body style="white-space: pre">
+6.2.1工厂模式
+    function creatPerson(name,age,job) {
+         var o = {};
+         o.name = name;
+         o.age = age;
+         o.job = job;
+         o.sayName = function () {
+                     alert(this.name)
+                 }
+            return o ;
+    }
+使用这样的函数就可以创造出多个对象,但是这样创造出的对象没有辨识度;
+6.22 构造函数模式
+
+</body>
+<script>
+    //工厂模式
+    function creatPerson(name,age,job) {
+        var o = {};
+        o.name = name;
+        o.age = age;
+        o.job = job;
+        o.sayName = function () {
+            alert(this.name)
+        }
+        return o ;
+    }
+    //构造函数模式
+    function Creatperson(name,age,job) {
+        this.name = name;
+        this.age = age;
+        this.job = job
+        this.sayName = function () {
+            alert(this.name)
+        }
+    }
+    var person1 = new  Creatperson("xiaoming",16,'student');
+    console.log(person1);
+    console.log(person1.constructor == Creatperson)
+</script>
+</html>
