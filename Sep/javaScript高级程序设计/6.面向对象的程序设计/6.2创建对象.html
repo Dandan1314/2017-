@@ -18,7 +18,21 @@
     }
 使用这样的函数就可以创造出多个对象,但是这样创造出的对象没有辨识度;
 6.22 构造函数模式
-
+    function Creatperson(name,age,job) {
+                        this.name = name;
+                        this.age = age;
+                        this.job = job
+                        this.sayName = function () {
+                        alert(this.name)
+            }
+}
+6.2.3
+        我们创建的每个函数都有一个prototype(原型)属性,这个属性是一个指针,指向一个对象,
+而这个对象的用途是包含可以由特定类型的所有实例共享的属性和方法.如果按照字面意思来理解,
+那么prototype就是通过调用构造函数而创建的那个对象实例的原型对象.使用原型对象的好处是可
+以让所有对象实例共享它锁包含的属性和方法.换句话说,不必在构造函数中定义对象实例的信息,
+而是可以将这些信息直接添加到原型对象中.
+实例对象可以访问到原型对象的属性和方法.
 </body>
 <script>
     //工厂模式
@@ -42,7 +56,26 @@
         }
     }
     var person1 = new  Creatperson("xiaoming",16,'student');
-    console.log(person1);
-    console.log(person1.constructor == Creatperson)
+    //原型
+    function CreatPerson() {
+        this.name = "xiaoming"
+    }
+
+  CreatPerson.prototype.fun = function () {
+        console.log('hello')
+    }
+
+    var person5 =  new CreatPerson();
+    console.log(person5.name);
+    console.log(person5.fun);
+    console.log(person5.__proto__);
+    console.log(person5.__proto__.constructor);
+    console.log(person5.__proto__.isPrototypeOf(person5));
+    console.log(Object.getPrototypeOf(person5));
+    console.log(person5.constructor);
+    person5.constructor.name = "xiaohua";
+    console.log(person5.__proto__.fun);
+
+
 </script>
 </html>
