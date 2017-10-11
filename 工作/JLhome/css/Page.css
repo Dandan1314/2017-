@@ -1,0 +1,585 @@
+body{
+    padding: 0;
+    margin: 0;
+    bottom: 0;
+}
+.container{
+    position: absolute;
+    width: 1920px;
+    height: 895px;
+    left: 0px;
+    top: 0;
+    /*overflow: hidden;*/
+}
+.content{
+    position: absolute;
+    width: 9999999999999999999999px;
+    height: 895px;
+    left: 0px;
+    top: 0;
+}
+.content div{
+    position: absolute;
+}
+.content img{
+    width: 100%;
+    height: 100%;
+}
+/*通用*/
+.big{
+    width: 577px;
+    height: 368px;
+}
+.small{
+    width: 303px;
+    height: 368px;
+}
+/*推荐*/
+.recommend{
+    width: 3582px;
+    height: 750px;
+    background: red;
+    left: 2007px;
+    top:145px;
+}
+.search1{
+    left: 0px;
+    top: 0;
+    width: 233px;
+    height: 177px;
+}
+.headline{
+    left: 0;
+    height: 192px;
+    width: 233px;
+    top:184px;
+}
+.nohistory{
+    left: 0;
+    top:379px;
+    width: 233px;
+    height: 371px;
+}
+.video{
+    top: 0px;
+    left: 247px;
+    width: 840px;
+    height: 473px;
+}
+.tjsmall{
+    width: 413px;
+    height: 263px;
+
+}
+#tjs1{
+    left: 247px;
+    top: 487px;
+}
+#tjs2{
+    top: 487px;
+    left: 674px;
+}
+.tjbig{
+    width: 577px;
+    height: 368px;
+}
+#tjb3{
+    top: 0;
+    left: 1101px;
+}
+#tjb4{
+    left: 1101px;
+    top: 384px;
+}
+#tjb5{
+    top: 0;
+    left:1692px ;
+}
+#tjb6{
+    top: 384px;
+    left: 1692px;
+}
+#tjb7{
+    top: 0;
+    left: 2283px;
+}
+#tjb8{
+    top: 384px;
+    left: 2283px;
+}
+.tjmiddle{
+    width: 303px;
+    height: 368px;
+}
+#tjm9{
+    top: 0;
+    left: 2875px;
+}
+#tjm10{
+    top: 384px;
+    left: 2875px;
+}
+#tjm11{
+    top: 0;
+    left: 3192px;
+}
+#tjm12{
+    top: 384px;
+    left: 3192px;
+}
+/*我的*/
+.mine{
+    width: 1920px;
+    height: 750px;
+   background: blue;
+    left: 0px;
+    top:145px;
+}
+.mine div{
+    position: absolute;
+}
+.user{
+    left: 87px;
+    top: 0;
+    width: 426px;
+    height: 750px;
+}
+.mine_item{
+    width: 426px;
+    height: 368px;
+}
+#mine_history{
+    left: 527px;
+    top: 0;
+}
+#mine_favor{
+    top: 0;
+    left: 967px;
+}
+#mine_order{
+    top: 0;
+    left: 1407px;
+}
+#mine_vip{
+    left: 527px;
+    top: 382px;
+}
+#mine_phone{
+    top: 382px;
+    left: 967px;
+}
+#mine_forward{
+    top: 382px;
+    left: 1407px;
+}
+/*直播*/
+.live{
+    width: 1920px;
+    height: 750px;
+    top: 145px;
+    left: 5589px;
+    background-color: green;
+}
+.live_big{
+    width: 426px;
+    height: 368px;
+    left: 89px;
+}
+#go_live{
+    top: 0;
+}
+#go_history{
+    top: 382px;
+}
+.live_item{
+    width: 426px;
+    height: 177px;
+}
+#live0{
+    top: 0;
+    left: 529px;
+}
+#live1{
+    top: 0;
+    left: 969px;
+}
+#live2{
+    top: 0;
+    left: 1409px;
+}
+#live3{
+    top: 191px;
+    left: 529px;
+}
+#live4{
+    top: 191px;
+    left: 969px;
+}
+#live5{
+    top: 191px;
+    left: 1409px;
+}
+#live6{
+    top: 382px;
+    left: 529px;
+}
+#live7{
+    top: 382px;
+    left: 969px;
+}
+#live8{
+    top: 382px;
+    left: 1409px;
+}
+#live9{
+    top: 573px;
+    left: 529px;
+}
+#live10{
+    top: 573px;
+    left: 969px;
+}
+#live11{
+    top: 573px;
+    left: 1409px;
+}
+/*VIP*/
+.vip{
+    width: 1920px;
+    height: 750px;
+    background-color: yellow;
+    left: 7509px;
+    top: 145px;
+}
+.entry{
+    width: 254px;
+    height: 368px;
+    top: 0;
+}
+#vip_film{
+    left: 89px;
+}
+#vip_teleplay{
+    left: 357px;
+}
+.all_pro,.vip_child{
+    width: 254px;
+    height: 368px;
+    top: 382px;
+}
+#all_pro{
+    left:89px;
+}
+#vip_child{
+    left: 357px;
+}
+.vip_tjbig{
+    width: 577px;
+    height: 368px;
+}
+#vip_tj0{
+    top: 0;
+    left: 625px;
+}
+#vip_tj1{
+    top: 382px;
+    left: 625px;
+}
+.vip_tjsmall{
+    width: 303px;
+    height: 368px;
+}
+#vip_tj2{
+    top: 0px;
+    left: 1216px;
+}
+#vip_tj3{
+    top: 0px;
+    left: 1533px;
+}
+#vip_tj4{
+    top: 382px;
+    left: 1216px;
+}
+#vip_tj5{
+    top: 382px;
+    left: 1533px;
+}
+/*电影*/  /*电视剧*/ /*综艺*/
+.flim{
+    width: 1920px;
+    height: 750px;
+    top: 145px;
+    left: 9429px;
+    background-color: orangered;
+}
+.item_tittle{
+    left: 87px;
+    top: 0;
+    width: 247px;
+    height: 368px;
+}
+.item_jczt{
+    left: 87px;
+    top: 382px;
+    width: 247px;
+    height: 177px;
+}
+.item_all{
+    left: 87px;
+    top: 573px;
+    width: 247px;
+    height: 177px;
+}
+.item0{
+    left: 348px;
+    top: 0;
+}
+.item1{
+    left: 348px;
+    top: 382px;
+}
+.item2{
+    top: 0;
+    left: 939px;
+}
+.item3{
+    top: 382px;
+    left: 939px;
+}
+.item4{
+    top: 0;
+    left: 1530px;
+}
+.item5{
+    top: 382px;
+    left: 1530px;
+}
+
+.dsj{
+    width: 1920px;
+    height: 750px;
+    top: 145px;
+    left: 11349px;
+}
+.zy{
+    width: 1920px;
+    height: 750px;
+    top: 145px;
+    left: 13269px;
+    background-color: purple;
+}
+/*少儿*/
+.child{
+    width: 1920px;
+    height: 750px;
+    top: 145px;
+    left: 15189px;
+    background-color: pink;
+}
+.child_nav{
+    width: 247px;
+    height: 241px;
+    left: 87px;
+}
+.child_song{
+    top: 0;
+}
+.child_tv{
+    top: 255px;
+}
+.child_history{
+    top: 510px;
+}
+/*体育*/
+.sports{
+    width: 1920px;
+    height: 750px;
+    top: 145px;
+    left: 17109px;
+    background-color: yellowgreen;
+}
+/*卡通*/
+.cartoon{
+    width: 1920px;
+    height: 750px;
+    top: 145px;
+    left: 19029px;
+    background-color: red;
+}
+.news{
+    width: 1920px;
+    height: 750px;
+    top: 145px;
+    left: 20949px;
+    background-color: darkcyan;
+}
+/*纪录片*/
+.jlp{
+    width: 1920px;
+    height: 750px;
+    top: 145px;
+    left: 22869px;
+    background-color: darkorange;
+}
+/*4K*/
+.K4{
+    width: 1920px;
+    height: 750px;
+    top: 145px;
+    left: 24789px;
+    background-color: lightgreen;
+}
+/*音乐*/
+.music{
+    width: 1920px;
+    height: 750px;
+    top: 145px;
+    left: 26709px;
+    background-color: aqua;
+}
+/*应用*/
+.adhibition{
+    width: 1920px;
+    height: 750px;
+    top: 145px;
+    left: 28629px;
+    background-color: #456465;
+}
+.adhibition_item{
+    width: 426px;
+    height: 750px;
+    top: 0;
+}
+#ad_cloud{
+    left: 87px;
+}
+#ad_video{
+    left: 527px;
+}
+#ad_game{
+    left: 967px;
+}
+#ad_message{
+    left: 1407px;
+}
+/*头部*/
+#search{
+    position: absolute;
+    left: 1141px;
+    top: 36px;
+    background: url("../images/header_search.png");
+    width: 311px;
+    height: 50px;
+    border: 1px solid #fff;
+    border-radius: 10px;
+}
+#time{
+    position: absolute;
+    left: 1467px;
+    top: 40px;
+    color: #fff;
+    font-size: 40px;
+    width: 130px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    font-family:"微软雅黑";
+}
+#date{
+    position: absolute;
+    left: 1596px;
+    top: 55px;
+    color: #ffffff;
+    font-size: 24px;
+    width: 140px;
+    height: 30px;
+    text-align: center;
+    font-family:"微软雅黑";
+}
+#week{
+    position: absolute;
+    left: 1742px;
+    top: 55px;
+    color: #ffffff;
+    font-size: 24px;
+    width: 110px;
+    height: 30px;
+    text-align: center;
+    font-family:"微软雅黑";
+}
+/*底部*/
+.bottom_itemL{
+    position: absolute;
+    top: 930px;
+    width: 100px;
+    height: 54px;
+    color: #fff;
+    font-size: 36px;
+    line-height: 63px;
+    padding-left:50px;
+}
+#bottom_mine{
+    left: 83px;
+    background: url(../images/wode.png) left no-repeat;
+}
+#bottom_tj{
+    left: 291px;
+    padding-left:66px;
+    background: url(../images/tuijian.png) left no-repeat;
+}
+#bottom_zhibo{
+    left: 513px;
+    background: url(../images/zhibo.png) left no-repeat;
+}
+/* 右侧 */
+.bottom_itemL{
+    position: absolute;
+    top: 940px;
+    height: 54px;
+    color: #fff;
+    font-size: 36px;
+    line-height: 63px;
+    width: 100px;
+}
+.bottom_itemR{
+    position: absolute;
+    top: 940px;
+    height: 54px;
+    color: #fff;
+    font-size: 36px;
+    line-height: 63px;
+    width: 120px;
+    top: 0;
+}
+#bottom_itemR{
+    position: absolute;
+    left: 764px;
+    top: 940px;
+    height: 54px;
+    width: 1180px;
+
+    overflow: hidden;
+}
+#bottom0{
+    left: 20px;
+}
+#bottom1{
+    left: 147px;
+}
+#bottom2{
+    left: 300px;
+}
+#bottom3{
+    left: 495px;
+}
+#bottom4{
+    left: 657px;
+}
+#bottom5{
+    left: 813px;
+}
+
+
+
+

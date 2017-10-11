@@ -1,0 +1,36 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="page-view-size" content="1280*720">
+    <title>Title</title>
+    <style>body {
+        width: 1280px;
+        height: 720px;
+        overflow: hidden;
+        background-color: transparent;
+        /*background: url("images/bg.png") no-repeat;*/
+    }</style>
+    <link rel="stylesheet" href="css/Page.css">
+    <script src="js/common.js"></script>
+    <script>
+        var data  = [];
+        (function creatData(len) {
+            var l ;
+            for(var i = 0;i<len;i++){
+                l = {
+                    name : i ,
+                    channelId:'100000000'+i
+                }
+                data.push(l)
+            }
+        }(10));
+    </script>
+    <script src="js/list-plug.js"></script>
+    <script src="js/Page.js"></script>
+</head>
+<body onload="initPage()">
+<div id="divYellowBorder" style="position:absolute;"><img id="yellowBorder"/></div>
+<div id="divImgBorder" style="position:absolute;"><img id="imgBorder"/></div>
+
+</body>
+</html>

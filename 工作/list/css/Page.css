@@ -1,0 +1,54 @@
+.video{
+    position: absolute;
+    width: 584px;
+    height: 440px;
+    left: 233px;
+    top: 78px;
+    background-color:blue;
+}
+.focusBorder{
+    box-shadow: 0 0 0px 9px rgba(255, 210, 0, 1);
+    border-radius: 9px;
+    z-index: 1;
+}
+.list_item.focusBorder{
+    box-shadow: 0 0 0px 9px rgba(255, 210, 0, 1);
+    border-radius: 9px;
+    z-index: 1;
+}
+.list_item{
+    width: 400px;
+    height: 40px;
+    position: absolute;
+    background-color: red;
+    left: 850px;
+}
+#listItem0{
+    top: 100px;
+}
+#listItem1{
+    top: 150px;
+}
+#listItem2{
+    top: 200px;
+}
+#listItem3{
+    top: 250px;
+}
+#listItem4{
+    top: 300px;
+}
+#listItem5{
+    top: 350px;
+}
+#listItem6{
+    top: 400px;
+}
+#listItem7{
+    top: 450px;
+}
+#viedo.focusBorder{
+    box-shadow: 0 0 0px 9px rgba(255, 210, 0, 1);
+    border-radius: 9px;
+    z-index: 1;
+}
