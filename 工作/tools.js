@@ -185,3 +185,12 @@ function myObjFn(obj) {
     }
     return arr ;
 }
+//trim();
+//更换系统trim;
+if(typeof(String.prototype.trim) === "undefined")
+{
+    String.prototype.trim = function()
+    {
+        return String(this).replace(/^\s+|\s+$/g, '');
+    };
+}

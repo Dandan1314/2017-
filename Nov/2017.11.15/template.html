@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+    <img :src="url" v-if="flag">
+    <span>{{des}}</span>
+    <button @click="display"></button>
+</div>
+</body>
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script>
+    var url = './ys.png',des = '我是一张图片'
+    var app = new Vue({
+        el:'#app',
+        data:{
+            url:url,
+            des:des,
+            flag:true
+        },
+        methods:{
+            display:function () {
+//                console.log(this);
+                //this指向Vue实例
+                this._data.flag =!(this._data.flag);
+            }
+        },
+        computed:{
+
+        }
+    })
+</script>
+</html>
