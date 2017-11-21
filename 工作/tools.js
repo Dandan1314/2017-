@@ -174,3 +174,14 @@ var argArray = Array.prototype.slice.call(arguments);
 var argArray = Array.from(arguments)
 //offsetTop 和getBoundingClientRect().top的区别;
 //offsetTop获取的是到上一个定位元素的距离;
+//一个对象转换城多个对象
+function myObjFn(obj) {
+    var arr = [];
+    var l  ;
+    for (var key in obj) {
+        l = {};
+        l[key] = obj[key];
+        arr.push(l)
+    }
+    return arr ;
+}

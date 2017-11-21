@@ -9,8 +9,8 @@ var json =[];
 // 根据页数来判断记录当前json盒子的索引
 var page = PAGE_NUM -1;
 // 行数 / 列数
-var row = 3;
-var col = 10;
+var row = 2;
+var col = 5;
 //一页的最大个数
 var PAGE_SIZE = row * col ;
 //总页数

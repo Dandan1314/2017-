@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="example">
+    {{a}}
+</div>
+</body>
+<script src="../../node_modules/vue/dist/vue.js"></script>
+<script>
+    var data = {
+        a:1
+    }
+var vm = new Vue({
+    el:'#example',
+    //选项
+    data:data,
+    beforeCreate:function () {
+        //实例创建之前
+        console.log(0);
+    },
+    created:function () {
+        //实例创建之后
+        console.log(1);
+    },
+
+})
+
+</script>
+</html>

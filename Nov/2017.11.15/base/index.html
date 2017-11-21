@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue</title>
+</head>
+<body>
+<!--初级绑定-->
+<!--<div id="www">-->
+    <!--{{message}}-->
+<!--</div>-->
+<!--初级绑定-->
+<!--<div id="bind">-->
+        <!--<span v-bind:title="message">-->
+             <!--鼠标悬停几秒钟查看此处动态绑定的提示信息！-->
+        <!--</span>-->
+<!--</div>-->
+
+<div id="if">
+    <p v-if="seen">你能看到我吗?</p>
+</div>
+<div id="for">
+    <ul>
+        <li v-for="i in music">
+            {{ i.sing }}
+        </li>
+    </ul>
+</div>
+<div id="on">
+    <p>{{message}}</p>
+    <button v-on:click = 'reversemessage'>reversemessage</button>
+</div>
+<div id="model">
+    <p>{{message}}</p>
+    <input v-model="message">
+</div>
+<div>
+    <todo-item></todo-item>
+</div>
+<div id="app-7">
+    <ol>
+        <todo-item
+                v-for="item in groceryList"
+                v-bind:todo="item"
+                v-bind:key="item.id">
+        </todo-item>
+    </ol>
+</div>
+
+</body>
+<script src="../../node_modules/vue/dist/vue.js"></script>
+<script>
+    //dom绑定
+    //var app = new Vue({
+    //    el:'#www',
+    //    data: {
+    //        message:'Hello World!',
+    //    }
+    //})
+    //属性绑定 v-bind //单向绑定
+//    var app2 = new Vue({
+//        el:'#bind',
+//        data:{
+//            message:'页面加载于:'+new Date().toLocaleDateString()}
+//    })
+
+    //判断 v-if
+    var app3 = new Vue(
+            {
+                el:'#if',
+                data:{
+                    seen:false
+                }
+            })
+    // v-for
+    var app4 = new Vue({
+        el:'#for',
+        data:{
+            music : [
+                {
+                    sing: '演员'
+                },
+                {
+                    sing:"绅士"
+                },
+                {
+                    sing:"认真的雪"
+                }
+            ]
+        }
+    })
+    // v-on
+    var app5 =  new Vue({
+        el:'#on',
+        data:{
+            message:"凉凉夜色为你落地成盒"
+        },
+        methods:{
+            reversemessage:function () {
+                this.message = this.message.split('').reverse().join('');
+            }
+        }
+    })
+    //v-model //双向绑定
+    var app6 = new Vue({
+        el:"#model",
+        data:{
+            message:"化作空投呵护着我"
+        }
+    })
+    //模版
+    Vue.component('todo-item',{
+        template:'<li>这个是代办项</li>'
+    })
+    Vue.component('todo-item', {
+        props: ['todo'],
+        template: '<li>{{ todo.text }}</li>'
+    })
+    var app7 = new Vue({
+        el: '#app-7',
+        data: {
+            groceryList: [
+                { id: 0, text: '蔬菜' },
+                { id: 1, text: '奶酪' },
+                { id: 2, text: '随便其他什么人吃的东西' }
+            ]
+        }
+    })
+</script>
+</html>

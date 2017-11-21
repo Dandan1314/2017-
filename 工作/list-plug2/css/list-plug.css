@@ -1,0 +1,26 @@
+.video{
+    position: absolute;
+    width: 584px;
+    height: 440px;
+    left: 233px;
+    top: 78px;
+    background-color:blue;
+}
+.focusBorder{
+    box-shadow: 0 0 0px 9px rgba(255, 210, 0, 1);
+    border-radius: 9px;
+    z-index: 1;
+}
+.list_item.focusBorder{
+    box-shadow: 0 0 0px 9px rgba(255, 210, 0, 1);
+    border-radius: 9px;
+    z-index: 1;
+}
+.list_item{
+    background-color: red;
+}
+#viedo.focusBorder{
+    box-shadow: 0 0 0px 9px rgba(255, 210, 0, 1);
+    border-radius: 9px;
+    z-index: 1;
+}
